@@ -4,6 +4,7 @@ Protected Class XjCompleter
 		Sub Constructor(words() As String)
 		  For i As Integer = 0 To words.Count - 1
 		    mWords.Add(words(i))
+		    mWordsLower.Add(words(i).Lowercase)
 		  Next
 		End Sub
 	#tag EndMethod
@@ -24,8 +25,7 @@ Protected Class XjCompleter
 		  Var inputLower As String = input.Lowercase
 
 		  For i As Integer = 0 To mWords.Count - 1
-		    Var wordLower As String = mWords(i).Lowercase
-		    If wordLower.Left(inputLower.Length) = inputLower Then
+		    If mWordsLower(i).Left(inputLower.Length) = inputLower Then
 		      results.Add(mWords(i))
 		    End If
 		  Next
@@ -43,8 +43,7 @@ Protected Class XjCompleter
 		  Var inputLower As String = input.Lowercase
 
 		  For i As Integer = 0 To mWords.Count - 1
-		    Var wordLower As String = mWords(i).Lowercase
-		    If FuzzyMatch(inputLower, wordLower) Then
+		    If FuzzyMatch(inputLower, mWordsLower(i)) Then
 		      results.Add(mWords(i))
 		    End If
 		  Next
@@ -99,6 +98,10 @@ Protected Class XjCompleter
 
 	#tag Property, Flags = &h21
 		Private mWords() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mWordsLower() As String
 	#tag EndProperty
 
 

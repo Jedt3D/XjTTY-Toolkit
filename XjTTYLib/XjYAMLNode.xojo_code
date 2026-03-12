@@ -98,26 +98,27 @@ Protected Class XjYAMLNode
 
 	#tag Method, Flags = &h0
 		Function Dump(indent As Integer = 0) As String
-		  Var pad As String = ""
+		  Var padParts() As String
 		  For i As Integer = 1 To indent
-		    pad = pad + "  "
+		    padParts.Add("  ")
 		  Next
+		  Var pad As String = String.FromArray(padParts, "")
 
-		  Var result As String = ""
+		  Var parts() As String
 
 		  If mKey <> "" And mValue <> "" Then
-		    result = pad + mKey + ": " + mValue + Chr(10)
+		    parts.Add(pad + mKey + ": " + mValue + Chr(10))
 		  ElseIf mKey <> "" Then
-		    result = pad + mKey + ":" + Chr(10)
+		    parts.Add(pad + mKey + ":" + Chr(10))
 		  ElseIf mValue <> "" Then
-		    result = pad + "- " + mValue + Chr(10)
+		    parts.Add(pad + "- " + mValue + Chr(10))
 		  End If
 
 		  For i As Integer = 0 To mChildren.Count - 1
-		    result = result + mChildren(i).Dump(indent + 1)
+		    parts.Add(mChildren(i).Dump(indent + 1))
 		  Next
 
-		  Return result
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

@@ -5,6 +5,7 @@ Inherits XjWidget
 		Sub Constructor()
 		  Super.Constructor
 		  mScrollOffset = 0
+		  mNeedsRebuild = True
 
 		  Var base As New XjStyle
 		  mNodeStyle = base.SetFG(XjANSI.FG_WHITE)
@@ -15,18 +16,18 @@ Inherits XjWidget
 	#tag Method, Flags = &h0
 		Sub AddRoot(node As XjTreeNode)
 		  mRootNodes.Add(node)
+		  mNeedsRebuild = True
 		  mDirty = True
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub SetData(roots() As XjTreeNode)
-		  While mRootNodes.Count > 0
-		    mRootNodes.RemoveAt(0)
-		  Wend
+		  mRootNodes.RemoveAll
 		  For i As Integer = 0 To roots.Count - 1
 		    mRootNodes.Add(roots(i))
 		  Next
+		  mNeedsRebuild = True
 		  mDirty = True
 		End Sub
 	#tag EndMethod
@@ -56,19 +57,15 @@ Inherits XjWidget
 	#tag Method, Flags = &h0
 		Sub Rebuild()
 		  // Rebuild the flat line list from the tree
-		  While mLineTexts.Count > 0
-		    mLineTexts.RemoveAt(0)
-		  Wend
-		  While mLinePrefixes.Count > 0
-		    mLinePrefixes.RemoveAt(0)
-		  Wend
-		  While mLineNodes.Count > 0
-		    mLineNodes.RemoveAt(0)
-		  Wend
+		  mLineTexts.RemoveAll
+		  mLinePrefixes.RemoveAll
+		  mLineNodes.RemoveAll
 
 		  For i As Integer = 0 To mRootNodes.Count - 1
 		    RenderNode(mRootNodes(i), "", i = mRootNodes.Count - 1)
 		  Next
+
+		  mNeedsRebuild = False
 		End Sub
 	#tag EndMethod
 
@@ -112,8 +109,10 @@ Inherits XjWidget
 		Sub PaintContent(canvas As XjCanvas, x As Integer, y As Integer, w As Integer, h As Integer)
 		  If w <= 0 Or h <= 0 Then Return
 
-		  // Rebuild if needed
-		  Rebuild
+		  // Only rebuild when data has changed
+		  If mNeedsRebuild Then
+		    Rebuild
+		  End If
 
 		  Var row As Integer = 0
 		  For i As Integer = mScrollOffset To mLineTexts.Count - 1
@@ -186,6 +185,10 @@ Inherits XjWidget
 
 	#tag Property, Flags = &h21
 		Private mBranchStyle As XjStyle
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mNeedsRebuild As Boolean
 	#tag EndProperty
 
 

@@ -260,6 +260,49 @@ Protected Class XjStyle
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Shared Function Success() As XjStyle
+		  Var s As New XjStyle
+		  Return s.SetFG(XjANSI.FG_GREEN)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Function Warning() As XjStyle
+		  Var s As New XjStyle
+		  Return s.SetFG(XjANSI.FG_YELLOW)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Function Danger() As XjStyle
+		  Var s As New XjStyle
+		  Return s.SetFG(XjANSI.FG_RED)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Function Info() As XjStyle
+		  Var s As New XjStyle
+		  Return s.SetFG(XjANSI.FG_CYAN)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Function Muted() As XjStyle
+		  Var s As New XjStyle
+		  Return s.SetFG(90)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Shared Function Highlight() As XjStyle
+		  Var s As New XjStyle
+		  Var s2 As XjStyle = s.SetFG(XjANSI.FG_WHITE).SetBold
+		  Return s2
+		End Function
+	#tag EndMethod
+
 
 	#tag Note, Name = "About"
 		XjStyle — Composable Text Style

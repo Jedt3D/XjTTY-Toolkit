@@ -2,6 +2,23 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.7.0] - 2026-03-13
+
+### Added
+- **XjCommand**: Shell command execution module with timeout support and result capture
+- **XjCommandResult**: Shell output container with exit code, output text, timed-out flag, Lines() helper
+- **XjHistory**: Input history class with Previous/Next navigation, duplicate suppression, max size limit
+- **PERFORMANCE_EVAL.md**: Comprehensive Big O analysis of all 63 components with optimization recommendations
+
+### Changed
+- **Performance optimization** — 26 of 63 components improved across 4 passes:
+  - B/B+ pass (7): XjCanvas, XjProgressBar, XjFont, XjTree, XjPie, XjLogger, XjScreen — loop-invariant hoisting, dirty-flag caching, pre-computed data
+  - C pass (7): XjStyle, XjOption, XjAskPrompt, XjPasswordPrompt, XjPrompt, XjTextInput, XjYAML — string concat → array+join, RemoveAll, cached lowercase
+  - D pass (10): XjANSI, XjSelectPrompt, XjMultiSelectPrompt, XjCompleter, XjMultiLinePrompt, XjTable, XjText, XjYAMLNode, XjUIParser — forward-pass regex, pre-computed lowercase, array-based buffers
+  - F pass (2): XjMarkdown (multi-pass → single-pass scanner), XjReader ReadLine (string rebuild → array buffer)
+- **GAP_ANALYSIS.md** renamed from gap-analysis.md (uppercase convention)
+- **App demo** updated to Polish phase features showcase
+
 ## [0.6.0] - 2026-03-13
 
 ### Added

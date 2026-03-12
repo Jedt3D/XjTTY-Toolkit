@@ -379,10 +379,11 @@ Protected Module XjUIParser
 		Function DumpWidgetTree(widget As XjWidget, indent As Integer = 0) As String
 		  If widget Is Nil Then Return ""
 
-		  Var pad As String = ""
+		  Var padParts() As String
 		  For i As Integer = 1 To indent
-		    pad = pad + "  "
+		    padParts.Add("  ")
 		  Next
+		  Var pad As String = String.FromArray(padParts, "")
 
 		  Var info As String = pad
 		  // Determine type name
@@ -406,13 +407,14 @@ Protected Module XjUIParser
 		    info = info + " (" + widget.Name + ")"
 		  End If
 
-		  Var result As String = info + Chr(10)
+		  Var parts() As String
+		  parts.Add(info + Chr(10))
 
 		  For i As Integer = 0 To widget.ChildCount - 1
-		    result = result + DumpWidgetTree(widget.Child(i), indent + 1)
+		    parts.Add(DumpWidgetTree(widget.Child(i), indent + 1))
 		  Next
 
-		  Return result
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

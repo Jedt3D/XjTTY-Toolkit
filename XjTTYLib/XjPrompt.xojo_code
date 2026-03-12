@@ -9,6 +9,15 @@ Protected Module XjPrompt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function AskWithHistory(question As String, history As XjHistory, defaultValue As String = "") As String
+		  Var p As New XjAskPrompt(question, defaultValue)
+		  Call p.SetPromptStyle(GetStyle)
+		  Call p.SetHistory(history)
+		  Return p.Run
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function AskValidated(question As String, defaultValue As String, validators() As XjValidation) As String
 		  Var p As New XjAskPrompt(question, defaultValue)
 		  Call p.SetPromptStyle(GetStyle)

@@ -171,33 +171,13 @@ Inherits XjWidget
 		  Var totalStr As String = Str(CType(mTotal, Integer))
 		  Var etaStr As String = CalcETA
 
-		  // Calculate how much space the non-bar tokens take
-		  Var testFmt As String = mFormat
-		  testFmt = testFmt.ReplaceAll(":percent", pctStr)
-		  testFmt = testFmt.ReplaceAll(":current", currentStr)
-		  testFmt = testFmt.ReplaceAll(":total", totalStr)
-		  testFmt = testFmt.ReplaceAll(":eta", etaStr)
-
-		  // Determine bar width
-		  Var barW As Integer = mBarWidth
-		  If barW < 0 Then
-		    // Auto: fill remaining space
-		    Var nonBarLen As Integer = testFmt.ReplaceAll(":bar", "").Length
-		    barW = w - nonBarLen
-		    If barW < 5 Then barW = 5
-		  End If
-
-		  // Build bar string
-		  Var filled As Integer = CType(barW * mValue / mTotal, Integer)
-		  If filled > barW Then filled = barW
-
-		  // Render bar directly onto canvas
-		  Var parts() As String = mFormat.Split(":bar")
+		  // Split format at :bar first, then replace tokens once per half
+		  Var fmtParts() As String = mFormat.Split(":bar")
 
 		  // Pre-bar text
 		  Var preBar As String = ""
-		  If parts.Count > 0 Then
-		    preBar = parts(0)
+		  If fmtParts.Count > 0 Then
+		    preBar = fmtParts(0)
 		    preBar = preBar.ReplaceAll(":percent", pctStr)
 		    preBar = preBar.ReplaceAll(":current", currentStr)
 		    preBar = preBar.ReplaceAll(":total", totalStr)
@@ -206,13 +186,25 @@ Inherits XjWidget
 
 		  // Post-bar text
 		  Var postBar As String = ""
-		  If parts.Count > 1 Then
-		    postBar = parts(1)
+		  If fmtParts.Count > 1 Then
+		    postBar = fmtParts(1)
 		    postBar = postBar.ReplaceAll(":percent", pctStr)
 		    postBar = postBar.ReplaceAll(":current", currentStr)
 		    postBar = postBar.ReplaceAll(":total", totalStr)
 		    postBar = postBar.ReplaceAll(":eta", etaStr)
 		  End If
+
+		  // Determine bar width
+		  Var barW As Integer = mBarWidth
+		  If barW < 0 Then
+		    // Auto: fill remaining space
+		    barW = w - preBar.Length - postBar.Length
+		    If barW < 5 Then barW = 5
+		  End If
+
+		  // Build bar string
+		  Var filled As Integer = CType(barW * mValue / mTotal, Integer)
+		  If filled > barW Then filled = barW
 
 		  Var cx As Integer = x
 

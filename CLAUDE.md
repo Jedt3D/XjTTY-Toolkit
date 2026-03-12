@@ -68,6 +68,9 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 | XjYAMLNode | Class | YAML parse tree node with key/value/children and typed getters |
 | XjYAML | Module | Simple indentation-based YAML parser (mappings, sequences, comments) |
 | XjUIParser | Module | YAML-to-widget-tree builder with constraint/border/color parsing |
+| XjCommand | Module | Shell command execution with timeout and result capture |
+| XjCommandResult | Class | Shell output holder (exit code, output, timed-out flag) |
+| XjHistory | Class | Input history with navigation (Previous/Next), dedup, max size |
 
 ## Development Phases
 
@@ -78,6 +81,23 @@ See `gap-analysis.md` for full roadmap. Phases:
 4. Prompt System (DONE)
 5. Utility Modules (DONE)
 6. YAML UI Definition (DONE)
+7. Polish — New utilities + Big O performance optimization (DONE)
+
+## Performance Optimization
+
+All 63 components analyzed for Big O complexity. 26 components optimized across 4 passes:
+- **B/B+ (7)**: Loop-invariant hoisting, dirty-flag caching, pre-computed data
+- **C (7)**: String concat → array+join, pre-computed lowercase, RemoveAll
+- **D (10)**: Array-based buffers, forward-pass processing, padding concat → array+join
+- **F (2)**: Full rewrites — XjMarkdown single-pass scanner, XjReader array-based ReadLine
+
+Key Xojo perf patterns:
+- `parts() + String.FromArray(parts, "")` instead of `str = str + part` in loops (O(n) vs O(n²))
+- `mFooLower()` parallel arrays for cached `.Lowercase` values
+- `arr.RemoveAll` instead of `While arr.Count > 0; arr.RemoveAt(0); Wend`
+- Hoist `.Lowercase`, style creation, string building outside loops
+
+See `PERFORMANCE_EVAL.md` for full analysis.
 
 ## Xojo Gotchas
 

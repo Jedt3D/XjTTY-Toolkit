@@ -397,18 +397,37 @@ Protected Module XjANSI
 
 	#tag Method, Flags = &h0
 		Function StripCodes(text As String) As String
-		  // Remove all ANSI escape codes from text
-		  Var result As String = text
+		  // Remove all ANSI escape codes from text — forward-pass, no rescanning
 		  Var rx As New RegEx
 		  rx.SearchPattern = Chr(27) + "\[[0-9;]*[a-zA-Z]"
 
-		  Var match As RegExMatch = rx.Search(result)
+		  Var parts() As String
+		  Var remaining As String = text
+		  Var match As RegExMatch = rx.Search(remaining)
+
 		  While match <> Nil
-		    result = result.Left(match.SubExpressionStartB(0)) + result.Middle(match.SubExpressionStartB(0) + match.SubExpressionString(0).Bytes)
-		    match = rx.Search(result)
+		    Var matchStart As Integer = match.SubExpressionStartB(0)
+		    Var matchLen As Integer = match.SubExpressionString(0).Bytes
+
+		    // Collect text before this match
+		    If matchStart > 0 Then
+		      parts.Add(remaining.LeftBytes(matchStart))
+		    End If
+
+		    // Advance past the match
+		    remaining = remaining.MiddleBytes(matchStart + matchLen)
+		    match = rx.Search(remaining)
 		  Wend
 
-		  Return result
+		  // No matches found — return original
+		  If parts.Count = 0 And remaining = text Then Return text
+
+		  // Add remaining text after last match
+		  If remaining <> "" Then
+		    parts.Add(remaining)
+		  End If
+
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

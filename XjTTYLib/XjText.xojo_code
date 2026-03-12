@@ -100,9 +100,7 @@ Inherits XjWidget
 		  mCachedWidth = availWidth
 
 		  // Clear old lines
-		  While mLines.Count > 0
-		    mLines.RemoveAt(0)
-		  Wend
+		  mLines.RemoveAll
 
 		  If mText = "" Then Return
 
@@ -130,23 +128,28 @@ Inherits XjWidget
 		  End If
 
 		  Var words() As String = text.Split(" ")
-		  Var currentLine As String = ""
+		  Var lineWords() As String
+		  Var lineLen As Integer = 0
 
 		  For i As Integer = 0 To words.Count - 1
 		    Var word As String = words(i)
 
-		    If currentLine = "" Then
-		      currentLine = word
-		    ElseIf currentLine.Length + 1 + word.Length <= maxWidth Then
-		      currentLine = currentLine + " " + word
+		    If lineLen = 0 Then
+		      lineWords.Add(word)
+		      lineLen = word.Length
+		    ElseIf lineLen + 1 + word.Length <= maxWidth Then
+		      lineWords.Add(word)
+		      lineLen = lineLen + 1 + word.Length
 		    Else
-		      mLines.Add(currentLine)
-		      currentLine = word
+		      mLines.Add(String.FromArray(lineWords, " "))
+		      lineWords.RemoveAll
+		      lineWords.Add(word)
+		      lineLen = word.Length
 		    End If
 		  Next
 
-		  If currentLine <> "" Then
-		    mLines.Add(currentLine)
+		  If lineWords.Count > 0 Then
+		    mLines.Add(String.FromArray(lineWords, " "))
 		  End If
 		End Sub
 	#tag EndMethod

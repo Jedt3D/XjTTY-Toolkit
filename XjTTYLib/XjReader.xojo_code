@@ -241,13 +241,12 @@ Protected Class XjReader
 
 	#tag Method, Flags = &h0
 		Function ReadLine(prompt As String) As String
-		  // Simple line reading with basic editing
-		  // Supports: typing, backspace, enter
-		  // For advanced line editing with history/completion, use XjLineEditor (TUI layer)
+		  // Array-based line editing — O(1) append, O(n-p) insert, single join at return
+		  // Supports: typing, backspace, left/right, enter, escape, Ctrl+C
 
 		  XjTerminal.Write(prompt)
 
-		  Var buffer As String
+		  Var chars() As String
 		  Var cursorPos As Integer = 0
 
 		  Do
@@ -259,35 +258,47 @@ Protected Class XjReader
 
 		    If key.IsEnter Then
 		      XjTerminal.Write(Chr(13) + Chr(10))
-		      Return buffer
+		      Return String.FromArray(chars, "")
 		    End If
 
 		    If key.IsBackspace Then
 		      If cursorPos > 0 Then
-		        buffer = buffer.Left(cursorPos - 1) + buffer.Middle(cursorPos)
 		        cursorPos = cursorPos - 1
-		        // Redraw: move back, write rest, clear trailing, reposition
+		        chars.RemoveAt(cursorPos)
+		        // Redraw: move back, write rest of line, clear trailing char, reposition
+		        Var tailLen As Integer = chars.Count - cursorPos
 		        XjTerminal.Write(XjANSI.CursorBackward(1))
-		        XjTerminal.Write(buffer.Middle(cursorPos) + " ")
-		        XjTerminal.Write(XjANSI.CursorBackward(buffer.Length - cursorPos + 1))
+		        If tailLen > 0 Then
+		          XjTerminal.Write(TailString(chars, cursorPos) + " ")
+		          XjTerminal.Write(XjANSI.CursorBackward(tailLen + 1))
+		        Else
+		          XjTerminal.Write(" ")
+		          XjTerminal.Write(XjANSI.CursorBackward(1))
+		        End If
 		      End If
 		      Continue
 		    End If
 
 		    If key.IsEscape Then
-		      // Cancel input
 		      XjTerminal.Write(Chr(13) + Chr(10))
 		      Return ""
 		    End If
 
 		    If key.IsCharKey And Not key.IsCtrl Then
 		      // Insert character at cursor position
-		      buffer = buffer.Left(cursorPos) + key.Char + buffer.Middle(cursorPos)
+		      If cursorPos >= chars.Count Then
+		        chars.Add(key.Char)
+		      Else
+		        chars.AddAt(cursorPos, key.Char)
+		      End If
 		      cursorPos = cursorPos + 1
 		      // Write char and any text after cursor
-		      XjTerminal.Write(key.Char + buffer.Middle(cursorPos))
-		      If buffer.Length > cursorPos Then
-		        XjTerminal.Write(XjANSI.CursorBackward(buffer.Length - cursorPos))
+		      Var tailLen As Integer = chars.Count - cursorPos
+		      If tailLen > 0 Then
+		        XjTerminal.Write(key.Char + TailString(chars, cursorPos))
+		        XjTerminal.Write(XjANSI.CursorBackward(tailLen))
+		      Else
+		        XjTerminal.Write(key.Char)
 		      End If
 		    End If
 
@@ -296,7 +307,7 @@ Protected Class XjReader
 		      XjTerminal.Write(XjANSI.CursorBackward(1))
 		    End If
 
-		    If key.KeyCode = XjKeyEvent.KEY_RIGHT And cursorPos < buffer.Length Then
+		    If key.KeyCode = XjKeyEvent.KEY_RIGHT And cursorPos < chars.Count Then
 		      cursorPos = cursorPos + 1
 		      XjTerminal.Write(XjANSI.CursorForward(1))
 		    End If
@@ -308,6 +319,18 @@ Protected Class XjReader
 		    End If
 
 		  Loop
+		End Function
+	#tag EndMethod
+
+
+	#tag Method, Flags = &h21
+		Private Function TailString(chars() As String, fromIndex As Integer) As String
+		  // Build string from chars[fromIndex..end] via array+join
+		  Var tailParts() As String
+		  For j As Integer = fromIndex To chars.Count - 1
+		    tailParts.Add(chars(j))
+		  Next
+		  Return String.FromArray(tailParts, "")
 		End Function
 	#tag EndMethod
 

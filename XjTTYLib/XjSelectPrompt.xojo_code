@@ -4,9 +4,10 @@ Protected Class XjSelectPrompt
 		Sub Constructor(question As String, choices() As String)
 		  mQuestion = question
 
-		  // Copy choices array
+		  // Copy choices array and pre-compute lowercase
 		  For i As Integer = 0 To choices.Count - 1
 		    mChoices.Add(choices(i))
+		    mChoicesLower.Add(choices(i).Lowercase)
 		  Next
 
 		  // Initialize disabled array (all enabled)
@@ -178,8 +179,7 @@ Protected Class XjSelectPrompt
 		    If mFilterText = "" Then
 		      mFilteredIndices.Add(i)
 		    Else
-		      Var choiceLower As String = mChoices(i).Lowercase
-		      If choiceLower.IndexOf(filterLower) >= 0 Then
+		      If mChoicesLower(i).IndexOf(filterLower) >= 0 Then
 		        mFilteredIndices.Add(i)
 		      End If
 		    End If
@@ -295,6 +295,10 @@ Protected Class XjSelectPrompt
 
 	#tag Property, Flags = &h21
 		Private mChoices() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mChoicesLower() As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

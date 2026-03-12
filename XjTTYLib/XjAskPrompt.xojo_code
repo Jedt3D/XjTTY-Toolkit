@@ -45,6 +45,13 @@ Protected Class XjAskPrompt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function SetHistory(h As XjHistory) As XjAskPrompt
+		  mHistory = h
+		  Return Self
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Run() As String
 		  XjSymbols.EnsureInit
 		  mRenderer.Begin
@@ -71,6 +78,11 @@ Protected Class XjAskPrompt
 		    answer = mValue
 		    If answer = "" Then answer = mDefault
 		    answer = XjConversion.ApplyModifier(answer, mModifier)
+		  End If
+
+		  // Add to history if not cancelled
+		  If Not mCancelled And mHistory <> Nil And answer <> "" Then
+		    mHistory.Add(answer)
 		  End If
 
 		  // Render settled state
@@ -139,6 +151,23 @@ Protected Class XjAskPrompt
 
 		  If key.KeyCode = XjKeyEvent.KEY_RIGHT Then
 		    If mCursorPos < mValue.Length Then mCursorPos = mCursorPos + 1
+		    Return
+		  End If
+
+		  // History navigation
+		  If key.KeyCode = XjKeyEvent.KEY_UP Then
+		    If mHistory <> Nil Then
+		      mValue = mHistory.Previous(mValue)
+		      mCursorPos = mValue.Length
+		    End If
+		    Return
+		  End If
+
+		  If key.KeyCode = XjKeyEvent.KEY_DOWN Then
+		    If mHistory <> Nil Then
+		      mValue = mHistory.Next_(mValue)
+		      mCursorPos = mValue.Length
+		    End If
 		    Return
 		  End If
 
@@ -288,6 +317,10 @@ Protected Class XjAskPrompt
 
 	#tag Property, Flags = &h21
 		Private mRenderer As XjInlineRenderer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mHistory As XjHistory
 	#tag EndProperty
 
 

@@ -152,17 +152,19 @@ Protected Class XjLogger
 	#tag Method, Flags = &h21
 		Private Function FormatJSON(level As Integer, message As String, meta As String) As String
 		  Var d As DateTime = DateTime.Now
-		  Var json As String = "{" + Chr(34) + "time" + Chr(34) + ":" + Chr(34) + d.SQLDateTime + Chr(34)
-		  json = json + "," + Chr(34) + "level" + Chr(34) + ":" + Chr(34) + LevelName(level).Trim + Chr(34)
+		  Var q As String = Chr(34)
+		  Var parts() As String
+		  parts.Add("{" + q + "time" + q + ":" + q + d.SQLDateTime + q)
+		  parts.Add("," + q + "level" + q + ":" + q + LevelName(level).Trim + q)
 		  If mName <> "" Then
-		    json = json + "," + Chr(34) + "logger" + Chr(34) + ":" + Chr(34) + mName + Chr(34)
+		    parts.Add("," + q + "logger" + q + ":" + q + mName + q)
 		  End If
-		  json = json + "," + Chr(34) + "msg" + Chr(34) + ":" + Chr(34) + EscapeJSON(message) + Chr(34)
+		  parts.Add("," + q + "msg" + q + ":" + q + EscapeJSON(message) + q)
 		  If meta <> "" Then
-		    json = json + "," + Chr(34) + "meta" + Chr(34) + ":" + Chr(34) + EscapeJSON(meta) + Chr(34)
+		    parts.Add("," + q + "meta" + q + ":" + q + EscapeJSON(meta) + q)
 		  End If
-		  json = json + "}"
-		  Return json
+		  parts.Add("}")
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

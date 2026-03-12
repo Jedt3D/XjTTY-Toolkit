@@ -12,6 +12,13 @@ Protected Module XjFont
 		  rows.Add("")
 		  rows.Add("")
 
+		  // Use parallel arrays to avoid O(n^2) string concat
+		  Var rp0() As String
+		  Var rp1() As String
+		  Var rp2() As String
+		  Var rp3() As String
+		  Var rp4() As String
+
 		  For pos As Integer = 0 To upper.Length - 1
 		    Var ch As String = upper.Middle(pos, 1)
 		    Var glyph() As String
@@ -23,13 +30,18 @@ Protected Module XjFont
 		      glyph = mGlyphs.Value(" ")
 		    End If
 
-		    For row As Integer = 0 To 4
-		      Var glyphRow As String = glyph(row)
-		      // Replace # with full block character
-		      glyphRow = glyphRow.ReplaceAll("#", mBlock)
-		      rows(row) = rows(row) + glyphRow + " "
-		    Next
+		    rp0.Add(glyph(0).ReplaceAll("#", mBlock) + " ")
+		    rp1.Add(glyph(1).ReplaceAll("#", mBlock) + " ")
+		    rp2.Add(glyph(2).ReplaceAll("#", mBlock) + " ")
+		    rp3.Add(glyph(3).ReplaceAll("#", mBlock) + " ")
+		    rp4.Add(glyph(4).ReplaceAll("#", mBlock) + " ")
 		  Next
+
+		  rows(0) = String.FromArray(rp0, "")
+		  rows(1) = String.FromArray(rp1, "")
+		  rows(2) = String.FromArray(rp2, "")
+		  rows(3) = String.FromArray(rp3, "")
+		  rows(4) = String.FromArray(rp4, "")
 
 		  // Apply style if provided
 		  If style <> Nil Then

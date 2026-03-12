@@ -409,11 +409,11 @@ Protected Class XjCanvas
 		  // Render as plain text (no ANSI codes) for debugging
 		  Var parts() As String
 		  For row As Integer = 0 To mHeight - 1
-		    Var line As String
+		    Var rowParts() As String
 		    For col As Integer = 0 To mWidth - 1
-		      line = line + mCells(row * mWidth + col).Char
+		      rowParts.Add(mCells(row * mWidth + col).Char)
 		    Next
-		    parts.Add(line)
+		    parts.Add(String.FromArray(rowParts, ""))
 		  Next
 		  Return String.FromArray(parts, EndOfLine)
 		End Function

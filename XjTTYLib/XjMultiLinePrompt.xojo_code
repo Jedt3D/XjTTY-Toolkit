@@ -194,8 +194,8 @@ Protected Class XjMultiLinePrompt
 		  output.Add(prefix + question + " " + hint)
 
 		  // Each line with "> " prefix and cursor indicator
+		  Var linePrefix As String = mStyle.ActiveStyle.Apply("> ")
 		  For row As Integer = 0 To mLines.Count - 1
-		    Var linePrefix As String = mStyle.ActiveStyle.Apply("> ")
 		    Var lineText As String = mLines(row)
 
 		    If row = mCursorRow Then

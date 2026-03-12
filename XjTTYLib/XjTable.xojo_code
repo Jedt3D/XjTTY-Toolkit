@@ -19,21 +19,15 @@ Inherits XjWidget
 
 	#tag Method, Flags = &h0
 		Function SetHeaders(headers() As String) As XjTable
-		  While mHeaders.Count > 0
-		    mHeaders.RemoveAt(0)
-		  Wend
+		  mHeaders.RemoveAll
 		  mColumnCount = headers.Count
 		  For i As Integer = 0 To headers.Count - 1
 		    mHeaders.Add(headers(i))
 		  Next
 
 		  // Initialize column widths and aligns
-		  While mColumnWidths.Count > 0
-		    mColumnWidths.RemoveAt(0)
-		  Wend
-		  While mColumnAligns.Count > 0
-		    mColumnAligns.RemoveAt(0)
-		  Wend
+		  mColumnWidths.RemoveAll
+		  mColumnAligns.RemoveAll
 		  For i As Integer = 0 To mColumnCount - 1
 		    mColumnWidths.Add(-1)
 		    mColumnAligns.Add(ALIGN_LEFT)
@@ -60,9 +54,7 @@ Inherits XjWidget
 
 	#tag Method, Flags = &h0
 		Sub ClearRows()
-		  While mRows.Count > 0
-		    mRows.RemoveAt(0)
-		  Wend
+		  mRows.RemoveAll
 		  mDirty = True
 		End Sub
 	#tag EndMethod
@@ -254,28 +246,28 @@ Inherits XjWidget
 		  Case ALIGN_CENTER
 		    Var leftPad As Integer = padding / 2
 		    Var rightPad As Integer = padding - leftPad
-		    Var lp As String = ""
+		    Var lpParts() As String
 		    For i As Integer = 0 To leftPad - 1
-		      lp = lp + " "
+		      lpParts.Add(" ")
 		    Next
-		    Var rp As String = ""
+		    Var rpParts() As String
 		    For i As Integer = 0 To rightPad - 1
-		      rp = rp + " "
+		      rpParts.Add(" ")
 		    Next
-		    padded = lp + text + rp
+		    padded = String.FromArray(lpParts, "") + text + String.FromArray(rpParts, "")
 		  Case ALIGN_RIGHT
-		    Var lp As String = ""
+		    Var lpParts() As String
 		    For i As Integer = 0 To padding - 1
-		      lp = lp + " "
+		      lpParts.Add(" ")
 		    Next
-		    padded = lp + text
+		    padded = String.FromArray(lpParts, "") + text
 		  Case Else
 		    // Left align — pad right
-		    Var rp As String = ""
+		    Var rpParts() As String
 		    For i As Integer = 0 To padding - 1
-		      rp = rp + " "
+		      rpParts.Add(" ")
 		    Next
-		    padded = text + rp
+		    padded = text + String.FromArray(rpParts, "")
 		  End Select
 
 		  canvas.WriteText(x, y, padded, style)

@@ -187,9 +187,11 @@ Inherits XjWidget
 		  Var displayText As String
 		  If mMask <> "" Then
 		    // Masked input (password)
+		    Var maskParts() As String
 		    For i As Integer = 0 To mValue.Length - 1
-		      displayText = displayText + mMask
+		      maskParts.Add(mMask)
 		    Next
+		    displayText = String.FromArray(maskParts, "")
 		  Else
 		    displayText = mValue
 		  End If

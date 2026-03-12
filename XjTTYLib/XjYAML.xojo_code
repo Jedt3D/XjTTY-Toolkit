@@ -22,21 +22,19 @@ Protected Module XjYAML
 
 		  While idx < lines.Count
 		    Var line As String = lines(idx)
+		    Var indent As Integer = CountIndent(line)
 
-		    // Skip empty lines and comments
-		    If line.Trim = "" Or line.TrimLeft.Left(1) = "#" Then
+		    // Skip empty lines and comments (use indent to avoid redundant TrimLeft)
+		    Var content As String = line.Middle(indent)
+		    If content = "" Or content.Left(1) = "#" Then
 		      idx = idx + 1
 		      Continue
 		    End If
-
-		    Var indent As Integer = CountIndent(line)
 
 		    // If less indented than minimum, we're done with this block
 		    If indent < minIndent Then
 		      Exit
 		    End If
-
-		    Var content As String = line.TrimLeft
 
 		    // Handle list item
 		    If content.Left(2) = "- " Then

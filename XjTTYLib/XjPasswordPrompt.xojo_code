@@ -131,11 +131,11 @@ Protected Class XjPasswordPrompt
 	#tag Method, Flags = &h21
 		Private Function MaskString(length As Integer) As String
 		  // Build a string of mask characters
-		  Var result As String
+		  Var parts() As String
 		  For i As Integer = 1 To length
-		    result = result + mMask
+		    parts.Add(mMask)
 		  Next
-		  Return result
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

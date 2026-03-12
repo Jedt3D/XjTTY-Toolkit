@@ -55,26 +55,27 @@ Protected Class XjPie
 		  Var light As String = Chr(&hE2) + Chr(&h96) + Chr(&h91)
 
 		  // Draw combined bar
-		  Var bar As String = ""
+		  Var barParts() As String
 		  For i As Integer = 0 To mValues.Count - 1
 		    Var pct As Double = mValues(i) / total
 		    Var chars As Integer = Round(pct * mWidth)
 		    If chars < 1 And mValues(i) > 0 Then chars = 1
 
-		    Var segment As String = ""
+		    Var segParts() As String
 		    For c As Integer = 1 To chars
-		      segment = segment + full
+		      segParts.Add(full)
 		    Next
+		    Var segment As String = String.FromArray(segParts, "")
 
 		    If mUseColor Then
 		      Var s As New XjStyle
 		      Var colorIdx As Integer = i Mod colors.Count
-		      bar = bar + s.SetFG(colors(colorIdx)).Apply(segment)
+		      barParts.Add(s.SetFG(colors(colorIdx)).Apply(segment))
 		    Else
-		      bar = bar + segment
+		      barParts.Add(segment)
 		    End If
 		  Next
-		  Print("  " + bar)
+		  Print("  " + String.FromArray(barParts, ""))
 		  Print("")
 
 		  // Draw legend
@@ -124,26 +125,27 @@ Protected Class XjPie
 		  Var full As String = Chr(&hE2) + Chr(&h96) + Chr(&h88)
 
 		  // Combined bar
-		  Var bar As String = ""
+		  Var barParts() As String
 		  For i As Integer = 0 To mValues.Count - 1
 		    Var pct As Double = mValues(i) / total
 		    Var chars As Integer = Round(pct * mWidth)
 		    If chars < 1 And mValues(i) > 0 Then chars = 1
 
-		    Var segment As String = ""
+		    Var segParts() As String
 		    For c As Integer = 1 To chars
-		      segment = segment + full
+		      segParts.Add(full)
 		    Next
+		    Var segment As String = String.FromArray(segParts, "")
 
 		    If mUseColor Then
 		      Var s As New XjStyle
 		      Var colorIdx As Integer = i Mod colors.Count
-		      bar = bar + s.SetFG(colors(colorIdx)).Apply(segment)
+		      barParts.Add(s.SetFG(colors(colorIdx)).Apply(segment))
 		    Else
-		      bar = bar + segment
+		      barParts.Add(segment)
 		    End If
 		  Next
-		  lines.Add(bar)
+		  lines.Add(String.FromArray(barParts, ""))
 		  lines.Add("")
 
 		  // Legend

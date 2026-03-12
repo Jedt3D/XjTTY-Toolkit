@@ -120,10 +120,12 @@ Protected Module XjScreen
 		Sub DrawHorizontalLine(row As Integer, col As Integer, length As Integer, char As String)
 		  // Draw a horizontal line of repeated characters
 		  If char = "" Then char = "-"
-		  Var line As String
+		  Var ch As String = char.Left(1)
+		  Var lineParts() As String
 		  For i As Integer = 1 To length
-		    line = line + char.Left(1)
+		    lineParts.Add(ch)
 		  Next
+		  Var line As String = String.FromArray(lineParts, "")
 		  XjCursor.Save
 		  XjCursor.MoveTo(row, col)
 		  XjTerminal.Write(line)
@@ -135,10 +137,11 @@ Protected Module XjScreen
 		Sub DrawVerticalLine(row As Integer, col As Integer, length As Integer, char As String)
 		  // Draw a vertical line of repeated characters
 		  If char = "" Then char = "|"
+		  Var ch As String = char.Left(1)
 		  Var parts() As String
 		  XjCursor.Save
 		  For i As Integer = 0 To length - 1
-		    parts.Add(XjANSI.CursorPosition(row + i, col) + char.Left(1))
+		    parts.Add(XjANSI.CursorPosition(row + i, col) + ch)
 		  Next
 		  XjTerminal.Write(String.FromArray(parts, ""))
 		  XjCursor.Restore
@@ -149,10 +152,12 @@ Protected Module XjScreen
 		Sub FillRect(row As Integer, col As Integer, width As Integer, height As Integer, char As String)
 		  // Fill a rectangular area with a character
 		  If char = "" Then char = " "
-		  Var line As String
+		  Var ch As String = char.Left(1)
+		  Var lineParts() As String
 		  For i As Integer = 1 To width
-		    line = line + char.Left(1)
+		    lineParts.Add(ch)
 		  Next
+		  Var line As String = String.FromArray(lineParts, "")
 		  Var parts() As String
 		  XjCursor.Save
 		  For r As Integer = 0 To height - 1

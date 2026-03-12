@@ -30,12 +30,13 @@ Protected Module XjMarkdown
 		    // Horizontal rule
 		    If line.Trim = "---" Or line.Trim = "===" Or line.Trim = "***" Then
 		      Var s As New XjStyle
-		      Var rule As String = ""
+		      Var ruleChar As String = Chr(&hE2) + Chr(&h94) + Chr(&h80)
+		      Var ruleParts() As String
 		      Var w As Integer = 40
 		      For c As Integer = 1 To w
-		        rule = rule + Chr(&hE2) + Chr(&h94) + Chr(&h80)
+		        ruleParts.Add(ruleChar)
 		      Next
-		      Print(s.SetFG(90).Apply(rule))
+		      Print(s.SetFG(90).Apply(String.FromArray(ruleParts, "")))
 		      Continue
 		    End If
 
@@ -60,10 +61,11 @@ Protected Module XjMarkdown
 		    Var trimmed As String = line.TrimLeft
 		    If trimmed.Left(2) = "- " Or trimmed.Left(2) = "* " Then
 		      Var indent As Integer = line.Length - trimmed.Length
-		      Var prefix As String = ""
+		      Var prefParts() As String
 		      For c As Integer = 1 To indent
-		        prefix = prefix + " "
+		        prefParts.Add(" ")
 		      Next
+		      Var prefix As String = String.FromArray(prefParts, "")
 		      Var bullet As String = Chr(&hE2) + Chr(&h80) + Chr(&hA2)
 		      Var content As String = trimmed.Middle(2)
 		      content = FormatInline(content)
@@ -78,10 +80,11 @@ Protected Module XjMarkdown
 		        Var dotPos As Integer = trimmed.IndexOf(". ")
 		        If dotPos >= 1 And dotPos <= 3 Then
 		          Var indent As Integer = line.Length - trimmed.Length
-		          Var prefix As String = ""
+		          Var prefParts2() As String
 		          For c As Integer = 1 To indent
-		            prefix = prefix + " "
+		            prefParts2.Add(" ")
 		          Next
+		          Var prefix As String = String.FromArray(prefParts2, "")
 		          Var num As String = trimmed.Left(dotPos)
 		          Var content As String = trimmed.Middle(dotPos + 2)
 		          content = FormatInline(content)
@@ -103,52 +106,68 @@ Protected Module XjMarkdown
 
 	#tag Method, Flags = &h21
 		Private Function FormatInline(line As String) As String
-		  // Bold: **text**
-		  While line.IndexOf("**") >= 0
-		    Var startPos As Integer = line.IndexOf("**")
-		    Var endPos As Integer = line.IndexOf(startPos + 2, "**")
-		    If endPos < 0 Then Exit
+		  // Single-pass scanner: O(n) instead of O(m^2)
+		  Var lineLen As Integer = line.Length
+		  If lineLen = 0 Then Return line
 
-		    Var before As String = line.Left(startPos)
-		    Var content As String = line.Middle(startPos + 2, endPos - startPos - 2)
-		    Var after As String = line.Middle(endPos + 2)
+		  // Pre-create styles once
+		  Var base As New XjStyle
+		  Var sBold As XjStyle = base.SetBold
+		  Var sItal As XjStyle = base.SetItalic
+		  Var sCode As XjStyle = base.SetInverse
 
-		    Var s As New XjStyle
-		    Var sBold As XjStyle = s.SetBold
-		    line = before + sBold.Apply(content) + after
+		  Var parts() As String
+		  Var i As Integer = 0
+
+		  While i < lineLen
+		    // Check for bold: **text**
+		    If i + 1 < lineLen And line.Middle(i, 2) = "**" Then
+		      Var endPos As Integer = line.IndexOf(i + 2, "**")
+		      If endPos >= 0 Then
+		        parts.Add(sBold.Apply(line.Middle(i + 2, endPos - i - 2)))
+		        i = endPos + 2
+		        Continue
+		      End If
+		    End If
+
+		    // Check for inline code: `text`
+		    If line.Middle(i, 1) = "`" Then
+		      Var endPos As Integer = line.IndexOf(i + 1, "`")
+		      If endPos >= 0 Then
+		        parts.Add(sCode.Apply(" " + line.Middle(i + 1, endPos - i - 1) + " "))
+		        i = endPos + 1
+		        Continue
+		      End If
+		    End If
+
+		    // Check for italic: *text* (single asterisk)
+		    If line.Middle(i, 1) = "*" Then
+		      Var endPos As Integer = line.IndexOf(i + 1, "*")
+		      If endPos >= 0 Then
+		        parts.Add(sItal.Apply(line.Middle(i + 1, endPos - i - 1)))
+		        i = endPos + 1
+		        Continue
+		      End If
+		    End If
+
+		    // Regular text — find next marker position
+		    Var nextStar As Integer = line.IndexOf(i, "*")
+		    Var nextTick As Integer = line.IndexOf(i, "`")
+		    Var nextMarker As Integer = lineLen
+		    If nextStar >= 0 And nextStar < nextMarker Then nextMarker = nextStar
+		    If nextTick >= 0 And nextTick < nextMarker Then nextMarker = nextTick
+
+		    If nextMarker > i Then
+		      parts.Add(line.Middle(i, nextMarker - i))
+		      i = nextMarker
+		    Else
+		      parts.Add(line.Middle(i))
+		      i = lineLen
+		    End If
 		  Wend
 
-		  // Italic: *text* (single asterisk, not inside **)
-		  While line.IndexOf("*") >= 0
-		    Var startPos As Integer = line.IndexOf("*")
-		    Var endPos As Integer = line.IndexOf(startPos + 1, "*")
-		    If endPos < 0 Then Exit
-
-		    Var before As String = line.Left(startPos)
-		    Var content As String = line.Middle(startPos + 1, endPos - startPos - 1)
-		    Var after As String = line.Middle(endPos + 1)
-
-		    Var s As New XjStyle
-		    Var sItal As XjStyle = s.SetItalic
-		    line = before + sItal.Apply(content) + after
-		  Wend
-
-		  // Inline code: `text`
-		  While line.IndexOf("`") >= 0
-		    Var startPos As Integer = line.IndexOf("`")
-		    Var endPos As Integer = line.IndexOf(startPos + 1, "`")
-		    If endPos < 0 Then Exit
-
-		    Var before As String = line.Left(startPos)
-		    Var content As String = line.Middle(startPos + 1, endPos - startPos - 1)
-		    Var after As String = line.Middle(endPos + 1)
-
-		    Var s As New XjStyle
-		    Var sInv As XjStyle = s.SetInverse
-		    line = before + sInv.Apply(" " + content + " ") + after
-		  Wend
-
-		  Return line
+		  If parts.Count = 0 Then Return line
+		  Return String.FromArray(parts, "")
 		End Function
 	#tag EndMethod
 

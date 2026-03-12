@@ -5,6 +5,8 @@ Protected Class XjOption
 		  mAppName = appName
 		  mAppDesc = appDesc
 		  mValues = New Dictionary
+		  mShortMap = New Dictionary
+		  mLongMap = New Dictionary
 		  mParsed = False
 		End Sub
 	#tag EndMethod
@@ -17,6 +19,10 @@ Protected Class XjOption
 		  mOptDescs.Add(desc)
 		  mOptDefaults.Add(defaultValue)
 		  mOptIsFlag.Add(False)
+		  // Build O(1) lookup maps
+		  Var idx As Integer = mOptNames.Count - 1
+		  If shortFlag <> "" Then mShortMap.Value(shortFlag) = idx
+		  If longFlag <> "" Then mLongMap.Value(longFlag) = idx
 		  Return Self
 		End Function
 	#tag EndMethod
@@ -29,6 +35,10 @@ Protected Class XjOption
 		  mOptDescs.Add(desc)
 		  mOptDefaults.Add("")
 		  mOptIsFlag.Add(True)
+		  // Build O(1) lookup maps
+		  Var idx As Integer = mOptNames.Count - 1
+		  If shortFlag <> "" Then mShortMap.Value(shortFlag) = idx
+		  If longFlag <> "" Then mLongMap.Value(longFlag) = idx
 		  Return Self
 		End Function
 	#tag EndMethod
@@ -243,18 +253,14 @@ Protected Class XjOption
 
 	#tag Method, Flags = &h21
 		Private Function FindByShort(flag As String) As Integer
-		  For i As Integer = 0 To mOptShorts.Count - 1
-		    If mOptShorts(i) = flag Then Return i
-		  Next
+		  If mShortMap.HasKey(flag) Then Return mShortMap.Value(flag)
 		  Return -1
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function FindByLong(flag As String) As Integer
-		  For i As Integer = 0 To mOptLongs.Count - 1
-		    If mOptLongs(i) = flag Then Return i
-		  Next
+		  If mLongMap.HasKey(flag) Then Return mLongMap.Value(flag)
 		  Return -1
 		End Function
 	#tag EndMethod
@@ -331,6 +337,14 @@ Protected Class XjOption
 
 	#tag Property, Flags = &h21
 		Private mParsed As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mShortMap As Dictionary
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLongMap As Dictionary
 	#tag EndProperty
 
 
