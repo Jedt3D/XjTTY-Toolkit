@@ -5,7 +5,7 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 ## Project Structure
 
 - `XjTTYToolkit.xojo_project` — Console app project file
-- `App.xojo_code` — Demo app (currently Phase 3 widget system demo)
+- `App.xojo_code` — Demo app (currently Phase 4 prompt system demo)
 - `XjTTYLib/` — Library folder containing all toolkit modules/classes
 
 ### Library Components (XjTTYLib)
@@ -38,6 +38,25 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 | XjTree | Class | Hierarchy display with box-drawing branches |
 | XjTreeNode | Class | Tree data node (label, children, expand/collapse) |
 | XjFocusManager | Class | Tab/Shift-Tab focus cycling and key event routing |
+| XjSymbols | Module | Unicode/ASCII glyph sets (check, cross, pointer, etc.) with lazy init |
+| XjPromptStyle | Class | Theming for prompts (prefix, question, answer, cursor, error styles) |
+| XjValidation | Class | Input validators (Required, MinLength, MaxLength, Pattern, Custom) |
+| XjConversion | Module | Input modifiers (uppercase, lowercase, trim, etc.) |
+| XjInlineRenderer | Class | Cursor-up/erase-line rendering engine for inline prompts |
+| XjCompleter | Class | Autocomplete engine with prefix/substring matching |
+| XjPrompt | Module | Facade: Ask, Confirm, Password, Select_, MultiSelect, EnumSelect, Expand, MultiLine, Slider, KeyPress, Suggest, Collect + output helpers |
+| XjAskPrompt | Class | Free-form text input with validation, cursor editing |
+| XjConfirmPrompt | Class | Yes/No confirmation prompt |
+| XjPasswordPrompt | Class | Masked password input |
+| XjSelectPrompt | Class | Single-choice list with arrow keys, pagination |
+| XjMultiSelectPrompt | Class | Multi-choice list with space toggle, min/max counts |
+| XjEnumSelectPrompt | Class | Inline numbered choice selection |
+| XjExpandPrompt | Class | Key-mapped choice expansion (like git's y/n/d) |
+| XjMultiLinePrompt | Class | Multi-line text editor |
+| XjSliderPrompt | Class | Numeric slider with arrow keys and step |
+| XjKeyPressPrompt | Class | Wait for single keypress |
+| XjSuggestPrompt | Class | Text input with autocomplete suggestions |
+| XjCollectPrompt | Class | Multi-step prompt chain collecting key-value answers |
 
 ## Development Phases
 
@@ -45,7 +64,7 @@ See `gap-analysis.md` for full roadmap. Phases:
 1. Event System & App Loop (DONE)
 2. Layout Engine (DONE)
 3. Widget System (DONE)
-4. Prompt System (13 types)
+4. Prompt System (DONE)
 5. Utility Modules
 6. YAML UI Definition
 
@@ -61,6 +80,8 @@ See `gap-analysis.md` for full roadmap. Phases:
 - **Full render prevents artifacts** — clear screen + home cursor in one Write() call before rendering; diff render is optional optimization
 - **`Lib` is reserved** — cannot use as variable name; use `libNode` etc.
 - **Widget PaintSelf vs PaintTo** — use `PaintSelf` to draw only border/title without recursing children; widgets control their own paint hierarchy via `Paint()` template method
+- **Module property initializers** — can't use `Chr()` in default values; use lazy init pattern with `EnsureInit()` method
+- **Inline renderer cursor math** — after writing N lines, cursor is ON line N; use `CursorUp(N-1)` to return to line 1, not `CursorUp(N)`
 
 ## Build & Analyze
 

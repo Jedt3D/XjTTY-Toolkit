@@ -2,6 +2,33 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.4.0] - 2026-03-12
+
+### Added
+- **XjSymbols**: Unicode/ASCII glyph module with lazy initialization (check, cross, pointer, radio, question mark, etc.)
+- **XjPromptStyle**: Theming class for prompts with configurable prefix, question, answer, cursor, error, and help styles
+- **XjValidation**: Input validator class with factory methods — Required, MinLength, MaxLength, Pattern, Custom
+- **XjConversion**: Input modifier module — Uppercase, Lowercase, Capitalize, Trim, Number
+- **XjInlineRenderer**: Cursor-based inline rendering engine — manages raw mode, cursor-up/erase-line redraws, settled state output
+- **XjCompleter**: Autocomplete engine with prefix and substring matching, word list or custom callback
+- **XjPrompt**: Facade module — single entry point for all 13 prompt types plus Say/Ok/Warn/Error_ output helpers
+- **XjAskPrompt**: Free-form text input with cursor navigation, validation, input modifiers, escape to cancel
+- **XjConfirmPrompt**: Yes/No confirmation with configurable default
+- **XjPasswordPrompt**: Masked input with optional custom mask character
+- **XjSelectPrompt**: Arrow-key list selection with pagination, type-to-filter
+- **XjMultiSelectPrompt**: Multi-choice list with space toggle, min/max count enforcement
+- **XjEnumSelectPrompt**: Inline numbered choice selection
+- **XjExpandPrompt**: Key-mapped choice expansion (y/n/d style)
+- **XjMultiLinePrompt**: Multi-line text editor with Ctrl+D to finish
+- **XjSliderPrompt**: Numeric slider with arrow keys, configurable step and range
+- **XjKeyPressPrompt**: Single keypress capture with optional timeout
+- **XjSuggestPrompt**: Text input with autocomplete dropdown
+- **XjCollectPrompt**: Multi-step prompt chain collecting key-value answers
+- **Phase 4 demo**: Inline prompt demo exercising Ask, Confirm, Password, Select, MultiSelect, EnumSelect, Slider, KeyPress, Expand
+
+### Fixed
+- XjInlineRenderer cursor-up off-by-one: `CursorUp(N)` should be `CursorUp(N-1)` since cursor sits ON the last line, not below it
+
 ## [0.3.0] - 2026-03-12
 
 ### Added
