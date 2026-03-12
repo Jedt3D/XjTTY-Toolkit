@@ -287,8 +287,9 @@ Protected Class XjLayoutNode
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub PaintTo(canvas As XjCanvas)
-		  // Draw this node's border (if any) onto the canvas, then recurse children
+		Sub PaintSelf(canvas As XjCanvas)
+		  // Draw this node's border and title only (no child recursion).
+		  // Used by XjWidget to avoid double-painting when widgets control recursion.
 
 		  If mBorderStyle >= 0 Then
 		    Var bx As Integer = mComputedX + mMarginLeft
@@ -313,8 +314,14 @@ Protected Class XjLayoutNode
 		      End If
 		    End If
 		  End If
+		End Sub
+	#tag EndMethod
 
-		  // Recurse into children
+	#tag Method, Flags = &h0
+		Sub PaintTo(canvas As XjCanvas)
+		  // Draw this node's border/title, then recurse children
+		  PaintSelf(canvas)
+
 		  For i As Integer = 0 To mChildren.Count - 1
 		    mChildren(i).PaintTo(canvas)
 		  Next

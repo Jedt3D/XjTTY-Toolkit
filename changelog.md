@@ -2,6 +2,24 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.3.0] - 2026-03-12
+
+### Added
+- **XjWidget**: Base widget class owning an XjLayoutNode, with Paint/PaintContent/HandleKey/HandleTick template methods, focus state, child management, and FindByName
+- **XjBox**: Container widget with horizontal/vertical alignment, background fill, and semantic factory methods (Info, Warning, Success, Error_)
+- **XjText**: Text display widget with word wrapping, left/center/right alignment, and scroll offset
+- **XjTextInput**: Single-line interactive input with visual cursor, horizontal scrolling, placeholder text, password mask, label prefix, and Ctrl+A/E/K/U editing shortcuts
+- **XjTable**: Table widget with headers, auto/fixed column widths, per-column alignment, alternating row styles, Unicode/ASCII borders, and ellipsis truncation
+- **XjProgressBar**: Progress bar with format tokens (:bar :percent :eta :current :total), indeterminate bounce mode, and ETA calculation
+- **XjSpinner**: Animated spinner with 12 built-in formats (dots, braille, arc, star, bounce, arrow, clock, moon, bar, blocks), custom frames, success/error completion marks
+- **XjTree + XjTreeNode**: Hierarchy display with box-drawing branch characters (├── └──), expand/collapse, per-node styling
+- **XjFocusManager**: Tab/Shift-Tab focus cycling across focusable widgets with automatic key event routing to focused widget
+- **XjLayoutNode.PaintSelf**: New method to draw border/title without child recursion, enabling widget-controlled paint hierarchy
+- **Phase 3 demo**: Fullscreen app showcasing all widgets — tree sidebar, data table, progress bar, spinner, two text inputs with focus cycling, event log
+
+### Fixed
+- `Lib` is a Xojo reserved word — renamed to `libNode` in tree demo
+
 ## [0.2.0] - 2026-03-12
 
 ### Added
