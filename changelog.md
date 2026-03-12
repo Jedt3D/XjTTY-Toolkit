@@ -2,6 +2,15 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.6.0] - 2026-03-13
+
+### Added
+- **XjYAMLNode**: YAML parse tree node with key/value/children, typed getters (StringValue, IntValue, BoolValue), ChildrenWithKey for duplicate keys, and Dump for debugging
+- **XjYAML**: Indentation-based YAML parser — supports key:value mappings, nested structures, sequences (- prefix), comments (#), and quoted string values
+- **XjUIParser**: Declarative UI builder — maps YAML to widget trees, supports box/text/textinput/table/progressbar/spinner, with constraint parsing (auto, 50%, fixed, min-max), border styles (single/double/round/bold/ascii), named colors, and alignment
+- **Phase 6 demo**: End-to-end pipeline showing YAML source → parsed tree → widget tree → rendered canvas output
+- **All 6 phases complete** — XjTTY-Toolkit is feature-complete per the gap-analysis roadmap
+
 ## [0.5.0] - 2026-03-12
 
 ### Added

@@ -4,136 +4,132 @@ Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
 		  // ============================================
-		  // Phase 5 Demo: Utility Modules
+		  // Phase 6 Demo: YAML UI Definition
 		  // ============================================
-		  // Shows all 8 utility modules (non-interactive)
+		  // Parses YAML markup and builds a widget tree
 
 		  #Pragma Unused args
 
 		  Print("")
-		  Print("=== XjTTY-Toolkit Phase 5: Utility Modules Demo ===")
+		  Print("=== XjTTY-Toolkit Phase 6: YAML UI Definition Demo ===")
 		  Print("")
 
-		  // --- XjWhich ---
-		  Print("--- XjWhich: Find Executables ---")
-		  Var gitPath As String = XjWhich.Which("git")
-		  Print("  git:  " + If(gitPath <> "", gitPath, "(not found)"))
-		  Var bashPath As String = XjWhich.Which("bash")
-		  Print("  bash: " + If(bashPath <> "", bashPath, "(not found)"))
-		  Var nodePath As String = XjWhich.Which("node")
-		  Print("  node: " + If(nodePath <> "", nodePath, "(not found)"))
-		  Print("  xojo exists? " + If(XjWhich.Exists("xojo"), "yes", "no"))
-		  Print("")
+		  // Define a UI layout in YAML
+		  Var yaml As String = ""
+		  yaml = yaml + "box:" + Chr(10)
+		  yaml = yaml + "  name: root" + Chr(10)
+		  yaml = yaml + "  direction: column" + Chr(10)
+		  yaml = yaml + "  border: single" + Chr(10)
+		  yaml = yaml + "  title: My Application" + Chr(10)
+		  yaml = yaml + "  width: 60" + Chr(10)
+		  yaml = yaml + "  height: 20" + Chr(10)
+		  yaml = yaml + "  children:" + Chr(10)
+		  yaml = yaml + "    - box:" + Chr(10)
+		  yaml = yaml + "        name: header" + Chr(10)
+		  yaml = yaml + "        height: 3" + Chr(10)
+		  yaml = yaml + "        border: round" + Chr(10)
+		  yaml = yaml + "        title: Header" + Chr(10)
+		  yaml = yaml + "        children:" + Chr(10)
+		  yaml = yaml + "          - text:" + Chr(10)
+		  yaml = yaml + "              content: Welcome to XjTTY!" + Chr(10)
+		  yaml = yaml + "              align: center" + Chr(10)
+		  yaml = yaml + "    - box:" + Chr(10)
+		  yaml = yaml + "        name: body" + Chr(10)
+		  yaml = yaml + "        direction: row" + Chr(10)
+		  yaml = yaml + "        height: auto" + Chr(10)
+		  yaml = yaml + "        children:" + Chr(10)
+		  yaml = yaml + "          - box:" + Chr(10)
+		  yaml = yaml + "              name: sidebar" + Chr(10)
+		  yaml = yaml + "              width: 30%" + Chr(10)
+		  yaml = yaml + "              border: single" + Chr(10)
+		  yaml = yaml + "              title: Menu" + Chr(10)
+		  yaml = yaml + "              children:" + Chr(10)
+		  yaml = yaml + "                - text:" + Chr(10)
+		  yaml = yaml + "                    content: Dashboard" + Chr(10)
+		  yaml = yaml + "                - text:" + Chr(10)
+		  yaml = yaml + "                    content: Settings" + Chr(10)
+		  yaml = yaml + "                - text:" + Chr(10)
+		  yaml = yaml + "                    content: About" + Chr(10)
+		  yaml = yaml + "          - box:" + Chr(10)
+		  yaml = yaml + "              name: content" + Chr(10)
+		  yaml = yaml + "              width: auto" + Chr(10)
+		  yaml = yaml + "              border: single" + Chr(10)
+		  yaml = yaml + "              title: Content" + Chr(10)
+		  yaml = yaml + "              children:" + Chr(10)
+		  yaml = yaml + "                - text:" + Chr(10)
+		  yaml = yaml + "                    content: Main content area" + Chr(10)
+		  yaml = yaml + "                - progressbar:" + Chr(10)
+		  yaml = yaml + "                    name: progress" + Chr(10)
+		  yaml = yaml + "                    value: 65" + Chr(10)
+		  yaml = yaml + "                    total: 100" + Chr(10)
+		  yaml = yaml + "    - box:" + Chr(10)
+		  yaml = yaml + "        name: footer" + Chr(10)
+		  yaml = yaml + "        height: 3" + Chr(10)
+		  yaml = yaml + "        border: single" + Chr(10)
+		  yaml = yaml + "        children:" + Chr(10)
+		  yaml = yaml + "          - text:" + Chr(10)
+		  yaml = yaml + "              content: Status: Ready" + Chr(10)
 
-		  // --- XjLogger ---
-		  Print("--- XjLogger: Structured Logging ---")
-		  Var log As New XjLogger("Demo")
-		  Call log.SetLevel(XjLogger.LEVEL_DEBUG)
-		  log.Debug("Initializing subsystems...")
-		  log.Info("Server started", "port=8080")
-		  log.Warn("Memory usage high", "used=85%")
-		  log.Error_("Connection refused", "host=db.local")
-		  Print("")
-		  Print("  JSON format:")
-		  Call log.SetJSON(True)
-		  log.Info("Request handled", "method=GET path=/api")
-		  Call log.SetJSON(False)
-		  Print("")
-
-		  // --- XjOption ---
-		  Print("--- XjOption: CLI Argument Parser ---")
-		  Var opt As New XjOption("myapp", "A sample CLI application")
-		  Call opt.AddOption("output", "o", "output", "Output file path", "out.txt")
-		  Call opt.AddOption("port", "p", "port", "Server port", "3000")
-		  Call opt.AddFlag("verbose", "v", "verbose", "Enable verbose output")
-		  Call opt.AddFlag("dry-run", "n", "dry-run", "Show what would be done")
-		  Call opt.AddArgument("input", "Input file to process", True)
-		  Print(opt.Help)
-		  Print("")
-
-		  // Parse sample args
-		  Var sampleArgs() As String
-		  sampleArgs.Add("--verbose")
-		  sampleArgs.Add("-o")
-		  sampleArgs.Add("result.txt")
-		  sampleArgs.Add("data.csv")
-		  Call opt.Parse(sampleArgs)
-		  Print("  Parsed: --verbose -o result.txt data.csv")
-		  Print("  verbose = " + If(opt.GetFlag("verbose"), "true", "false"))
-		  Print("  output  = " + opt.GetString("output"))
-		  Print("  input   = " + opt.GetString("input"))
-		  Print("  port    = " + opt.GetString("port") + " (default)")
-		  Print("")
-
-		  // --- XjConfig ---
-		  Print("--- XjConfig: Configuration ---")
-		  Var cfg As New XjConfig
-		  cfg.Set("app.name", "XjTTY-Toolkit")
-		  cfg.Set("app.version", "0.5.0")
-		  cfg.Set("server.port", "8080")
-		  cfg.Set("server.host", "localhost")
-		  cfg.Set("debug", "false")
-		  Print("  app.name    = " + cfg.Get("app.name"))
-		  Print("  app.version = " + cfg.Get("app.version"))
-		  Print("  server.port = " + cfg.Get("server.port"))
-		  Print("  missing     = " + cfg.Get("missing", "(default)"))
-		  Print("  total keys  = " + Str(cfg.Count))
-		  Print("")
-
-		  // --- XjFont ---
-		  Print("--- XjFont: ASCII Art Text ---")
-		  Var banner() As String = XjFont.Render("XOJO")
-		  For i As Integer = 0 To banner.Count - 1
-		    Print("  " + banner(i))
+		  // --- Step 1: Show the YAML source ---
+		  Print("--- YAML Source ---")
+		  Var yamlLines() As String = yaml.Split(Chr(10))
+		  For i As Integer = 0 To yamlLines.Count - 1
+		    Print("  " + yamlLines(i))
 		  Next
 		  Print("")
 
-		  // With color
-		  Var colorStyle As New XjStyle
-		  Call colorStyle.SetFG(XjANSI.FG_CYAN)
-		  Var colorBanner() As String = XjFont.Render("HI!", colorStyle)
-		  For i As Integer = 0 To colorBanner.Count - 1
-		    Print("  " + colorBanner(i))
-		  Next
-		  Print("")
+		  // --- Step 2: Parse YAML ---
+		  Print("--- Parsed Tree ---")
+		  Var root As XjYAMLNode = XjYAML.Parse(yaml)
+		  Print(root.Dump(1))
 
-		  // --- XjPie ---
-		  Print("--- XjPie: Terminal Charts ---")
-		  Var pie As New XjPie
-		  Call pie.AddSlice("Xojo", 60)
-		  Call pie.AddSlice("Python", 25)
-		  Call pie.AddSlice("Ruby", 15)
-		  pie.Draw
-		  Print("")
+		  // --- Step 3: Build widget tree ---
+		  Print("--- Widget Tree ---")
+		  Var widget As XjWidget = XjUIParser.BuildFromNode(root)
+		  If widget <> Nil Then
+		    Print(XjUIParser.DumpWidgetTree(widget, 1))
+		  Else
+		    Print("  (no widget built)")
+		  End If
 
-		  // --- XjMarkdown ---
-		  Print("--- XjMarkdown: Terminal Markdown ---")
-		  Var md As String = "# Welcome" + Chr(10)
-		  md = md + "" + Chr(10)
-		  md = md + "This is **bold** and *italic* text." + Chr(10)
-		  md = md + "" + Chr(10)
-		  md = md + "## Features" + Chr(10)
-		  md = md + "- First item" + Chr(10)
-		  md = md + "- Second with `inline code`" + Chr(10)
-		  md = md + "- Third item" + Chr(10)
-		  md = md + "" + Chr(10)
-		  md = md + "---" + Chr(10)
-		  md = md + "" + Chr(10)
-		  md = md + "```" + Chr(10)
-		  md = md + "Var x As Integer = 42" + Chr(10)
-		  md = md + "Print(Str(x))" + Chr(10)
-		  md = md + "```" + Chr(10)
-		  XjMarkdown.Render(md)
-		  Print("")
+		  // --- Step 4: Render to canvas ---
+		  Print("--- Rendered UI ---")
+		  If widget <> Nil Then
+		    Var w As Integer = 60
+		    Var h As Integer = 20
+		    Var canvas As New XjCanvas(w, h)
 
-		  // --- XjPager ---
-		  Print("--- XjPager: Content Pager ---")
-		  Print("  (Interactive pager available via XjPager.Page)")
-		  Print("  Supports: SPACE=next page, q=quit, Down=scroll")
-		  Print("")
+		    // Solve layout
+		    Var layoutNode As XjLayoutNode = widget.LayoutNode
+		    Call layoutNode.SetWidth(XjConstraint.Fixed(w))
+		    Call layoutNode.SetHeight(XjConstraint.Fixed(h))
+		    XjLayoutSolver.Solve(layoutNode, w, h)
 
+		    // Paint
+		    widget.Paint(canvas)
+
+		    // Output rendered canvas line by line
+		    For row As Integer = 0 To h - 1
+		      Var line As String = ""
+		      For col As Integer = 0 To w - 1
+		        Var cell As XjCell = canvas.GetCell(col, row)
+		        If cell <> Nil Then
+		          If cell.Style <> Nil Then
+		            line = line + cell.Style.Apply(cell.Char)
+		          Else
+		            line = line + cell.Char
+		          End If
+		        Else
+		          line = line + " "
+		        End If
+		      Next
+		      Print("  " + line)
+		    Next
+		  End If
+
+		  Print("")
 		  Print("=== Demo Complete ===")
-		  XjPrompt.Ok("All 8 utility modules demonstrated!")
+		  XjPrompt.Ok("YAML UI Definition system working!")
 		  Print("")
 
 		  Return 0

@@ -5,7 +5,7 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 ## Project Structure
 
 - `XjTTYToolkit.xojo_project` — Console app project file
-- `App.xojo_code` — Demo app (currently Phase 5 utility modules demo)
+- `App.xojo_code` — Demo app (currently Phase 6 YAML UI definition demo)
 - `XjTTYLib/` — Library folder containing all toolkit modules/classes
 
 ### Library Components (XjTTYLib)
@@ -65,6 +65,9 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 | XjFont | Module | ASCII art text using 5×5 block font (A-Z, 0-9, punctuation) |
 | XjPie | Class | Horizontal bar chart with colored segments and legend |
 | XjMarkdown | Module | Terminal markdown renderer (headers, bold, italic, code, lists) |
+| XjYAMLNode | Class | YAML parse tree node with key/value/children and typed getters |
+| XjYAML | Module | Simple indentation-based YAML parser (mappings, sequences, comments) |
+| XjUIParser | Module | YAML-to-widget-tree builder with constraint/border/color parsing |
 
 ## Development Phases
 
@@ -74,7 +77,7 @@ See `gap-analysis.md` for full roadmap. Phases:
 3. Widget System (DONE)
 4. Prompt System (DONE)
 5. Utility Modules (DONE)
-6. YAML UI Definition
+6. YAML UI Definition (DONE)
 
 ## Xojo Gotchas
 
