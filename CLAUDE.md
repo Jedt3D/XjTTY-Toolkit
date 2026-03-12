@@ -5,7 +5,7 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 ## Project Structure
 
 - `XjTTYToolkit.xojo_project` — Console app project file
-- `App.xojo_code` — Demo app (currently Phase 1 event loop demo)
+- `App.xojo_code` — Demo app (currently Phase 2 layout engine demo)
 - `XjTTYLib/` — Library folder containing all toolkit modules/classes
 
 ### Library Components (XjTTYLib)
@@ -25,12 +25,15 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 | XjCanvas | Class | 2D grid rendering with diff updates, box drawing (5 styles) |
 | XjEvent | Class | Discriminated union for key/mouse/resize/tick/custom events |
 | XjEventLoop | Class | Main app loop with delegate callbacks, auto raw mode/fullscreen |
+| XjConstraint | Class | Size constraint (Fixed/Percent/Auto) with min/max clamping |
+| XjLayoutNode | Class | Flexbox-like layout tree node with border, title, padding, margin |
+| XjLayoutSolver | Module | Stateless solver: resolves layout tree to absolute coordinates |
 
 ## Development Phases
 
 See `gap-analysis.md` for full roadmap. Phases:
 1. Event System & App Loop (DONE)
-2. Layout Engine
+2. Layout Engine (DONE)
 3. Widget System
 4. Prompt System (13 types)
 5. Utility Modules
@@ -44,6 +47,8 @@ See `gap-analysis.md` for full roadmap. Phases:
 - **Module constants** — always `Type = Double`
 - **No backslash escaping** — use `Chr()` for special chars
 - **Bottom-right corner scroll** — disable auto-wrap (`ESC[?7l`) before rendering canvas
+- **`Call` required for fluent returns** — when calling fluent methods for side-effects only, must use `Call obj.Method()` or assign to temp var
+- **Full render prevents artifacts** — clear screen + home cursor in one Write() call before rendering; diff render is optional optimization
 
 ## Build & Analyze
 

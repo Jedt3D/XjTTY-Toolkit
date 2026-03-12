@@ -247,7 +247,12 @@ Protected Class XjCanvas
 		  Var parts() As String
 		  Var lastStyle As XjStyle = Nil
 
-		  // Disable auto-wrap to prevent scroll when writing bottom-right corner
+		  // Home cursor + clear screen + disable auto-wrap, all in one output.
+		  // The clear ensures no artifacts survive from terminal resize, Cmd+K,
+		  // or any external event. Since this is all sent in one Write() call,
+		  // the terminal processes clear+redraw as a batch — no visible flicker.
+		  parts.Add(XjANSI.CursorPosition(1, 1))
+		  parts.Add(XjANSI.CSI + "2J")
 		  parts.Add(XjANSI.AutoWrapDisable)
 
 		  For row As Integer = 0 To mHeight - 1
