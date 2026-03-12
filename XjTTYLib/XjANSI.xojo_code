@@ -356,6 +356,20 @@ Protected Module XjANSI
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function AutoWrapDisable() As String
+		  // Disable auto-wrap (DECAWM reset) — prevents scroll at bottom-right corner
+		  Return CSI + "?7l"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AutoWrapEnable() As String
+		  // Re-enable auto-wrap (DECAWM set)
+		  Return CSI + "?7h"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function BracketedPasteEnable() As String
 		  Return CSI + "?2004h"
 		End Function

@@ -3,112 +3,262 @@ Protected Class App
 Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
-		  Print("=== XjTTY-Toolkit Foundation Demo ===")
-		  Print("")
+		  // ============================================
+		  // Phase 1 Demo: Event System & App Loop
+		  // ============================================
+		  // Shows:
+		  //   - Fullscreen alternate screen
+		  //   - Canvas-based rendering with diff updates
+		  //   - Key event handling
+		  //   - Terminal resize detection
+		  //   - Tick-driven spinner animation
+		  //   - Clean shutdown on 'q' or Ctrl+C
 
-		  // --- Platform Detection ---
-		  Print("--- Platform ---")
-		  Print("OS: " + XjPlatform.OSName)
-		  Print("Architecture: " + XjPlatform.Architecture)
-		  Print("Info: " + XjPlatform.PlatformInfo)
-		  Print("")
+		  mWidth = XjTerminal.Width
+		  mHeight = XjTerminal.Height
+		  mCanvas = New XjCanvas(mWidth, mHeight)
+		  mKeyCount = 0
+		  mLastKeyName = "(none)"
 
-		  // --- Terminal Info ---
-		  Print("--- Terminal ---")
-		  Print("Size: " + Str(XjTerminal.Width) + "x" + Str(XjTerminal.Height))
-		  Print("Color support: " + If(XjTerminal.SupportsColor, "Yes", "No"))
-		  Print("Color depth: " + Str(XjTerminal.ColorDepth) + "-bit")
-		  Print("")
+		  mSpinnerFrames.Add("|")
+		  mSpinnerFrames.Add("/")
+		  mSpinnerFrames.Add("-")
+		  mSpinnerFrames.Add("\")
 
-		  // --- Color Demo ---
-		  Print("--- Colors ---")
-		  Print(XjColor.Red("Red") + " " + XjColor.Green("Green") + " " + XjColor.Blue("Blue") + " " + XjColor.Yellow("Yellow") + " " + XjColor.Magenta("Magenta") + " " + XjColor.Cyan("Cyan"))
-		  Print(XjColor.BrightRed("Bright Red") + " " + XjColor.BrightGreen("Bright Green") + " " + XjColor.BrightBlue("Bright Blue"))
-		  Print(XjColor.BoldText("Bold") + " " + XjColor.ItalicText("Italic") + " " + XjColor.UnderlineText("Underline") + " " + XjColor.DimText("Dim") + " " + XjColor.InverseText("Inverse"))
-		  Print(XjColor.OnRed(" On Red ") + " " + XjColor.OnGreen(" On Green ") + " " + XjColor.OnBlue(" On Blue "))
-		  Print(XjColor.Success("Success!") + " " + XjColor.Warning("Warning!") + " " + XjColor.Error_("Error!") + " " + XjColor.Info("Info"))
-		  Print("")
+		  // Create event loop at ~10fps
+		  mLoop = New XjEventLoop(100)
+		  mLoop.AutoAlternateScreen = True
+		  mLoop.AutoRawMode = True
 
-		  // --- True Color Gradient ---
-		  If XjTerminal.ColorDepth >= 24 Then
-		    Print("--- True Color Gradient ---")
-		    Print(XjColor.Gradient("XjTTY-Toolkit: Beautiful Terminal UIs in Xojo!", 255, 0, 100, 0, 200, 255))
-		    Print("")
-		  End If
+		  // Set callbacks
+		  mLoop.SetOnKeyPress(AddressOf HandleKey)
+		  mLoop.SetOnResize(AddressOf HandleResize)
+		  mLoop.SetOnTick(AddressOf HandleTick)
 
-		  // --- Style Builder ---
-		  Print("--- Style Builder ---")
-		  Var base1 As New XjStyle
-		  Var s1 As XjStyle = base1.SetFG(XjANSI.FG_CYAN).SetBold.SetUnderline
-		  Print(s1.Apply("Cyan + Bold + Underline"))
+		  // Run (blocks until Stop_)
+		  // First tick will draw the initial UI on the clean alternate screen
+		  mLoop.Run
 
-		  Var base2 As New XjStyle
-		  Var s2 As XjStyle = base2.SetFGRGB(255, 165, 0).SetBG(XjANSI.BG_BLACK)
-		  Print(s2.Apply("Orange on Black (RGB)"))
-		  Print("")
-
-		  // --- Canvas Demo ---
-		  Print("--- Canvas Demo ---")
-		  Var canvas As New XjCanvas(40, 8)
-
-		  // Draw a box
-		  Var baseBorder As New XjStyle
-		  Var borderStyle As XjStyle = baseBorder.SetFG(XjANSI.FG_CYAN)
-		  canvas.DrawBox(0, 0, 40, 8, borderStyle, 2)
-
-		  // Write text inside the box
-		  Var baseTitle As New XjStyle
-		  Var titleStyle As XjStyle = baseTitle.SetFG(XjANSI.FG_YELLOW).SetBold
-		  canvas.WriteText(2, 1, "XjTTY-Toolkit v0.1", titleStyle)
-
-		  Var baseBody As New XjStyle
-		  Var bodyStyle As XjStyle = baseBody.SetFG(XjANSI.FG_WHITE)
-		  canvas.WriteText(2, 3, "Foundation libraries ready:", bodyStyle)
-
-		  Var baseCheck As New XjStyle
-		  Var checkStyle As XjStyle = baseCheck.SetFG(XjANSI.FG_GREEN)
-		  canvas.WriteText(2, 4, "[+] XjPlatform, XjANSI, XjColor", checkStyle)
-		  canvas.WriteText(2, 5, "[+] XjTerminal, XjCursor, XjScreen", checkStyle)
-		  canvas.WriteText(2, 6, "[+] XjReader, XjStyle, XjCanvas", checkStyle)
-
-		  // Render the canvas (plain text since we're not in alternate screen)
-		  Print(canvas.ToString)
-		  Print("")
-
-		  // --- Interactive Demo ---
-		  Print("--- Interactive Key Reader Demo ---")
-		  Print("Press keys to see them parsed. Press 'q' or Ctrl+C to quit.")
-		  Print("")
-
-		  XjTerminal.EnableRawMode
-		  XjTerminal.EnableNonBlockingInput
-
-		  Var reader As New XjReader
-
-		  Do
-		    Var key As XjKeyEvent = reader.ReadKey
-		    If key <> Nil Then
-		      Var display As String = "Key: " + key.KeyName
-		      If key.IsCharKey Then
-		        display = display + " (char=" + key.Char + ", code=" + Str(Asc(key.Char)) + ")"
-		      End If
-		      display = display + Chr(13) + Chr(10)
-		      XjTerminal.Write(display)
-
-		      // Quit on 'q' or Ctrl+C
-		      If key.Char = "q" Or (key.IsCtrl And key.Char = Chr(3)) Then Exit
-		    End If
-
-		    App.DoEvents(10)
-		  Loop
-
-		  XjTerminal.DisableRawMode
-
-		  Print("")
-		  Print("Done! XjTTY-Toolkit foundation is working.")
+		  // After exiting
+		  Print("XjTTY-Toolkit Phase 1 Demo — finished.")
+		  Print("Total ticks: " + Str(mLoop.TickCount))
+		  Print("Total keys: " + Str(mKeyCount))
+		  Print("Duration: " + Format(mLoop.ElapsedSeconds, "0.0") + "s")
 
 		End Function
 	#tag EndEvent
+
+	#tag Method, Flags = &h21
+		Private Sub HandleKey(key As XjKeyEvent)
+		  mKeyCount = mKeyCount + 1
+		  mLastKeyName = key.KeyName
+
+		  // Log the event
+		  AddEventLog("Key: " + key.KeyName)
+
+		  // Quit on 'q' or Ctrl+C
+		  If key.Char = "q" Or key.Char = "Q" Then
+		    mLoop.Stop_
+		    Return
+		  End If
+		  If key.IsCtrl And key.Char = Chr(3) Then
+		    mLoop.Stop_
+		    Return
+		  End If
+
+		  mNeedsRedraw = True
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub HandleResize(width As Integer, height As Integer)
+		  mWidth = width
+		  mHeight = height
+		  mCanvas = New XjCanvas(mWidth, mHeight)
+		  mPrevCanvas = Nil
+
+		  AddEventLog("Resize: " + Str(width) + "x" + Str(height))
+
+		  mNeedsRedraw = True
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub HandleTick(tickCount As Integer)
+		  // Always redraw on tick to animate spinner
+		  mNeedsRedraw = True
+
+		  If mNeedsRedraw Then
+		    RedrawUI
+		    mNeedsRedraw = False
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RedrawUI()
+		  mCanvas.Clear
+
+		  // Styles
+		  Var baseBorder As New XjStyle
+		  Var borderStyle As XjStyle = baseBorder.SetFG(XjANSI.FG_CYAN)
+
+		  Var baseTitle As New XjStyle
+		  Var titleStyle As XjStyle = baseTitle.SetFG(XjANSI.FG_BRIGHT_YELLOW).SetBold
+
+		  Var baseLbl As New XjStyle
+		  Var labelStyle As XjStyle = baseLbl.SetFG(XjANSI.FG_BRIGHT_WHITE).SetBold
+
+		  Var baseVal As New XjStyle
+		  Var valueStyle As XjStyle = baseVal.SetFG(XjANSI.FG_WHITE)
+
+		  Var baseGreen As New XjStyle
+		  Var greenStyle As XjStyle = baseGreen.SetFG(XjANSI.FG_GREEN)
+
+		  Var baseDim As New XjStyle
+		  Var dimStyle As XjStyle = baseDim.SetFG(XjANSI.FG_BRIGHT_BLACK)
+
+		  Var baseHighlight As New XjStyle
+		  Var highlightStyle As XjStyle = baseHighlight.SetFG(XjANSI.FG_BRIGHT_CYAN)
+
+		  // Main box (full width, 16 rows tall, or fit to terminal)
+		  Var boxW As Integer = mWidth
+		  Var boxH As Integer = mHeight
+		  If boxW < 40 Then boxW = 40
+		  If boxH < 16 Then boxH = 16
+		  If boxW > mWidth Then boxW = mWidth
+		  If boxH > mHeight Then boxH = mHeight
+
+		  mCanvas.DrawBox(0, 0, boxW, boxH, borderStyle, 2)
+
+		  // Title
+		  Var title As String = " XjTTY-Toolkit  Phase 1: Event Loop Demo "
+		  Var titleX As Integer = (boxW - title.Length) / 2
+		  If titleX < 2 Then titleX = 2
+		  mCanvas.WriteText(titleX, 0, title, titleStyle)
+
+		  // Info section
+		  Var row As Integer = 2
+		  Var col As Integer = 3
+
+		  mCanvas.WriteText(col, row, "Platform: ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, XjPlatform.PlatformInfo, valueStyle)
+
+		  row = row + 1
+		  mCanvas.WriteText(col, row, "Terminal: ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, Str(mWidth) + " x " + Str(mHeight), valueStyle)
+
+		  row = row + 1
+		  Var spinIdx As Integer = mLoop.TickCount Mod mSpinnerFrames.Count
+		  Var spinner As String = mSpinnerFrames(spinIdx)
+		  mCanvas.WriteText(col, row, "Ticks:    ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, Str(mLoop.TickCount) + "  " + spinner, greenStyle)
+
+		  row = row + 1
+		  Var elapsed As Double = mLoop.ElapsedSeconds
+		  Var fps As String = "—"
+		  If elapsed > 0.5 Then
+		    fps = Format(mLoop.TickCount / elapsed, "0.0")
+		  End If
+		  mCanvas.WriteText(col, row, "FPS:      ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, fps, valueStyle)
+
+		  // Key section
+		  row = row + 2
+		  mCanvas.WriteText(col, row, "Last key: ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, mLastKeyName, highlightStyle)
+
+		  row = row + 1
+		  mCanvas.WriteText(col, row, "Keys hit: ", labelStyle)
+		  mCanvas.WriteText(col + 10, row, Str(mKeyCount), valueStyle)
+
+		  // Event log
+		  row = row + 2
+		  mCanvas.WriteText(col, row, "Event Log:", labelStyle)
+		  row = row + 1
+
+		  Var logStart As Integer = 0
+		  Var maxLogLines As Integer = boxH - row - 3
+		  If maxLogLines < 1 Then maxLogLines = 1
+		  If mEventLog.Count > maxLogLines Then
+		    logStart = mEventLog.Count - maxLogLines
+		  End If
+
+		  For i As Integer = logStart To mEventLog.Count - 1
+		    If row >= boxH - 2 Then Exit
+		    mCanvas.WriteText(col + 1, row, mEventLog(i), dimStyle)
+		    row = row + 1
+		  Next
+
+		  // Footer
+		  Var footer As String = " Press 'q' to quit "
+		  Var footerX As Integer = (boxW - footer.Length) / 2
+		  If footerX < 2 Then footerX = 2
+		  mCanvas.WriteText(footerX, boxH - 1, footer, dimStyle)
+
+		  // Render
+		  If mPrevCanvas <> Nil Then
+		    XjTerminal.Write(mCanvas.DiffRender(mPrevCanvas))
+		  Else
+		    XjTerminal.Write(mCanvas.Render)
+		  End If
+
+		  mPrevCanvas = mCanvas.Snapshot
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub AddEventLog(text As String)
+		  Var timestamp As String = Format(mLoop.ElapsedSeconds, "0.0") + "s"
+		  mEventLog.Add("[" + timestamp + "] " + text)
+
+		  // Keep only last 50 entries
+		  While mEventLog.Count > 50
+		    mEventLog.RemoveAt(0)
+		  Wend
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h21
+		Private mCanvas As XjCanvas
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mPrevCanvas As XjCanvas
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLoop As XjEventLoop
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mEventLog() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mKeyCount As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLastKeyName As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mWidth As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mHeight As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mNeedsRedraw As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mSpinnerFrames() As String
+	#tag EndProperty
 
 
 	#tag ViewBehavior

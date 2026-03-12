@@ -247,6 +247,9 @@ Protected Class XjCanvas
 		  Var parts() As String
 		  Var lastStyle As XjStyle = Nil
 
+		  // Disable auto-wrap to prevent scroll when writing bottom-right corner
+		  parts.Add(XjANSI.AutoWrapDisable)
+
 		  For row As Integer = 0 To mHeight - 1
 		    // Position cursor at start of row (1-based)
 		    parts.Add(XjANSI.CursorPosition(row + 1, 1))
@@ -269,8 +272,9 @@ Protected Class XjCanvas
 		    Next
 		  Next
 
-		  // Reset at end
+		  // Reset at end and re-enable auto-wrap
 		  parts.Add(XjANSI.Reset)
+		  parts.Add(XjANSI.AutoWrapEnable)
 
 		  Return String.FromArray(parts, "")
 		End Function
@@ -284,6 +288,10 @@ Protected Class XjCanvas
 		  If previous Is Nil Then Return Render
 
 		  Var parts() As String
+
+		  // Disable auto-wrap to prevent scroll when writing bottom-right corner
+		  parts.Add(XjANSI.AutoWrapDisable)
+
 		  Var lastRow As Integer = -1
 		  Var lastCol As Integer = -1
 		  Var lastStyle As XjStyle = Nil
@@ -331,6 +339,9 @@ Protected Class XjCanvas
 		  If parts.Count > 0 Then
 		    parts.Add(XjANSI.Reset)
 		  End If
+
+		  // Re-enable auto-wrap
+		  parts.Add(XjANSI.AutoWrapEnable)
 
 		  Return String.FromArray(parts, "")
 		End Function
