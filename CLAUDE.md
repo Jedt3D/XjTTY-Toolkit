@@ -5,7 +5,7 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 ## Project Structure
 
 - `XjTTYToolkit.xojo_project` — Console app project file
-- `App.xojo_code` — Demo app (currently Phase 4 prompt system demo)
+- `App.xojo_code` — Demo app (currently Phase 5 utility modules demo)
 - `XjTTYLib/` — Library folder containing all toolkit modules/classes
 
 ### Library Components (XjTTYLib)
@@ -57,6 +57,14 @@ A Terminal UI (TUI) toolkit for Xojo, inspired by Ruby TTY-Toolkit, Python Promp
 | XjKeyPressPrompt | Class | Wait for single keypress |
 | XjSuggestPrompt | Class | Text input with autocomplete suggestions |
 | XjCollectPrompt | Class | Multi-step prompt chain collecting key-value answers |
+| XjWhich | Module | Find executables in system PATH |
+| XjLogger | Class | Structured colored logging with levels, JSON format, metadata |
+| XjPager | Class | Built-in content pager with keyboard navigation |
+| XjOption | Class | CLI argument parser with auto-generated help text |
+| XjConfig | Class | Key-value configuration with file I/O and env overrides |
+| XjFont | Module | ASCII art text using 5×5 block font (A-Z, 0-9, punctuation) |
+| XjPie | Class | Horizontal bar chart with colored segments and legend |
+| XjMarkdown | Module | Terminal markdown renderer (headers, bold, italic, code, lists) |
 
 ## Development Phases
 
@@ -65,7 +73,7 @@ See `gap-analysis.md` for full roadmap. Phases:
 2. Layout Engine (DONE)
 3. Widget System (DONE)
 4. Prompt System (DONE)
-5. Utility Modules
+5. Utility Modules (DONE)
 6. YAML UI Definition
 
 ## Xojo Gotchas
@@ -82,6 +90,8 @@ See `gap-analysis.md` for full roadmap. Phases:
 - **Widget PaintSelf vs PaintTo** — use `PaintSelf` to draw only border/title without recursing children; widgets control their own paint hierarchy via `Paint()` template method
 - **Module property initializers** — can't use `Chr()` in default values; use lazy init pattern with `EnsureInit()` method
 - **Inline renderer cursor math** — after writing N lines, cursor is ON line N; use `CursorUp(N-1)` to return to line 1, not `CursorUp(N)`
+- **`DateTime.Now` not `New DateTime`** — constructor requires parameters; use `DateTime.Now` for current time
+- **XjStyle setters take no params** — `SetBold` not `SetBold(True)`; break 3+ level chains into temp vars
 
 ## Build & Analyze
 

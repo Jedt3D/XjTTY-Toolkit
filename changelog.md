@@ -2,6 +2,23 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.5.0] - 2026-03-12
+
+### Added
+- **XjWhich**: Find executables in system PATH — Which(), WhichAll(), Exists()
+- **XjLogger**: Structured colored logger with DEBUG/INFO/WARN/ERROR/FATAL levels, JSON format, timestamps, metadata
+- **XjPager**: Built-in content pager with keyboard navigation (SPACE=next page, q=quit, Down=scroll)
+- **XjOption**: CLI argument parser with short/long flags, options with defaults, positional arguments, auto-generated help text
+- **XjConfig**: Key-value configuration store with file I/O (INI-like format), environment variable overrides, typed getters, merge support
+- **XjFont**: ASCII art text rendering using 5×5 block font — supports A-Z, 0-9, punctuation, with optional XjStyle coloring
+- **XjPie**: Horizontal bar chart with colored segments and legend — AddSlice/Draw API
+- **XjMarkdown**: Terminal markdown renderer — headers, **bold**, *italic*, `code`, lists, code blocks, horizontal rules
+- **Phase 5 demo**: Non-interactive demo showcasing all 8 utility modules
+
+### Fixed
+- Use `DateTime.Now` instead of `New DateTime` (Xojo constructor requires parameters)
+- XjStyle setter methods take no boolean params (`SetBold` not `SetBold(True)`) — break 3+ level chains into temp vars
+
 ## [0.4.0] - 2026-03-12
 
 ### Added

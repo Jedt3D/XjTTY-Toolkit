@@ -4,104 +4,136 @@ Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
 		  // ============================================
-		  // Phase 4 Demo: Prompt System
+		  // Phase 5 Demo: Utility Modules
 		  // ============================================
-		  // Shows all 13 prompt types running inline
-		  // (no fullscreen, no canvas — just stdout)
+		  // Shows all 8 utility modules (non-interactive)
 
 		  #Pragma Unused args
 
 		  Print("")
-		  Print("=== XjTTY-Toolkit Phase 4: Prompt System Demo ===")
+		  Print("=== XjTTY-Toolkit Phase 5: Utility Modules Demo ===")
 		  Print("")
 
-		  // --- Output helpers ---
-		  XjPrompt.Say("Welcome to the Prompt System demo!")
-		  XjPrompt.Ok("All 13 prompt types are available.")
-		  XjPrompt.Warn("Some prompts require keyboard interaction.")
+		  // --- XjWhich ---
+		  Print("--- XjWhich: Find Executables ---")
+		  Var gitPath As String = XjWhich.Which("git")
+		  Print("  git:  " + If(gitPath <> "", gitPath, "(not found)"))
+		  Var bashPath As String = XjWhich.Which("bash")
+		  Print("  bash: " + If(bashPath <> "", bashPath, "(not found)"))
+		  Var nodePath As String = XjWhich.Which("node")
+		  Print("  node: " + If(nodePath <> "", nodePath, "(not found)"))
+		  Print("  xojo exists? " + If(XjWhich.Exists("xojo"), "yes", "no"))
 		  Print("")
 
-		  // 1. Ask
-		  Var name As String = XjPrompt.Ask("What is your name?", "World")
-		  Print("  -> Name: " + name)
+		  // --- XjLogger ---
+		  Print("--- XjLogger: Structured Logging ---")
+		  Var log As New XjLogger("Demo")
+		  Call log.SetLevel(XjLogger.LEVEL_DEBUG)
+		  log.Debug("Initializing subsystems...")
+		  log.Info("Server started", "port=8080")
+		  log.Warn("Memory usage high", "used=85%")
+		  log.Error_("Connection refused", "host=db.local")
+		  Print("")
+		  Print("  JSON format:")
+		  Call log.SetJSON(True)
+		  log.Info("Request handled", "method=GET path=/api")
+		  Call log.SetJSON(False)
 		  Print("")
 
-		  // 2. Confirm
-		  Var sure As Boolean = XjPrompt.Confirm("Continue the demo?")
-		  If Not sure Then
-		    XjPrompt.Error_("Demo cancelled.")
-		    Return 0
-		  End If
+		  // --- XjOption ---
+		  Print("--- XjOption: CLI Argument Parser ---")
+		  Var opt As New XjOption("myapp", "A sample CLI application")
+		  Call opt.AddOption("output", "o", "output", "Output file path", "out.txt")
+		  Call opt.AddOption("port", "p", "port", "Server port", "3000")
+		  Call opt.AddFlag("verbose", "v", "verbose", "Enable verbose output")
+		  Call opt.AddFlag("dry-run", "n", "dry-run", "Show what would be done")
+		  Call opt.AddArgument("input", "Input file to process", True)
+		  Print(opt.Help)
 		  Print("")
 
-		  // 3. Password
-		  Var pass As String = XjPrompt.Password("Enter a secret:")
-		  Print("  -> Password length: " + Str(pass.Length))
+		  // Parse sample args
+		  Var sampleArgs() As String
+		  sampleArgs.Add("--verbose")
+		  sampleArgs.Add("-o")
+		  sampleArgs.Add("result.txt")
+		  sampleArgs.Add("data.csv")
+		  Call opt.Parse(sampleArgs)
+		  Print("  Parsed: --verbose -o result.txt data.csv")
+		  Print("  verbose = " + If(opt.GetFlag("verbose"), "true", "false"))
+		  Print("  output  = " + opt.GetString("output"))
+		  Print("  input   = " + opt.GetString("input"))
+		  Print("  port    = " + opt.GetString("port") + " (default)")
 		  Print("")
 
-		  // 4. Select
-		  Var colors() As String
-		  colors.Add("Red")
-		  colors.Add("Green")
-		  colors.Add("Blue")
-		  colors.Add("Yellow")
-		  colors.Add("Cyan")
-		  Var color As String = XjPrompt.Select_("Pick a color:", colors)
-		  Print("  -> Color: " + color)
+		  // --- XjConfig ---
+		  Print("--- XjConfig: Configuration ---")
+		  Var cfg As New XjConfig
+		  cfg.Set("app.name", "XjTTY-Toolkit")
+		  cfg.Set("app.version", "0.5.0")
+		  cfg.Set("server.port", "8080")
+		  cfg.Set("server.host", "localhost")
+		  cfg.Set("debug", "false")
+		  Print("  app.name    = " + cfg.Get("app.name"))
+		  Print("  app.version = " + cfg.Get("app.version"))
+		  Print("  server.port = " + cfg.Get("server.port"))
+		  Print("  missing     = " + cfg.Get("missing", "(default)"))
+		  Print("  total keys  = " + Str(cfg.Count))
 		  Print("")
 
-		  // 5. MultiSelect
-		  Var toppings() As String
-		  toppings.Add("Cheese")
-		  toppings.Add("Pepperoni")
-		  toppings.Add("Mushrooms")
-		  toppings.Add("Onions")
-		  toppings.Add("Peppers")
-		  Var selected() As String = XjPrompt.MultiSelect("Choose toppings:", toppings)
-		  Var selStr As String = String.FromArray(selected, ", ")
-		  Print("  -> Toppings: " + selStr)
+		  // --- XjFont ---
+		  Print("--- XjFont: ASCII Art Text ---")
+		  Var banner() As String = XjFont.Render("XOJO")
+		  For i As Integer = 0 To banner.Count - 1
+		    Print("  " + banner(i))
+		  Next
 		  Print("")
 
-		  // 6. EnumSelect
-		  Var sizes() As String
-		  sizes.Add("Small")
-		  sizes.Add("Medium")
-		  sizes.Add("Large")
-		  Var size As String = XjPrompt.EnumSelect("Pick a size:", sizes)
-		  Print("  -> Size: " + size)
+		  // With color
+		  Var colorStyle As New XjStyle
+		  Call colorStyle.SetFG(XjANSI.FG_CYAN)
+		  Var colorBanner() As String = XjFont.Render("HI!", colorStyle)
+		  For i As Integer = 0 To colorBanner.Count - 1
+		    Print("  " + colorBanner(i))
+		  Next
 		  Print("")
 
-		  // 7. Slider
-		  Var vol As Integer = XjPrompt.Slider("Volume:", 0, 100, 5, 50)
-		  Print("  -> Volume: " + Str(vol))
+		  // --- XjPie ---
+		  Print("--- XjPie: Terminal Charts ---")
+		  Var pie As New XjPie
+		  Call pie.AddSlice("Xojo", 60)
+		  Call pie.AddSlice("Python", 25)
+		  Call pie.AddSlice("Ruby", 15)
+		  pie.Draw
 		  Print("")
 
-		  // 8. KeyPress
-		  Var key As XjKeyEvent = XjPrompt.KeyPress("Press any key to continue...")
-		  If key <> Nil Then
-		    Print("  -> Key: " + key.KeyName)
-		  Else
-		    Print("  -> (no key)")
-		  End If
+		  // --- XjMarkdown ---
+		  Print("--- XjMarkdown: Terminal Markdown ---")
+		  Var md As String = "# Welcome" + Chr(10)
+		  md = md + "" + Chr(10)
+		  md = md + "This is **bold** and *italic* text." + Chr(10)
+		  md = md + "" + Chr(10)
+		  md = md + "## Features" + Chr(10)
+		  md = md + "- First item" + Chr(10)
+		  md = md + "- Second with `inline code`" + Chr(10)
+		  md = md + "- Third item" + Chr(10)
+		  md = md + "" + Chr(10)
+		  md = md + "---" + Chr(10)
+		  md = md + "" + Chr(10)
+		  md = md + "```" + Chr(10)
+		  md = md + "Var x As Integer = 42" + Chr(10)
+		  md = md + "Print(Str(x))" + Chr(10)
+		  md = md + "```" + Chr(10)
+		  XjMarkdown.Render(md)
 		  Print("")
 
-		  // 9. Expand
-		  Var actions() As String
-		  actions.Add("Yes")
-		  actions.Add("No")
-		  actions.Add("Diff")
-		  Var actionKeys() As String
-		  actionKeys.Add("y")
-		  actionKeys.Add("n")
-		  actionKeys.Add("d")
-		  Var action As String = XjPrompt.Expand("Overwrite file?", actions, actionKeys)
-		  Print("  -> Action: " + action)
+		  // --- XjPager ---
+		  Print("--- XjPager: Content Pager ---")
+		  Print("  (Interactive pager available via XjPager.Page)")
+		  Print("  Supports: SPACE=next page, q=quit, Down=scroll")
 		  Print("")
 
-		  // Summary
-		  Print("")
 		  Print("=== Demo Complete ===")
-		  XjPrompt.Ok("All prompt types demonstrated successfully!")
+		  XjPrompt.Ok("All 8 utility modules demonstrated!")
 		  Print("")
 
 		  Return 0
