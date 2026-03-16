@@ -80,10 +80,10 @@ Protected Module XjMarkdown
 		      inCodeBlock = Not inCodeBlock
 		      If inCodeBlock Then
 		        Var s As New XjStyle
-		        Print(s.SetFG(90).Apply("  " + Chr(&hE2) + Chr(&h94) + Chr(&h80) + Chr(&hE2) + Chr(&h94) + Chr(&h80) + Chr(&hE2) + Chr(&h94) + Chr(&h80)))
+		        Print(s.SetFG(90).Apply("  " + Chr(&h2500) + Chr(&h2500) + Chr(&h2500)))
 		      Else
 		        Var s As New XjStyle
-		        Print(s.SetFG(90).Apply("  " + Chr(&hE2) + Chr(&h94) + Chr(&h80) + Chr(&hE2) + Chr(&h94) + Chr(&h80) + Chr(&hE2) + Chr(&h94) + Chr(&h80)))
+		        Print(s.SetFG(90).Apply("  " + Chr(&h2500) + Chr(&h2500) + Chr(&h2500)))
 		      End If
 		      Continue
 		    End If
@@ -97,7 +97,7 @@ Protected Module XjMarkdown
 		    // Horizontal rule
 		    If line.Trim = "---" Or line.Trim = "===" Or line.Trim = "***" Then
 		      Var s As New XjStyle
-		      Var ruleChar As String = Chr(&hE2) + Chr(&h94) + Chr(&h80)
+		      Var ruleChar As String = Chr(&h2500)
 		      Var ruleParts() As String
 		      Var w As Integer = 40
 		      For c As Integer = 1 To w
@@ -133,7 +133,7 @@ Protected Module XjMarkdown
 		        prefParts.Add(" ")
 		      Next
 		      Var prefix As String = String.FromArray(prefParts, "")
-		      Var bullet As String = Chr(&hE2) + Chr(&h80) + Chr(&hA2)
+		      Var bullet As String = Chr(&h2022)
 		      Var content As String = trimmed.Middle(2)
 		      content = FormatInline(content)
 		      Print(prefix + "  " + bullet + " " + content)

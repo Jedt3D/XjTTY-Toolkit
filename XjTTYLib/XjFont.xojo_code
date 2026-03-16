@@ -12,7 +12,7 @@ Protected Module XjFont
 		  If mInitialized Then Return
 		  mInitialized = True
 		  
-		  mBlock = Chr(&hE2) + Chr(&h96) + Chr(&h88)
+		  mBlock = Chr(&h2588)
 		  mGlyphs = New Dictionary
 		  
 		  DG(" ", "     |     |     |     |     ")

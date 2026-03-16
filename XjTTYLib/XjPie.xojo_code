@@ -37,8 +37,8 @@ Protected Class XjPie
 		  colors.Add(XjANSI.FG_WHITE)
 		  
 		  // Block characters
-		  Var full As String = Chr(&hE2) + Chr(&h96) + Chr(&h88)
-		  Var light As String = Chr(&hE2) + Chr(&h96) + Chr(&h91)
+		  Var full As String = Chr(&h2588)
+		  Var light As String = Chr(&h2591)
 		  
 		  // Draw combined bar
 		  Var barParts() As String
@@ -108,7 +108,7 @@ Protected Class XjPie
 		  colors.Add(XjANSI.FG_CYAN)
 		  colors.Add(XjANSI.FG_WHITE)
 		  
-		  Var full As String = Chr(&hE2) + Chr(&h96) + Chr(&h88)
+		  Var full As String = Chr(&h2588)
 		  
 		  // Combined bar
 		  Var barParts() As String
