@@ -187,8 +187,8 @@ Open `developer-guide/dist/index.html` in your browser.
 
 ## Requirements
 
-- Xojo 2025 or later
-- macOS 10.15+, Windows 10+, or Linux (kernel 3.10+)
+- Xojo 2025r3.1 or later
+- macOS 10.15+, Windows 10+, or Linux – currently tested on macOS only
 
 ## Building
 
