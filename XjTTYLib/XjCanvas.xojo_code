@@ -254,47 +254,47 @@ Protected Class XjCanvas
 
 	#tag Method, Flags = &h0
 		Function Render() As String
-		  // Render the entire canvas as an ANSI string
-		  // Optimized: tracks current style to minimize escape codes
-		  
-		  Var parts() As String
+		  // Render the entire canvas as an ANSI string.
+		  // Optimized: builds per-row strings to reduce allocation pressure.
+		  // Previously used a single parts() array with ~10,000 entries for a
+		  // 120x40 terminal, causing massive array growth and heap fragmentation.
+		  // Now builds ~H row strings (one per row) and joins at the end.
+
+		  Var rows() As String
 		  Var lastStyle As XjStyle = Nil
-		  
-		  // Home cursor + clear screen + disable auto-wrap, all in one output.
-		  // The clear ensures no artifacts survive from terminal resize, Cmd+K,
-		  // or any external event. Since this is all sent in one Write() call,
-		  // the terminal processes clear+redraw as a batch — no visible flicker.
-		  parts.Add(XjANSI.CursorPosition(1, 1))
-		  parts.Add(XjANSI.CSI + "2J")
-		  parts.Add(XjANSI.AutoWrapDisable)
-		  
+
+		  // Home cursor + clear screen + disable auto-wrap header
+		  rows.Add(XjANSI.CursorPosition(1, 1) + XjANSI.CSI + "2J" + XjANSI.AutoWrapDisable)
+
 		  For row As Integer = 0 To mHeight - 1
-		    // Position cursor at start of row (1-based)
-		    parts.Add(XjANSI.CursorPosition(row + 1, 1))
-		    
+		    // Build each row as a separate string to limit array growth
+		    Var rowParts() As String
+		    rowParts.Add(XjANSI.CursorPosition(row + 1, 1))
+
 		    For col As Integer = 0 To mWidth - 1
 		      Var cell As XjCell = mCells(row * mWidth + col)
 		      Var cellStyle As XjStyle = cell.Style
-		      
+
 		      // Only emit style codes when style changes
 		      If lastStyle Is Nil Or Not cellStyle.Equals(lastStyle) Then
 		        If Not cellStyle.IsEmpty Then
-		          parts.Add(XjANSI.Reset + cellStyle.ToANSI)
+		          rowParts.Add(XjANSI.Reset + cellStyle.ToANSI)
 		        ElseIf lastStyle <> Nil And Not lastStyle.IsEmpty Then
-		          parts.Add(XjANSI.Reset)
+		          rowParts.Add(XjANSI.Reset)
 		        End If
 		        lastStyle = cellStyle
 		      End If
-		      
-		      parts.Add(cell.Char)
+
+		      rowParts.Add(cell.Char)
 		    Next
+
+		    rows.Add(String.FromArray(rowParts, ""))
 		  Next
-		  
+
 		  // Reset at end and re-enable auto-wrap
-		  parts.Add(XjANSI.Reset)
-		  parts.Add(XjANSI.AutoWrapEnable)
-		  
-		  Return String.FromArray(parts, "")
+		  rows.Add(XjANSI.Reset + XjANSI.AutoWrapEnable)
+
+		  Return String.FromArray(rows, "")
 		End Function
 	#tag EndMethod
 

@@ -51,9 +51,16 @@ Protected Class XjCell
 
 	#tag Method, Flags = &h0
 		Sub Reset()
-		  // Reset to empty space with default style
+		  // Reset to empty space with default style.
+		  // Reuses the existing XjStyle object to avoid allocation pressure.
+		  // Previously created a New XjStyle per call — at 4800 cells × 30fps
+		  // that was 144,000 allocations/second, causing heap corruption on macOS Tahoe.
 		  mChar = " "
-		  mStyle = New XjStyle
+		  If mStyle Is Nil Then
+		    mStyle = New XjStyle
+		  Else
+		    mStyle.ResetToDefault()
+		  End If
 		End Sub
 	#tag EndMethod
 
@@ -76,10 +83,20 @@ Protected Class XjCell
 
 	#tag Method, Flags = &h0
 		Sub SetStyle(s As XjStyle)
+		  // Copy style properties in-place instead of cloning.
+		  // Avoids allocating a new XjStyle for every SetCell call during Paint.
 		  If s Is Nil Then
-		    mStyle = New XjStyle
+		    If mStyle Is Nil Then
+		      mStyle = New XjStyle
+		    Else
+		      mStyle.ResetToDefault()
+		    End If
 		  Else
-		    mStyle = s.Clone
+		    If mStyle Is Nil Then
+		      mStyle = s.Clone
+		    Else
+		      mStyle.CopyFrom(s)
+		    End If
 		  End If
 		End Sub
 	#tag EndMethod

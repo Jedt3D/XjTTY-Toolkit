@@ -44,8 +44,8 @@ Protected Class XjStyle
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub CopyFrom(other As XjStyle)
+	#tag Method, Flags = &h0
+		Sub CopyFrom(other As XjStyle)
 		  mFG = other.mFG
 		  mBG = other.mBG
 		  mFGR = other.mFGR
@@ -61,6 +61,29 @@ Protected Class XjStyle
 		  mBlink = other.mBlink
 		  mInverse = other.mInverse
 		  mStrikethrough = other.mStrikethrough
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ResetToDefault()
+		  // Reset all style attributes to their default (empty) values.
+		  // This avoids allocating a new XjStyle object — reuses the existing one in-place.
+		  // Critical for performance: XjCell.Reset() calls this ~4800 times per frame.
+		  mFG = -1
+		  mBG = -1
+		  mFGR = -1
+		  mFGG = -1
+		  mFGB = -1
+		  mBGR = -1
+		  mBGG = -1
+		  mBGB = -1
+		  mBold = False
+		  mDim = False
+		  mItalic = False
+		  mUnderline = False
+		  mBlink = False
+		  mInverse = False
+		  mStrikethrough = False
 		End Sub
 	#tag EndMethod
 
