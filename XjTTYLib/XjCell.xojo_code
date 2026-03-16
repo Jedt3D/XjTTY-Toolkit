@@ -14,8 +14,12 @@ Protected Class XjCell
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
+		  // Share a single default style across all cells to minimize allocations.
+		  // During Paint, each cell's mStyle gets replaced with the widget's style ref.
 		  mChar = " "
-		  mStyle = New XjStyle
+		  Static defaultStyle As XjStyle
+		  If defaultStyle Is Nil Then defaultStyle = New XjStyle
+		  mStyle = defaultStyle
 		End Sub
 	#tag EndMethod
 
@@ -26,10 +30,13 @@ Protected Class XjCell
 		  Else
 		    mChar = char.Left(1)
 		  End If
+		  // Share source style reference — no Clone allocation needed.
 		  If style Is Nil Then
-		    mStyle = New XjStyle
+		    Static defaultStyle As XjStyle
+		    If defaultStyle Is Nil Then defaultStyle = New XjStyle
+		    mStyle = defaultStyle
 		  Else
-		    mStyle = style.Clone
+		    mStyle = style
 		  End If
 		End Sub
 	#tag EndMethod
@@ -52,15 +59,14 @@ Protected Class XjCell
 	#tag Method, Flags = &h0
 		Sub Reset()
 		  // Reset to empty space with default style.
-		  // Reuses the existing XjStyle object to avoid allocation pressure.
-		  // Previously created a New XjStyle per call — at 4800 cells × 30fps
-		  // that was 144,000 allocations/second, causing heap corruption on macOS Tahoe.
+		  // NEVER dereferences mStyle — always replaces it — because macOS Tahoe's
+		  // xzone malloc can corrupt the mStyle pointer, making any method call on it
+		  // (ResetToDefault, CopyFrom) crash with SIGSEGV.
+		  // Uses a shared default instance to avoid per-call allocation.
 		  mChar = " "
-		  If mStyle Is Nil Then
-		    mStyle = New XjStyle
-		  Else
-		    mStyle.ResetToDefault()
-		  End If
+		  Static defaultStyle As XjStyle
+		  If defaultStyle Is Nil Then defaultStyle = New XjStyle
+		  mStyle = defaultStyle
 		End Sub
 	#tag EndMethod
 
@@ -83,20 +89,18 @@ Protected Class XjCell
 
 	#tag Method, Flags = &h0
 		Sub SetStyle(s As XjStyle)
-		  // Copy style properties in-place instead of cloning.
-		  // Avoids allocating a new XjStyle for every SetCell call during Paint.
+		  // NEVER dereferences mStyle — always replaces it — because macOS Tahoe's
+		  // xzone malloc can corrupt the mStyle pointer, making any method call on it
+		  // (CopyFrom, ResetToDefault) crash with SIGSEGV.
+		  // Shares the source style reference directly instead of cloning. This is safe
+		  // because Paint passes the same style object for many cells (e.g., border color),
+		  // and cells only need to READ styles during Render(). No per-cell allocation.
 		  If s Is Nil Then
-		    If mStyle Is Nil Then
-		      mStyle = New XjStyle
-		    Else
-		      mStyle.ResetToDefault()
-		    End If
+		    Static defaultStyle As XjStyle
+		    If defaultStyle Is Nil Then defaultStyle = New XjStyle
+		    mStyle = defaultStyle
 		  Else
-		    If mStyle Is Nil Then
-		      mStyle = s.Clone
-		    Else
-		      mStyle.CopyFrom(s)
-		    End If
+		    mStyle = s
 		  End If
 		End Sub
 	#tag EndMethod

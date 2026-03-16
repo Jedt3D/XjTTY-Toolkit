@@ -208,19 +208,29 @@ Protected Class XjLayoutNode
 		    Var bh As Integer = mComputedHeight - mMarginTop - mMarginBottom
 		    
 		    If bw >= 2 And bh >= 2 Then
+		      // Use border color if set, otherwise reuse a shared default style
+		      // to avoid per-frame allocation.
 		      Var bColor As XjStyle = mBorderColor
 		      If bColor Is Nil Then
-		        bColor = New XjStyle
+		        Static defaultBorderColor As XjStyle
+		        If defaultBorderColor Is Nil Then defaultBorderColor = New XjStyle
+		        bColor = defaultBorderColor
 		      End If
 		      canvas.DrawBox(bx, by, bw, bh, bColor, mBorderStyle)
 		      
-		      // Draw title on top border if set
+		      // Draw title on top border if set.
+		      // Uses a cached title style to avoid creating 3 XjStyle objects per frame
+		      // per titled node. At 5 panels × 30fps that was 450 alloc/sec, contributing
+		      // to heap corruption on macOS Tahoe's xzone malloc.
 		      If mTitle <> "" Then
 		        Var titleX As Integer = bx + (bw - mTitle.Length) / 2
 		        If titleX < bx + 1 Then titleX = bx + 1
-		        Var baseTitleStyle As New XjStyle
-		        Var titleStyle As XjStyle = baseTitleStyle.SetFG(XjANSI.FG_BRIGHT_YELLOW).SetBold
-		        canvas.WriteText(titleX, by, mTitle, titleStyle)
+		        Static cachedTitleStyle As XjStyle
+		        If cachedTitleStyle Is Nil Then
+		          Var baseTitleStyle As New XjStyle
+		          cachedTitleStyle = baseTitleStyle.SetFG(XjANSI.FG_BRIGHT_YELLOW).SetBold
+		        End If
+		        canvas.WriteText(titleX, by, mTitle, cachedTitleStyle)
 		      End If
 		    End If
 		  End If
@@ -442,6 +452,7 @@ Protected Class XjLayoutNode
 	#tag Property, Flags = &h21
 		Private mTitle As String
 	#tag EndProperty
+
 
 	#tag Property, Flags = &h21
 		Private mWidthConstraint As XjConstraint

@@ -2,6 +2,20 @@
 
 All notable changes to XjTTY-Toolkit will be documented in this file.
 
+## [0.7.1] - 2026-03-17
+
+### Fixed
+- **CRITICAL: Heap corruption on macOS Tahoe** — XjCell and XjLayoutNode refactored to use shared static style instances and eliminate per-frame allocations. macOS xzone malloc was corrupting XjStyle pointers when allocating >100k objects/second (4800 cells × 30fps), causing SIGSEGV in heap operations. Now uses pattern: never dereference before replacement, cache statics for border/title styles, share style references instead of cloning.
+- **XjCell.SetStyle** — no longer clones or dereferences mStyle; always replaces reference with static default or source style
+- **XjLayoutNode.PaintSelf** — caches border and title XjStyle objects in static variables to avoid per-frame allocation
+
+### Changed
+- **XjCanvas refactored to parallel arrays** — XjCanvas now stores characters and styles in separate mChars/mStyles arrays instead of wrapping them in XjCell objects, reducing object allocation overhead and improving render throughput
+- **DiffRender optimized** — updated to work directly with character/style arrays instead of XjCell dereferences
+
+### Added
+- **KITCHEN_SINK_PROPOSAL.md** — Comprehensive Phase 8 demo application proposal: 31 interactive/static components across 6 categories, live previews with keyboard interaction, search filtering, properties panel, help overlay
+
 ## [0.7.0] - 2026-03-13
 
 ### Added
