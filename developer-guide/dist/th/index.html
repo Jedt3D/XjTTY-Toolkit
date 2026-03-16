@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>บทนำ — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTTY-Toolkit เป็นไลบรารี Terminal UI (TUI) สำหรับแอปพลิเคชัน Xojo Console ได้แรงบันดาลใจจาก Ruby TTY-Toolkit, Python Prompt Toolkit และ Rust IOCraft" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="./index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">บทนำ</h1>
+          <p class="page-description">XjTTY-Toolkit เป็นไลบรารี Terminal UI (TUI) สำหรับแอปพลิเคชัน Xojo Console ได้แรงบันดาลใจจาก Ruby TTY-Toolkit, Python Prompt Toolkit และ Rust IOCraft</p>
+        </div>
+
+        <h1 id="_1">บทนำ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p><strong>XjTTY-Toolkit</strong> เป็นไลบรารี Terminal UI (TUI) แบบครบวงจรสำหรับแอปพลิเคชัน Xojo Console ให้ทุกอย่างที่จำเป็นสำหรับสร้าง terminal interface ที่สมบูรณ์และโต้ตอบได้ — ตั้งแต่ ANSI escape code ระดับต่ำ ไปจนถึง prompt dialog ระดับสูงและ widget-based layout</p>
+<p>Toolkit นี้ได้แรงบันดาลใจจาก <strong>Ruby&rsquo;s TTY-Toolkit</strong>, <strong>Python&rsquo;s Prompt Toolkit</strong> และ <strong>Rust&rsquo;s IOCraft</strong> ปรับให้เหมาะกับ Xojo</p>
+<h2 id="_2">ภาพรวมสถาปัตยกรรม<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>ไลบรารีจัดเรียงเป็นชั้น แต่ละชั้นสร้างต่อจากชั้นด้านล่าง:</p>
+<table>
+<thead>
+<tr>
+<th>ชั้น</th>
+<th>คอมโพเนนต์</th>
+<th>วัตถุประสงค์</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ระดับพื้นฐาน</td>
+<td>XjPlatform, XjANSI, XjTerminal</td>
+<td>ANSI escape code, platform detection, low-level terminal control</td>
+</tr>
+<tr>
+<td>สี &amp; จัดรูปแบบ</td>
+<td>XjColor, XjStyle, XjCell, XjCanvas</td>
+<td>Colors, styling, character cells, 2D rendering</td>
+</tr>
+<tr>
+<td>อินพุต</td>
+<td>XjKeyEvent, XjReader, XjEventLoop</td>
+<td>Key parsing, VT100 sequences, event dispatch</td>
+</tr>
+<tr>
+<td>Layout</td>
+<td>XjConstraint, XjLayoutNode, XjLayoutSolver</td>
+<td>Flexbox-like sizing and positioning</td>
+</tr>
+<tr>
+<td>Widget</td>
+<td>XjWidget, XjBox, XjText, XjTable, XjProgressBar, XjSpinner, XjTree</td>
+<td>Reusable UI components</td>
+</tr>
+<tr>
+<td>Dialog</td>
+<td>XjPrompt, XjAskPrompt, XjSelectPrompt, &hellip;</td>
+<td>High-level user input and confirmation</td>
+</tr>
+<tr>
+<td>Utility</td>
+<td>XjLogger, XjOption, XjConfig, XjCommand, XjFont, XjPie, XjMarkdown</td>
+<td>Logging, CLI args, configuration, shell commands</td>
+</tr>
+<tr>
+<td>YAML UI</td>
+<td>XjYAML, XjUIParser</td>
+<td>Declarative UI definition language</td>
+</tr>
+</tbody>
+</table>
+<h2 id="63">63 คอมโพเนนต์<a class="headerlink" href="#63" title="Permanent link">&para;</a></h2>
+<p>ไลบรารีประกอบด้วย 63 คอมโพเนนต์ ผ่าน 7 เฟสของการพัฒนา ทั้งหมดถูกวิเคราะห์และ optimize ด้าน Big O performance แล้ว เรามาดูกันว่าชั้นต่างๆ ทำงานร่วมกันอย่างไร</p>
+<h2 id="_3">รองรับหลายแพลตฟอร์ม<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>XjTTY-Toolkit ทำงานบน macOS, Linux และ Windows โค้ดเฉพาะแพลตฟอร์ม (termios vs Win32) ถูกจัดการภายในโดย XjPlatform และ XjTerminal ซึ่งหมายความว่าแอปพลิเคชันของคุณสามารถเขียนครั้งเดียวและทำงานได้ทุกแพลตฟอร์ม</p>
+<h2 id="_4">เริ่มต้นอย่างรวดเร็ว<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop
+loop.SetOnKeyPress(Function(key As XjKeyEvent) As Boolean
+  If key.IsEscape Then
+    loop.Stop_()
+  End If
+  Return True
+End Function)
+loop.Run()
+</code></pre></div>
+
+<h2 id="_5">เนื้อหาในคู่มือนี้<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ส่วน</th>
+<th>หัวข้อ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core</td>
+<td>Platform Detection, ANSI Codes, Terminal Control, Colors, Cursor, Screen</td>
+</tr>
+<tr>
+<td>Styling</td>
+<td>Style Builder, Cell &amp; Canvas, Unicode Symbols</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Key Event, Event System, Event Loop, Input Reader</td>
+</tr>
+<tr>
+<td>Layout</td>
+<td>Constraints, Layout Nodes, Layout Solver</td>
+</tr>
+<tr>
+<td>Widgets</td>
+<td>Widget Base, Box &amp; Text, TextInput, Table, Progress &amp; Spinner, Tree, Focus Manager</td>
+</tr>
+<tr>
+<td>Prompts</td>
+<td>Prompt Facade, Text Prompts, Selection Prompts, Special Prompts, Styling &amp; Validation</td>
+</tr>
+<tr>
+<td>Utilities</td>
+<td>Logger, CLI Options, Config, Commands, Display (Font, Pie, Markdown)</td>
+</tr>
+<tr>
+<td>YAML UI</td>
+<td>YAML Parser, UI Builder</td>
+</tr>
+</tbody>
+</table>
+<p>เอกสารนี้ครอบคลุมแต่ละคอมโพเนนต์อย่างถ่องแท้ — API reference, ตัวอย่าง, และ use case ธรรมชาติสำหรับเมื่อใช้กรรมการใดกรรมการหนึ่ง</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="./core/platform.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Platform Detection</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ภาพรวมสถาปตยกรรม">ภาพรวมสถาปัตยกรรม</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#63-คอมโพเนนต">63 คอมโพเนนต์</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#รองรบหลายแพลตฟอรม">รองรับหลายแพลตฟอร์ม</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#เรมตนอยางรวดเรว">เริ่มต้นอย่างรวดเร็ว</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#เนอหาในคมอน">เนื้อหาในคู่มือนี้</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="./../assets/docs.js"></script>
+</body>
+</html>

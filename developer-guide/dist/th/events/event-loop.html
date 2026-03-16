@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Loop — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjEventLoop class ช่วยปล่อยประเทศ terminal app event ทั้งหมด (keyboard, mouse, resize, tick)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Event Loop</h1>
+          <p class="page-description">XjEventLoop class ช่วยปล่อยประเทศ terminal app event ทั้งหมด (keyboard, mouse, resize, tick)</p>
+        </div>
+
+        <h1 id="event-loop-xjeventloop">Event Loop (XjEventLoop)<a class="headerlink" href="#event-loop-xjeventloop" title="Permanent link">&para;</a></h1>
+<p><strong>XjEventLoop</strong> เป็น main application loop ที่จัดเก็บอักษรปัจจุบัน, mouse events, terminal resizes, และ timer ticks จากนั้นส่งเหตุการณ์ไปยังผู้จัดการแบบ callback สิ่งสำคัญคือ event loop จัดการ raw mode, alternate screen, mouse tracking, และ cleanup โดยอัตโนมัติ</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New(refreshMs As Integer = 33)
+</code></pre></div>
+
+<p>สร้าง event loop ที่ tick ทุก refreshMs milliseconds (เริ่มต้น 33 = ~30 FPS)</p>
+<h2 id="main-loop">Main Loop<a class="headerlink" href="#main-loop" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Run()
+</code></pre></div>
+
+<p>เริ่มต้น event loop — เปิด raw mode, เข้า alternate screen (ถ้า auto), poll events, เรียก handlers, repeat จนกว่า Stop_() ถูกเรียก</p>
+<div class="highlight"><pre><span></span><code>Sub Stop_()
+</code></pre></div>
+
+<p>ออกจาก event loop — ปิด raw mode, ออก alternate screen (ถ้า auto), cleanup</p>
+<div class="highlight"><pre><span></span><code>Function IsRunning() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบว่า loop กำลังรันอยู่</p>
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function TickCount() As UInt64
+</code></pre></div>
+
+<p>ดึงจำนวน ticks ตั้งแต่ loop เริ่มต้น</p>
+<div class="highlight"><pre><span></span><code>Function ElapsedSeconds() As Double
+</code></pre></div>
+
+<p>ดึงเวลาผ่านไปเป็นวินาที</p>
+<div class="highlight"><pre><span></span><code>Function LastWidth() As Integer
+Function LastHeight() As Integer
+</code></pre></div>
+
+<p>ดึงขนาด terminal จากครั้งสุดท้ายที่ตรวจสอบ</p>
+<h2 id="handler-registration">Handler Registration<a class="headerlink" href="#handler-registration" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetOnKeyPress(handler As KeyPressHandler)
+</code></pre></div>
+
+<p>ตั้งค่า callback สำหรับ key event</p>
+<div class="highlight"><pre><span></span><code>Sub SetOnResize(handler As ResizeHandler)
+</code></pre></div>
+
+<p>ตั้งค่า callback สำหรับ resize event</p>
+<div class="highlight"><pre><span></span><code>Sub SetOnTick(handler As TickHandler)
+</code></pre></div>
+
+<p>ตั้งค่า callback สำหรับ tick event</p>
+<div class="highlight"><pre><span></span><code>Sub SetOnMouse(handler As MouseHandler)
+</code></pre></div>
+
+<p>ตั้งค่า callback สำหรับ mouse event</p>
+<h2 id="auto-management-properties">Auto-Management Properties<a class="headerlink" href="#auto-management-properties" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Property AutoRawMode As Boolean
+</code></pre></div>
+
+<p>เปิด raw mode อัตโนมัติที่ Run() (ค่าเริ่มต้น True)</p>
+<div class="highlight"><pre><span></span><code>Property AutoAlternateScreen As Boolean
+</code></pre></div>
+
+<p>เข้า/ออก alternate screen อัตโนมัติ (ค่าเริ่มต้น True)</p>
+<div class="highlight"><pre><span></span><code>Property AutoHideCursor As Boolean
+</code></pre></div>
+
+<p>ซ่อนเคอร์เซอร์ขณะรัน (ค่าเริ่มต้น True)</p>
+<h2 id="delegate-signatures">Delegate Signatures<a class="headerlink" href="#delegate-signatures" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Delegate KeyPressHandler(key As XjKeyEvent) As Boolean
+</code></pre></div>
+
+<p>Callback สำหรับ key event คืน <code>True</code> เพื่อบอก handler ต่อไป, <code>False</code> เพื่อยกเลิก bubbling</p>
+<div class="highlight"><pre><span></span><code>Delegate ResizeHandler(width As Integer, height As Integer) As Boolean
+</code></pre></div>
+
+<p>Callback สำหรับ resize event</p>
+<div class="highlight"><pre><span></span><code>Delegate TickHandler(tickCount As UInt64) As Boolean
+</code></pre></div>
+
+<p>Callback สำหรับ timer tick</p>
+<div class="highlight"><pre><span></span><code>Delegate MouseHandler(button As Integer, x As Integer, y As Integer, action As Integer) As Boolean
+</code></pre></div>
+
+<p>Callback สำหรับ mouse event</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="event-loop">Event Loop พื้นฐาน<a class="headerlink" href="#event-loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop
+loop.SetOnKeyPress(Function(key As XjKeyEvent) As Boolean
+  If key.IsEscape() Then
+    loop.Stop_()
+  End If
+  Return True
+End Function)
+loop.Run()
+</code></pre></div>
+
+<h3 id="key-mouse-resize-tick">ทั้ง Key, Mouse, Resize และ Tick<a class="headerlink" href="#key-mouse-resize-tick" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop(16) &#39; ~60 FPS
+
+loop.SetOnKeyPress(Function(key As XjKeyEvent) As Boolean
+  XjTerminal.Write(&quot;Key: &quot; + key.KeyName())
+  Return True
+End Function)
+
+loop.SetOnMouse(Function(btn As Integer, x As Integer, y As Integer, action As Integer) As Boolean
+  XjTerminal.Write(&quot;Click at &quot; + x.ToString() + &quot;,&quot; + y.ToString())
+  Return True
+End Function)
+
+loop.SetOnResize(Function(w As Integer, h As Integer) As Boolean
+  XjTerminal.Write(&quot;Resized to &quot; + w.ToString() + &quot;x&quot; + h.ToString())
+  Return True
+End Function)
+
+loop.SetOnTick(Function(tickCount As UInt64) As Boolean
+  &#39; 60 times per second
+  Return True
+End Function)
+
+loop.Run()
+</code></pre></div>
+
+<h3 id="auto-management">ปิดการใช้งาน Auto-Management<a class="headerlink" href="#auto-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop
+loop.AutoRawMode = False
+loop.AutoAlternateScreen = False
+&#39; Manually manage mode
+XjTerminal.EnableRawMode()
+loop.Run()
+XjTerminal.DisableRawMode()
+</code></pre></div>
+
+<h3 id="loop">ตรวจสอบสถานะ Loop<a class="headerlink" href="#loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If loop.IsRunning() Then
+  XjTerminal.Write(&quot;Elapsed: &quot; + loop.ElapsedSeconds().ToString() + &quot; seconds&quot;)
+  XjTerminal.Write(&quot;Ticks: &quot; + loop.TickCount().ToString())
+End If
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>XjEventLoop ใช้ XjTerminal, XjCursor, XjScreen, XjReader ภายใน เพื่อจัดการ I/O ต่ำ level และ parsing</p>
+<p>Event handler คืนค่า Boolean เพื่ออนุญาต event bubbling — คืน False เพื่อหยุด propagation ไปยัง handlers ถัดไป</p>
+<p>AutoRawMode, AutoAlternateScreen, AutoHideCursor ลดการจัดการ boilerplate — ในกรณีส่วนใหญ่ ให้มันเปิดอยู่</p>
+<p>สำหรับ app ที่ซับซ้อนมากขึ้น ลอง XjWidget และ XjFocusManager ซึ่ง wrap XjEventLoop และจัดการการส่งต่อ event ไปยัง widget hierarchy</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../events/event.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Event System</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../events/reader.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Input Reader</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#main-loop">Main Loop</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#status">Status</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#handler-registration">Handler Registration</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#auto-management-properties">Auto-Management Properties</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#delegate-signatures">Delegate Signatures</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#event-loop-พนฐาน">Event Loop พื้นฐาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ทง-key-mouse-resize-และ-tick">ทั้ง Key, Mouse, Resize และ Tick</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ปดการใชงาน-auto-management">ปิดการใช้งาน Auto-Management</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตรวจสอบสถานะ-loop">ตรวจสอบสถานะ Loop</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

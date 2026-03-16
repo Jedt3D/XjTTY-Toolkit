@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command, Pager, History และอื่นๆ — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjCommand สำหรับ shell execution, XjPager สำหรับ content paging, XjWhich/XjHistory" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Command, Pager, History และอื่นๆ</h1>
+          <p class="page-description">XjCommand สำหรับ shell execution, XjPager สำหรับ content paging, XjWhich/XjHistory</p>
+        </div>
+
+        <h1 id="command-pager-history">Command, Pager, History<a class="headerlink" href="#command-pager-history" title="Permanent link">&para;</a></h1>
+<h2 id="xjcommand-module">XjCommand Module<a class="headerlink" href="#xjcommand-module" title="Permanent link">&para;</a></h2>
+<p>ประมวลผลคำสั่ง shell พร้อม timeout, capture output</p>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Run(command As String, timeout As Integer = 30) As XjCommandResult
+</code></pre></div>
+
+<p>รัน shell command — block จนกว่าสำเร็จ หรือ timeout — คืน XjCommandResult</p>
+<div class="highlight"><pre><span></span><code>Function RunSilent(command As String, timeout As Integer = 30) As Integer
+</code></pre></div>
+
+<p>รัน command แต่ไม่แสดง output — คืน exit code</p>
+<div class="highlight"><pre><span></span><code>Function Capture(command As String, timeout As Integer = 30) As String
+</code></pre></div>
+
+<p>รัน command และ capture output — คืน output string</p>
+<div class="highlight"><pre><span></span><code>Function Success(command As String, timeout As Integer = 30) As Boolean
+</code></pre></div>
+
+<p>รัน command — คืน True ถ้า exit code = 0</p>
+<div class="highlight"><pre><span></span><code>Sub DryRun(command As String)
+</code></pre></div>
+
+<p>พิมพ์ command ที่จะรันโดยไม่ execute</p>
+<div class="highlight"><pre><span></span><code>Sub RunWithPrinter(command As String, timeout As Integer = 30)
+</code></pre></div>
+
+<p>รัน command และพิมพ์ output แบบ real-time</p>
+<h2 id="xjcommandresult-class">XjCommandResult Class<a class="headerlink" href="#xjcommandresult-class" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Property Output As String      &#39; Command output
+Property ExitCode As Integer   &#39; Exit code (0 = success)
+Property TimedOut As Boolean   &#39; True if timeout
+</code></pre></div>
+
+<h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function IsSuccess() As Boolean
+</code></pre></div>
+
+<p>คืน True ถ้า ExitCode = 0 และไม่ timeout</p>
+<div class="highlight"><pre><span></span><code>Function Lines() As String()
+</code></pre></div>
+
+<p>ส่งคืน output ที่แบ่งเป็น array ของ lines</p>
+<h2 id="xjwhich-module">XjWhich Module<a class="headerlink" href="#xjwhich-module" title="Permanent link">&para;</a></h2>
+<p>ค้นหา executables ใน PATH</p>
+<h3 id="functions_1">Functions<a class="headerlink" href="#functions_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Which(name As String) As String
+</code></pre></div>
+
+<p>ค้นหา executable path — คืน full path หรือ empty string</p>
+<div class="highlight"><pre><span></span><code>Function WhichAll(name As String) As String()
+</code></pre></div>
+
+<p>ค้นหาทั้งหมด executable instances บน PATH</p>
+<div class="highlight"><pre><span></span><code>Function Exists(name As String) As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบว่า executable มีในระบบ</p>
+<h2 id="xjhistory-class">XjHistory Class<a class="headerlink" href="#xjhistory-class" title="Permanent link">&para;</a></h2>
+<p>ป้อนข้อมูล history บ้าน navigation (arrow up/down)</p>
+<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New(maxSize As Integer = 100)
+</code></pre></div>
+
+<p>สร้าง history ด้วย max entries</p>
+<h3 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Add(entry As String)
+</code></pre></div>
+
+<p>เพิ่ม entry ไปยัง history</p>
+<div class="highlight"><pre><span></span><code>Function Previous(currentValue As String) As String
+</code></pre></div>
+
+<p>ดึง previous entry — ถ้า current value ไม่ match current position, reset ไปยัง end</p>
+<div class="highlight"><pre><span></span><code>Function Next_(currentValue As String) As String
+</code></pre></div>
+
+<p>ดึง next entry</p>
+<div class="highlight"><pre><span></span><code>Sub Clear()
+Sub Reset()
+</code></pre></div>
+
+<p>ล้าง history หรือ reset navigation pointer</p>
+<div class="highlight"><pre><span></span><code>Function Count() As Integer
+</code></pre></div>
+
+<p>ดึงจำนวน entries</p>
+<div class="highlight"><pre><span></span><code>Function IsNavigating() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบว่า currently navigating history (ไม่อยู่ที่ end)</p>
+<h2 id="xjpager-class">XjPager Class<a class="headerlink" href="#xjpager-class" title="Permanent link">&para;</a></h2>
+<p>Built-in pager สำหรับ display content ที่อาจยาว</p>
+<h3 id="constructor_1">Constructor<a class="headerlink" href="#constructor_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง pager</p>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetPageSize(lines As Integer)
+</code></pre></div>
+
+<p>ตั้งค่า page size (number of lines ต่อ page)</p>
+<h3 id="display">Display<a class="headerlink" href="#display" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Page(content As String)
+</code></pre></div>
+
+<p>Display content เป็น pages — space/Enter ต่อไป, q quit</p>
+<div class="highlight"><pre><span></span><code>Function Render() As String
+</code></pre></div>
+
+<p>คืน rendered output ของ pager (เฉพาะ current page)</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="run-command-and-capture">Run Command and Capture<a class="headerlink" href="#run-command-and-capture" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var result As XjCommandResult = XjCommand.Run(&quot;ls -la&quot;, 10)
+If result.IsSuccess() Then
+  XjTerminal.Write(result.Output)
+Else
+  XjPrompt.Error_(&quot;Command failed&quot;)
+End If
+</code></pre></div>
+
+<h3 id="run-silently">Run Silently<a class="headerlink" href="#run-silently" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var exitCode As Integer = XjCommand.RunSilent(&quot;make build&quot;)
+If exitCode = 0 Then
+  XjPrompt.Ok(&quot;Build successful&quot;)
+Else
+  XjPrompt.Error_(&quot;Build failed&quot;)
+End If
+</code></pre></div>
+
+<h3 id="capture-output">Capture Output<a class="headerlink" href="#capture-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var output As String = XjCommand.Capture(&quot;git status&quot;)
+XjTerminal.Write(output)
+</code></pre></div>
+
+<h3 id="check-command-success">Check Command Success<a class="headerlink" href="#check-command-success" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjCommand.Success(&quot;ping -c 1 8.8.8.8&quot;, 5) Then
+  XjPrompt.Ok(&quot;Internet connection OK&quot;)
+Else
+  XjPrompt.Warn(&quot;No internet&quot;)
+End If
+</code></pre></div>
+
+<h3 id="find-executable">Find Executable<a class="headerlink" href="#find-executable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjWhich.Exists(&quot;git&quot;) Then
+  Var gitPath As String = XjWhich.Which(&quot;git&quot;)
+  XjTerminal.Write(&quot;Git: &quot; + gitPath)
+Else
+  XjPrompt.Error_(&quot;Git not found&quot;)
+End If
+</code></pre></div>
+
+<h3 id="input-history">Input History<a class="headerlink" href="#input-history" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var history As New XjHistory(50)
+history.Add(&quot;select * from users&quot;)
+history.Add(&quot;select count(*) from orders&quot;)
+
+&#39; Later
+Var prev As String = history.Previous(&quot;select&quot;)
+XjTerminal.Write(prev) &#39; select count(*) from orders
+</code></pre></div>
+
+<h3 id="pager-for-long-content">Pager for Long Content<a class="headerlink" href="#pager-for-long-content" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var pager As New XjPager
+pager.SetPageSize(20) &#39; 20 lines per page
+
+Var content As String = &quot;Line 1\nLine 2\n...&quot; &#39; 100+ lines
+pager.Page(content)
+&#39; Display first 20 lines, space/Enter for next page
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>XjCommand ใช้ shell-specific implementation — Windows = cmd.exe, Unix = /bin/sh</p>
+<p>Timeout ในวินาทีเท่านั้น — ใช้สำหรับ prevent hanging commands</p>
+<p>RunWithPrinter() stream output real-time — ใช้สำหรับ long-running commands</p>
+<p>XjWhich ค้นหา executable บน PATH environment variable</p>
+<p>XjHistory เก็บ strings เท่านั้น — ไม่มี execution หรือ formatting</p>
+<p>XjPager useful สำหรับแสดง help, logs, large output — ช่วยให้ผู้ใช้ navigate บน terminal</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/config.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Configuration</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/display.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Font, Pie & Markdown</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcommand-module">XjCommand Module</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#functions">Functions</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcommandresult-class">XjCommandResult Class</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjwhich-module">XjWhich Module</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#functions">Functions</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjhistory-class">XjHistory Class</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#operations">Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjpager-class">XjPager Class</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#configuration">Configuration</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#display">Display</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#run-command-and-capture">Run Command and Capture</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#run-silently">Run Silently</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#capture-output">Capture Output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#check-command-success">Check Command Success</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#find-executable">Find Executable</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#input-history">Input History</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#pager-for-long-content">Pager for Long Content</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

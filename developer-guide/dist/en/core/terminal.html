@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Control — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTerminal module provides raw mode I/O, terminal size detection, color support, mouse tracking, and alternate screen management." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Terminal Control</h1>
+          <p class="page-description">XjTerminal module provides raw mode I/O, terminal size detection, color support, mouse tracking, and alternate screen management.</p>
+        </div>
+
+        <h1 id="terminal-control">Terminal Control<a class="headerlink" href="#terminal-control" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjTerminal</strong> module handles low-level terminal I/O, raw mode setup, and platform-specific terminal operations. It abstracts away termios (Unix) vs Win32 API differences.</p>
+<h2 id="raw-mode">Raw Mode<a class="headerlink" href="#raw-mode" title="Permanent link">&para;</a></h2>
+<p>Raw mode disables line buffering and allows character-by-character input with immediate processing.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnableRawMode()</code></td>
+<td>—</td>
+<td>Enable raw mode (non-blocking, non-buffered input)</td>
+</tr>
+<tr>
+<td><code>DisableRawMode()</code></td>
+<td>—</td>
+<td>Disable raw mode (restore canonical input)</td>
+</tr>
+<tr>
+<td><code>IsRawMode()</code></td>
+<td>Boolean</td>
+<td>Return whether raw mode is currently enabled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="terminal-dimensions">Terminal Dimensions<a class="headerlink" href="#terminal-dimensions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Width()</code></td>
+<td>Integer</td>
+<td>Terminal width in columns</td>
+</tr>
+<tr>
+<td><code>Height()</code></td>
+<td>Integer</td>
+<td>Terminal height in rows</td>
+</tr>
+<tr>
+<td><code>GetSize(byref width, byref height)</code></td>
+<td>—</td>
+<td>Get both dimensions (more efficient)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="color-support">Color Support<a class="headerlink" href="#color-support" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SupportsColor()</code></td>
+<td>Boolean</td>
+<td>Return True if terminal supports color</td>
+</tr>
+<tr>
+<td><code>ColorDepth()</code></td>
+<td>Integer</td>
+<td>Return color depth (1=mono, 8=16 colors, 256=256 colors, 16777216=24-bit RGB)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="io-operations">I/O Operations<a class="headerlink" href="#io-operations" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ReadByte()</code></td>
+<td>—</td>
+<td>Integer</td>
+<td>Read single byte (-1 if no data available)</td>
+</tr>
+<tr>
+<td><code>Write(text)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Write text to terminal</td>
+</tr>
+<tr>
+<td><code>Flush()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Flush output buffer</td>
+</tr>
+<tr>
+<td><code>EnableNonBlockingInput()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Make ReadByte() non-blocking</td>
+</tr>
+</tbody>
+</table>
+<h2 id="alternate-screen">Alternate Screen<a class="headerlink" href="#alternate-screen" title="Permanent link">&para;</a></h2>
+<p>The alternate screen buffer allows full-screen applications to manage display without affecting scrollback history.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnterAlternateScreen()</code></td>
+<td>—</td>
+<td>Switch to alternate screen buffer</td>
+</tr>
+<tr>
+<td><code>ExitAlternateScreen()</code></td>
+<td>—</td>
+<td>Exit alternate screen buffer and restore previous</td>
+</tr>
+<tr>
+<td><code>IsAlternateScreenActive()</code></td>
+<td>Boolean</td>
+<td>Return True if alternate screen is active</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mouse-tracking">Mouse Tracking<a class="headerlink" href="#mouse-tracking" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnableMouseTracking()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Enable mouse event reporting</td>
+</tr>
+<tr>
+<td><code>DisableMouseTracking()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Disable mouse event reporting</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="safe-raw-mode-usage">Safe raw mode usage<a class="headerlink" href="#safe-raw-mode-usage" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.EnableRawMode()
+Try
+  // Read keyboard input byte-by-byte
+  Var b As Integer = XjTerminal.ReadByte()
+  // Process byte...
+Finally
+  XjTerminal.DisableRawMode()
+End Try
+</code></pre></div>
+
+<h3 id="detect-terminal-capabilities">Detect terminal capabilities<a class="headerlink" href="#detect-terminal-capabilities" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If Not XjTerminal.SupportsColor() Then
+  XjColor.DisableColors()
+End If
+
+Select Case XjTerminal.ColorDepth()
+  Case 1
+    XjTerminal.Write(&quot;Monochrome terminal&quot;)
+  Case 8, 16
+    XjTerminal.Write(&quot;16-color terminal&quot;)
+  Case 256
+    XjTerminal.Write(&quot;256-color terminal&quot;)
+  Case Else
+    XjTerminal.Write(&quot;True color (24-bit) terminal&quot;)
+End Select
+</code></pre></div>
+
+<h3 id="full-screen-application">Full-screen application<a class="headerlink" href="#full-screen-application" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.EnableRawMode()
+XjTerminal.EnterAlternateScreen()
+XjTerminal.EnableNonBlockingInput()
+XjTerminal.EnableMouseTracking()
+
+Try
+  // Your full-screen app loop
+  Var loop As New XjEventLoop(50) // 50ms ticks
+  loop.Run(Me)
+Finally
+  XjTerminal.DisableMouseTracking()
+  XjTerminal.ExitAlternateScreen()
+  XjTerminal.DisableRawMode()
+End Try
+</code></pre></div>
+
+<h3 id="monitor-terminal-resize">Monitor terminal resize<a class="headerlink" href="#monitor-terminal-resize" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var width As Integer
+Var height As Integer
+Var prevWidth As Integer = -1
+Var prevHeight As Integer = -1
+
+While Not shouldExit
+  XjTerminal.GetSize(width, height)
+  If width &lt;&gt; prevWidth Or height &lt;&gt; prevHeight Then
+    XjTerminal.Write(&quot;Terminal resized: &quot; + width.ToString() + &quot;x&quot; + height.ToString())
+    prevWidth = width
+    prevHeight = height
+  End If
+  // ... continue processing
+Wend
+</code></pre></div>
+
+<h3 id="conditional-coloring">Conditional coloring<a class="headerlink" href="#conditional-coloring" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjTerminal.SupportsColor() Then
+  XjTerminal.Write(XjColor.Green(&quot;Success!&quot;))
+Else
+  XjTerminal.Write(&quot;[OK] Success!&quot;)
+End If
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Auto-recovery</strong>: XjEventLoop automatically manages raw mode and alternate screen cleanup if an exception occurs.</p>
+<p><strong>Cross-platform</strong>: Platform detection (XjPlatform) automatically selects termios on Unix or Win32 API on Windows. No manual setup required.</p>
+<p><strong>Non-blocking input</strong>: EnableNonBlockingInput() is required for event loops that poll keyboard without blocking. Disable it when not needed (restores standard blocking behavior).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Always pair EnableRawMode() with DisableRawMode() in a Try/Finally block. Leaving raw mode enabled will disable terminal editing for subsequent programs.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/ansi.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">ANSI Escape Codes</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/color.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Colors</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#raw-mode">Raw Mode</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#terminal-dimensions">Terminal Dimensions</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#color-support">Color Support</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#io-operations">I/O Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#alternate-screen">Alternate Screen</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#mouse-tracking">Mouse Tracking</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#safe-raw-mode-usage">Safe raw mode usage</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#detect-terminal-capabilities">Detect terminal capabilities</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#full-screen-application">Full-screen application</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#monitor-terminal-resize">Monitor terminal resize</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#conditional-coloring">Conditional coloring</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

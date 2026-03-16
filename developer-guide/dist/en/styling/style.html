@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XjStyle — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjStyle class provides an immutable fluent API for building character styling (colors, bold, italic, underline, etc.)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">XjStyle</h1>
+          <p class="page-description">XjStyle class provides an immutable fluent API for building character styling (colors, bold, italic, underline, etc.).</p>
+        </div>
+
+        <h1 id="xjstyle">XjStyle<a class="headerlink" href="#xjstyle" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjStyle</strong> class builds immutable style objects using a fluent builder pattern. Styles combine foreground color, background color, and text attributes (bold, italic, underline, etc.).</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Var style As New XjStyle()
+</code></pre></div>
+
+<p>All styles start empty (no attributes). Use setter methods to build styles.</p>
+<h2 id="style-setters-fluent-api">Style Setters (Fluent API)<a class="headerlink" href="#style-setters-fluent-api" title="Permanent link">&para;</a></h2>
+<p>All setters return a new XjStyle instance with the added attribute:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetFG(colorCode)</code></td>
+<td>Integer (0-255 or 30-97)</td>
+<td>XjStyle</td>
+<td>Set foreground color (ANSI code or 256-color)</td>
+</tr>
+<tr>
+<td><code>SetBG(colorCode)</code></td>
+<td>Integer</td>
+<td>XjStyle</td>
+<td>Set background color</td>
+</tr>
+<tr>
+<td><code>SetFGRGB(r, g, b)</code></td>
+<td>Integer (0-255) × 3</td>
+<td>XjStyle</td>
+<td>Set foreground to RGB color</td>
+</tr>
+<tr>
+<td><code>SetBGRGB(r, g, b)</code></td>
+<td>Integer (0-255) × 3</td>
+<td>XjStyle</td>
+<td>Set background to RGB color</td>
+</tr>
+<tr>
+<td><code>SetBold()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply bold text</td>
+</tr>
+<tr>
+<td><code>SetDim()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply dim/faint text</td>
+</tr>
+<tr>
+<td><code>SetItalic()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply italic text</td>
+</tr>
+<tr>
+<td><code>SetUnderline()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply underline</td>
+</tr>
+<tr>
+<td><code>SetInverse()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply inverse (swap FG/BG)</td>
+</tr>
+<tr>
+<td><code>SetStrikethrough()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply strikethrough</td>
+</tr>
+<tr>
+<td><code>SetBlink()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Apply blinking text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="output-methods">Output Methods<a class="headerlink" href="#output-methods" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ToANSI()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Convert style to ANSI escape sequence</td>
+</tr>
+<tr>
+<td><code>Apply(text)</code></td>
+<td>String</td>
+<td>String</td>
+<td>Apply style to text (returns styled text with reset)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="comparison-utility">Comparison &amp; Utility<a class="headerlink" href="#comparison-utility" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Equals(other)</code></td>
+<td>XjStyle</td>
+<td>Boolean</td>
+<td>Compare styles for equality</td>
+</tr>
+<tr>
+<td><code>Clone()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Create independent copy</td>
+</tr>
+<tr>
+<td><code>IsEmpty()</code></td>
+<td>—</td>
+<td>Boolean</td>
+<td>Return True if no attributes set</td>
+</tr>
+</tbody>
+</table>
+<h2 id="shared-factories">Shared Factories<a class="headerlink" href="#shared-factories" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Default()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return empty style</td>
+</tr>
+<tr>
+<td><code>MakeBold()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return bold style</td>
+</tr>
+<tr>
+<td><code>FGColor(code)</code></td>
+<td>Integer</td>
+<td>XjStyle</td>
+<td>Return style with foreground color</td>
+</tr>
+<tr>
+<td><code>BGColor(code)</code></td>
+<td>Integer</td>
+<td>XjStyle</td>
+<td>Return style with background color</td>
+</tr>
+<tr>
+<td><code>MakeFGRGB(r, g, b)</code></td>
+<td>Integer × 3</td>
+<td>XjStyle</td>
+<td>Return style with RGB foreground</td>
+</tr>
+<tr>
+<td><code>MakeBGRGB(r, g, b)</code></td>
+<td>Integer × 3</td>
+<td>XjStyle</td>
+<td>Return style with RGB background</td>
+</tr>
+<tr>
+<td><code>Success()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return success style (green)</td>
+</tr>
+<tr>
+<td><code>Warning()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return warning style (yellow)</td>
+</tr>
+<tr>
+<td><code>Danger()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return danger style (red)</td>
+</tr>
+<tr>
+<td><code>Info()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return info style (cyan)</td>
+</tr>
+<tr>
+<td><code>Muted()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return muted style (dim)</td>
+</tr>
+<tr>
+<td><code>Highlight()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Return highlight style (bright yellow)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="build-a-style-with-fluent-api">Build a style with fluent API<a class="headerlink" href="#build-a-style-with-fluent-api" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var boldRed As New XjStyle
+Call boldRed.SetFG(31).SetBold()
+XjTerminal.Write(boldRed.Apply(&quot;Bold red text&quot;))
+</code></pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Xojo, you must use <code>Call</code> when assigning fluent method chains for side effects, or break long chains into temp variables.</p>
+</div>
+<h3 id="break-long-chains-into-variables">Break long chains into variables<a class="headerlink" href="#break-long-chains-into-variables" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var style As New XjStyle
+Call style.SetFG(31)  // Red
+Call style.SetBold()
+Call style.SetUnderline()
+
+XjTerminal.Write(style.Apply(&quot;Red, bold, underlined&quot;))
+</code></pre></div>
+
+<h3 id="use-shared-factories">Use shared factories<a class="headerlink" href="#use-shared-factories" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var successStyle As XjStyle = XjStyle.Success()
+XjTerminal.Write(successStyle.Apply(&quot;✓ Done&quot;))
+
+Var warningStyle As XjStyle = XjStyle.Warning()
+XjTerminal.Write(warningStyle.Apply(&quot;⚠ Caution&quot;))
+</code></pre></div>
+
+<h3 id="rgb-colors">RGB colors<a class="headerlink" href="#rgb-colors" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var orangeStyle As New XjStyle
+Call orangeStyle.SetFGRGB(255, 165, 0)
+
+XjTerminal.Write(orangeStyle.Apply(&quot;Orange text&quot;))
+</code></pre></div>
+
+<h3 id="combine-foreground-and-background">Combine foreground and background<a class="headerlink" href="#combine-foreground-and-background" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var invertedStyle As New XjStyle
+Call invertedStyle.SetFG(37)    // White foreground
+Call invertedStyle.SetBG(40)    // Black background
+
+XjTerminal.Write(invertedStyle.Apply(&quot;Inverted colors&quot;))
+</code></pre></div>
+
+<h3 id="reuse-styles-across-output">Reuse styles across output<a class="headerlink" href="#reuse-styles-across-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var errorStyle As New XjStyle
+Call errorStyle.SetFG(31).SetBold()  // Red + Bold
+
+XjTerminal.Write(errorStyle.Apply(&quot;Error: &quot;))
+XjTerminal.Write(&quot;File not found&quot;)
+XjTerminal.Write(errorStyle.Apply(&quot;Error: &quot;))
+XjTerminal.Write(&quot;Connection timeout&quot;)
+</code></pre></div>
+
+<h3 id="style-comparison">Style comparison<a class="headerlink" href="#style-comparison" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var style1 As New XjStyle
+Call style1.SetFG(31).SetBold()
+
+Var style2 As New XjStyle
+Call style2.SetFG(31).SetBold()
+
+If style1.Equals(style2) Then
+  XjTerminal.Write(&quot;Styles are the same&quot;)
+End If
+</code></pre></div>
+
+<h3 id="check-for-empty-style">Check for empty style<a class="headerlink" href="#check-for-empty-style" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var empty As New XjStyle
+Var styled As New XjStyle
+Call styled.SetBold()
+
+If empty.IsEmpty() Then
+  XjTerminal.Write(&quot;Empty style&quot;)
+End If
+
+If Not styled.IsEmpty() Then
+  XjTerminal.Write(styled.Apply(&quot;Styled text&quot;))
+End If
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Immutability</strong>: XjStyle setters return new instances, not modifying the original. This enables safe sharing of styles across components:</p>
+<div class="highlight"><pre><span></span><code>Var baseStyle As XjStyle = XjStyle.Success()
+Var boldSuccess As XjStyle = baseStyle.Clone()
+Call boldSuccess.SetBold()
+
+// baseStyle is unchanged
+</code></pre></div>
+
+<p><strong>Fluent pattern</strong>: All setters support method chaining:</p>
+<div class="highlight"><pre><span></span><code>Var s As New XjStyle
+Call s.SetFG(31).SetBG(47).SetBold().SetUnderline()
+</code></pre></div>
+
+<p>However, due to Xojo&rsquo;s restrictions, multi-level chains require temporary variables or <code>Call</code> statements.</p>
+<p><strong>Performance</strong>: Style creation is lightweight. Build styles once and reuse them:</p>
+<div class="highlight"><pre><span></span><code>// Build style once
+mErrorStyle = XjStyle.Danger()
+
+// Reuse many times
+XjTerminal.Write(mErrorStyle.Apply(&quot;Error 1&quot;))
+XjTerminal.Write(mErrorStyle.Apply(&quot;Error 2&quot;))
+XjTerminal.Write(mErrorStyle.Apply(&quot;Error 3&quot;))
+</code></pre></div>
+
+<p><strong>Apply with reset</strong>: The Apply() method automatically appends the ANSI reset sequence, preventing color/style bleed:</p>
+<div class="highlight"><pre><span></span><code>Var s As XjStyle = XjStyle.Success()
+XjTerminal.Write(s.Apply(&quot;Green&quot;) + &quot; Normal&quot;)  // Works correctly
+</code></pre></div>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Style setters take no parameters (e.g., <code>SetBold()</code> not <code>SetBold(True)</code>). They toggle attributes on; there is no &ldquo;off&rdquo; version because Apply() always resets.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/screen.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Screen</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../styling/cell-canvas.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">XjCell & XjCanvas</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#style-setters-fluent-api">Style Setters (Fluent API)</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#output-methods">Output Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#comparison-utility">Comparison & Utility</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#shared-factories">Shared Factories</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#build-a-style-with-fluent-api">Build a style with fluent API</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#break-long-chains-into-variables">Break long chains into variables</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#use-shared-factories">Use shared factories</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rgb-colors">RGB colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#combine-foreground-and-background">Combine foreground and background</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#reuse-styles-across-output">Reuse styles across output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#style-comparison">Style comparison</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#check-for-empty-style">Check for empty style</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Widget Base Class — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjWidget class base สำหรับสร้าง reusable UI component ในลำดับชั้น widget" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Widget Base Class</h1>
+          <p class="page-description">XjWidget class base สำหรับสร้าง reusable UI component ในลำดับชั้น widget</p>
+        </div>
+
+        <h1 id="widget-base-class-xjwidget">Widget Base Class (XjWidget)<a class="headerlink" href="#widget-base-class-xjwidget" title="Permanent link">&para;</a></h1>
+<p><strong>XjWidget</strong> เป็น abstract base class สำหรับ UI components — text, buttons, inputs, tables, ฯลฯ Widget แต่ละอันมี XjLayoutNode, style, และ handler methods สำหรับ painting และ keyboard handling สิ่งสำคัญคือ widget hierarchies มีความคล้ายคลึง DOM — parent contains children, Paint() recurse, event routing</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง widget ว่างเปล่า</p>
+<h2 id="layout">Layout<a class="headerlink" href="#layout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function LayoutNode() As XjLayoutNode
+</code></pre></div>
+
+<p>ดึง layout node ของ widget นี้</p>
+<div class="highlight"><pre><span></span><code>Sub SetWidth(constraint As XjConstraint)
+Sub SetHeight(constraint As XjConstraint)
+Sub SetBorder(style As Integer, color As String)
+Sub SetPadding(top As Integer, right As Integer, bottom As Integer, left As Integer)
+Sub SetMargin(top As Integer, right As Integer, bottom As Integer, left As Integer)
+Sub SetTitle(title As String)
+Sub SetName(name As String)
+Sub SetDirection(dir As Integer)
+</code></pre></div>
+
+<p>ตั้งค่าคุณสมบัติของ layout</p>
+<h2 id="children">Children<a class="headerlink" href="#children" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub AddChild(child As XjWidget)
+Function ChildCount() As Integer
+Function Child(index As Integer) As XjWidget
+Function Parent() As XjWidget
+</code></pre></div>
+
+<p>จัดการชั้น widget hierarchy</p>
+<h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Name() As String
+Sub SetStyle(style As XjStyle)
+Function Style() As XjStyle
+Function IsVisible() As Boolean
+Sub SetVisible(visible As Boolean)
+Function IsFocusable() As Boolean
+Function IsFocused() As Boolean
+Sub SetFocused(focused As Boolean)
+Sub MarkDirty()
+Function IsDirty() As Boolean
+</code></pre></div>
+
+<p>ดึง/ตั้งค่า state ของ widget</p>
+<h2 id="template-methods-override-custom-widgets">Template Methods (Override สำหรับ custom widgets)<a class="headerlink" href="#template-methods-override-custom-widgets" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Paint(canvas As XjCanvas)
+</code></pre></div>
+
+<p>Paint widget นี้และ children ทั้งหมด (template method) — template นี้เรียก PaintContent() หลังจาก PaintBorder</p>
+<div class="highlight"><pre><span></span><code>Sub PaintContent(canvas As XjCanvas, x As Integer, y As Integer, w As Integer, h As Integer)
+</code></pre></div>
+
+<p>Override สำหรับ paint content เฉพาะของ widget — rectangle (x, y, w, h) คือ inner content area</p>
+<div class="highlight"><pre><span></span><code>Function HandleKey(key As XjKeyEvent) As Boolean
+</code></pre></div>
+
+<p>Override สำหรับ handle keyboard input — คืน True ถ้า widget consume event</p>
+<div class="highlight"><pre><span></span><code>Sub HandleTick(tickCount As UInt64)
+</code></pre></div>
+
+<p>Override สำหรับ handle timer tick (สำหรับ animation)</p>
+<h2 id="tree-navigation">Tree Navigation<a class="headerlink" href="#tree-navigation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function FindByName(name As String) As XjWidget
+</code></pre></div>
+
+<p>ค้นหา widget (recursive) โดยชื่อ</p>
+<div class="highlight"><pre><span></span><code>Sub CollectFocusable(into As List)
+</code></pre></div>
+
+<p>รวบรวมทั้งหมด focusable widget ในลำดับชั้นใน list</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="custom-widget">สร้าง Custom Widget<a class="headerlink" href="#custom-widget" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class MyCustomWidget Extends XjWidget
+  Sub PaintContent(canvas As XjCanvas, x As Integer, y As Integer, w As Integer, h As Integer)
+    canvas.WriteText(x, y, &quot;Custom content&quot;, Me.Style())
+  End Sub
+
+  Function HandleKey(key As XjKeyEvent) As Boolean
+    If key.IsEscape() Then
+      Return True &#39; Consume
+    End If
+    Return False &#39; Not consumed
+  End Function
+End Class
+</code></pre></div>
+
+<h3 id="hierarchy">สร้าง Hierarchy<a class="headerlink" href="#hierarchy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var root As New XjBox
+root.SetWidth(XjConstraint.Auto())
+root.SetHeight(XjConstraint.Auto())
+
+Var header As New XjText
+header.SetText(&quot;My App&quot;)
+header.SetHeight(XjConstraint.Fixed(1))
+
+Var content As New XjText
+content.SetText(&quot;Hello, world!&quot;)
+
+root.AddChild(header)
+root.AddChild(content)
+
+Var canvas As New XjCanvas(80, 24)
+root.Paint(canvas)
+</code></pre></div>
+
+<h3 id="focus-management">Focus Management<a class="headerlink" href="#focus-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var widget As XjWidget = &#39; ... find widget
+If widget.IsFocusable() Then
+  widget.SetFocused(True)
+End If
+</code></pre></div>
+
+<h3 id="collect-focusable-widgets">Collect Focusable Widgets<a class="headerlink" href="#collect-focusable-widgets" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var focusable As New List
+root.CollectFocusable(focusable)
+For i As Integer = 0 To focusable.Count - 1
+  Var w As XjWidget = focusable.Item(i)
+  &#39; Tab through widgets
+Wend
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Widget ทั้งหมด subclass XjWidget และ override PaintContent/HandleKey/HandleTick ตามต้องการ</p>
+<p>Widget ทำงานกับ XjLayoutNode ภายใน — Paint() ไม่ต้อง compute layout จาก scratch แต่ใช้ ComputedX/Y/Width/Height ที่คำนวณโดย XjLayoutSolver ก่อนหน้านี้</p>
+<p>ต้องทำการ Paint() ใหม่ใน main loop ปกติหลังจาก HandleKey() หรือ HandleTick() เพราะ widget อาจเปลี่ยนแปลงสถานะ</p>
+<p>XjFocusManager ใช้ CollectFocusable() และ HandleKey() เพื่อ route keyboard input ไปยัง focused widget</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../layout/solver.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Layout Solver</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/box-text.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Box & Text</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#layout">Layout</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#children">Children</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#state">State</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#template-methods-override-สำหรบ-custom-widgets">Template Methods (Override สำหรับ custom widgets)</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#tree-navigation">Tree Navigation</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#สราง-custom-widget">สร้าง Custom Widget</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#สราง-hierarchy">สร้าง Hierarchy</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#focus-management">Focus Management</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#collect-focusable-widgets">Collect Focusable Widgets</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>การจัดรูปแบบและ Validation — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjPromptStyle สำหรับจัดรูปแบบ prompt, XjValidation สำหรับ validate input, XjConversion สำหรับ modify input" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">การจัดรูปแบบและ Validation</h1>
+          <p class="page-description">XjPromptStyle สำหรับจัดรูปแบบ prompt, XjValidation สำหรับ validate input, XjConversion สำหรับ modify input</p>
+        </div>
+
+        <h1 id="validation">การจัดรูปแบบและ Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h1>
+<h2 id="xjpromptstyle">XjPromptStyle<a class="headerlink" href="#xjpromptstyle" title="Permanent link">&para;</a></h2>
+<p>ตั้งค่า global style สำหรับทั้ง prompt elements</p>
+<h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Property PrefixStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ prefix (ตัวอักษรข้างหน้า question เช่น &ldquo;?&rdquo;)</p>
+<div class="highlight"><pre><span></span><code>Property QuestionStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ question text</p>
+<div class="highlight"><pre><span></span><code>Property AnswerStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ answer/input text</p>
+<div class="highlight"><pre><span></span><code>Property HelpStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ help text (suggestions, alternatives)</p>
+<div class="highlight"><pre><span></span><code>Property ErrorStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ error messages</p>
+<div class="highlight"><pre><span></span><code>Property ActiveStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ active/highlighted items (เช่น selected choice)</p>
+<div class="highlight"><pre><span></span><code>Property InactiveStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ inactive items (non-selected choices)</p>
+<div class="highlight"><pre><span></span><code>Property DisabledStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ disabled items</p>
+<div class="highlight"><pre><span></span><code>Property CursorStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ cursor (في input)</p>
+<div class="highlight"><pre><span></span><code>Property FilterStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ filter input (Ctrl+K mode)</p>
+<div class="highlight"><pre><span></span><code>Property PlaceholderStyle As XjStyle
+</code></pre></div>
+
+<p>Style สำหรับ placeholder text</p>
+<h3 id="shared-factory">Shared Factory<a class="headerlink" href="#shared-factory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Shared Function Default_() As XjPromptStyle
+</code></pre></div>
+
+<p>สร้าง default style set</p>
+<h2 id="xjvalidation">XjValidation<a class="headerlink" href="#xjvalidation" title="Permanent link">&para;</a></h2>
+<p>Validators สำหรับ input — Required, MinLength, MaxLength, RangeInt, InList, Custom</p>
+<h3 id="shared-factory-methods">Shared Factory Methods<a class="headerlink" href="#shared-factory-methods" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Shared Function Required(message As String = &quot;&quot;) As XjValidation
+</code></pre></div>
+
+<p>กำหนด input ต้องไม่ว่างเปล่า</p>
+<div class="highlight"><pre><span></span><code>Shared Function MinLength(n As Integer, message As String = &quot;&quot;) As XjValidation
+</code></pre></div>
+
+<p>กำหนด input ต้องอย่างน้อย n ตัวอักษร</p>
+<div class="highlight"><pre><span></span><code>Shared Function MaxLength(n As Integer, message As String = &quot;&quot;) As XjValidation
+</code></pre></div>
+
+<p>กำหนด input ต้องไม่เกิน n ตัวอักษร</p>
+<div class="highlight"><pre><span></span><code>Shared Function RangeInt(min As Integer, max As Integer, message As String = &quot;&quot;) As XjValidation
+</code></pre></div>
+
+<p>กำหนด input ต้องเป็น integer ระหว่าง min และ max</p>
+<div class="highlight"><pre><span></span><code>Shared Function InList(values() As String, message As String = &quot;&quot;) As XjValidation
+</code></pre></div>
+
+<p>กำหนด input ต้องเป็นหนึ่ง values</p>
+<h3 id="instance-method">Instance Method<a class="headerlink" href="#instance-method" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Validate(value As String, ByRef errorMessage As String) As Boolean
+</code></pre></div>
+
+<p>ทำ validate — คืน True ถ้า pass, False ถ้า fail และตั้ง errorMessage</p>
+<h2 id="xjconversion">XjConversion<a class="headerlink" href="#xjconversion" title="Permanent link">&para;</a></h2>
+<p>Input modifiers — uppercase, lowercase, capitalize, strip</p>
+<h3 id="shared-functions">Shared Functions<a class="headerlink" href="#shared-functions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function ToInteger(value As String, ByRef result As Integer) As Boolean
+</code></pre></div>
+
+<p>Parse string เป็น integer</p>
+<div class="highlight"><pre><span></span><code>Function ToDouble(value As String, ByRef result As Double) As Boolean
+</code></pre></div>
+
+<p>Parse string เป็น double</p>
+<div class="highlight"><pre><span></span><code>Function ToBool(value As String) As Boolean
+</code></pre></div>
+
+<p>Parse string เป็น boolean (y/yes/true/1 = True)</p>
+<div class="highlight"><pre><span></span><code>Sub ApplyModifier(value As String, modifier As Integer) As String
+</code></pre></div>
+
+<p>ใช้ modifier บน string</p>
+<h3 id="modifier-constants">Modifier Constants<a class="headerlink" href="#modifier-constants" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const MOD_NONE = 0          &#39; No change
+Const MOD_UP = 1            &#39; UPPERCASE
+Const MOD_DOWN = 2          &#39; lowercase
+Const MOD_CAPITALIZE = 3    &#39; Capitalize first letter
+Const MOD_STRIP = 4         &#39; Trim whitespace
+</code></pre></div>
+
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="global-prompt-style">ตั้งค่า Global Prompt Style<a class="headerlink" href="#global-prompt-style" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var style As New XjPromptStyle
+style.PrefixStyle = XjStyle.MakeBold().SetFG(XjANSI.FG_BLUE)
+style.QuestionStyle = XjStyle.Default_()
+style.AnswerStyle = XjStyle.MakeBold()
+style.ErrorStyle = XjStyle.Danger()
+
+XjPrompt.SetStyle(style)
+</code></pre></div>
+
+<h3 id="validate-required-minlength">Validate Required &amp; MinLength<a class="headerlink" href="#validate-required-minlength" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var prompt As New XjAskPrompt(&quot;Username&quot;)
+prompt.AddValidation(XjValidation.Required(&quot;Username required&quot;))
+prompt.AddValidation(XjValidation.MinLength(3, &quot;Must be 3+ characters&quot;))
+
+Var username As String = prompt.Run()
+</code></pre></div>
+
+<h3 id="validate-inlist">Validate InList<a class="headerlink" href="#validate-inlist" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var prompt As New XjAskPrompt(&quot;Environment&quot;)
+Var valid() As String = Array(&quot;dev&quot;, &quot;staging&quot;, &quot;prod&quot;)
+prompt.AddValidation(XjValidation.InList(valid, &quot;Must be dev/staging/prod&quot;))
+
+Var env As String = prompt.Run()
+</code></pre></div>
+
+<h3 id="validate-rangeint">Validate RangeInt<a class="headerlink" href="#validate-rangeint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var prompt As New XjAskPrompt(&quot;Port&quot;)
+prompt.AddValidation(XjValidation.RangeInt(1024, 65535, &quot;Port must be 1024-65535&quot;))
+
+Var portStr As String = prompt.Run()
+Var port As Integer = Val(portStr)
+</code></pre></div>
+
+<h3 id="apply-input-modifier">Apply Input Modifier<a class="headerlink" href="#apply-input-modifier" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var prompt As New XjAskPrompt(&quot;City&quot;)
+prompt.SetModifier(XjConversion.MOD_CAPITALIZE)
+
+Var city As String = prompt.Run()
+&#39; &quot;new york&quot; -&gt; &quot;New york&quot;
+</code></pre></div>
+
+<h3 id="parse-numeric-input">Parse Numeric Input<a class="headerlink" href="#parse-numeric-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var input As String = XjPrompt.Ask(&quot;Enter number&quot;)
+Var num As Integer
+If XjConversion.ToInteger(input, num) Then
+  XjPrompt.Ok(&quot;Number: &quot; + num.ToString())
+Else
+  XjPrompt.Error_(&quot;Not a valid number&quot;)
+End If
+</code></pre></div>
+
+<h3 id="custom-validation">Custom Validation<a class="headerlink" href="#custom-validation" title="Permanent link">&para;</a></h3>
+<p>ลอง XjAskPrompt เพื่อสร้าง custom validator:</p>
+<div class="highlight"><pre><span></span><code>Var prompt As New XjAskPrompt(&quot;Email&quot;)
+
+&#39; Validate using pattern (simplified)
+Var customValidator As New XjValidation
+&#39; Custom validation logic in Validate() method
+
+prompt.AddValidation(customValidator)
+Var email As String = prompt.Run()
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>XjPromptStyle ตั้งค่าทั่วโลก — ทุก prompt ใช้ style นี้ (ไม่ต้องตั้ง individual widgets)</p>
+<p>XjValidation validators chain — AddValidation() หลาย ตัว ตรวจสอบ ตามลำดับ</p>
+<p>Message parameter ใน Required/MinLength/&hellip; เป็น optional — ถ้าบอก ใช้ default message</p>
+<p>ApplyModifier() modify input เมื่อแสดง only — actual value ไม่เปลี่ยน</p>
+<p>ToInteger/ToDouble ส่งคืน Boolean — ใช้เพื่อ check ถ้า parse สำเร็จ</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../prompts/special-prompts.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Special Prompts</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/logger.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Logger</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjpromptstyle">XjPromptStyle</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#properties">Properties</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#shared-factory">Shared Factory</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjvalidation">XjValidation</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#shared-factory-methods">Shared Factory Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#instance-method">Instance Method</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjconversion">XjConversion</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#shared-functions">Shared Functions</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#modifier-constants">Modifier Constants</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตงคา-global-prompt-style">ตั้งค่า Global Prompt Style</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#validate-required-minlength">Validate Required & MinLength</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#validate-inlist">Validate InList</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#validate-rangeint">Validate RangeInt</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#apply-input-modifier">Apply Input Modifier</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#parse-numeric-input">Parse Numeric Input</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#custom-validation">Custom Validation</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

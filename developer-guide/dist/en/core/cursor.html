@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursor — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjCursor module provides cursor movement, visibility control, and position queries for terminal applications." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Cursor</h1>
+          <p class="page-description">XjCursor module provides cursor movement, visibility control, and position queries for terminal applications.</p>
+        </div>
+
+        <h1 id="cursor">Cursor<a class="headerlink" href="#cursor" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjCursor</strong> module handles cursor positioning, movement, and visibility in the terminal. All methods return ANSI escape sequences.</p>
+<h2 id="movement">Movement<a class="headerlink" href="#movement" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MoveTo(row, col)</code></td>
+<td>Integer row, col</td>
+<td>String</td>
+<td>Move cursor to row and column (1-based)</td>
+</tr>
+<tr>
+<td><code>MoveUp(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor up N lines</td>
+</tr>
+<tr>
+<td><code>MoveDown(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor down N lines</td>
+</tr>
+<tr>
+<td><code>MoveLeft(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor left N columns</td>
+</tr>
+<tr>
+<td><code>MoveRight(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor right N columns</td>
+</tr>
+<tr>
+<td><code>MoveToColumn(col)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to column within current line (1-based)</td>
+</tr>
+<tr>
+<td><code>NextLine(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to start of next N lines</td>
+</tr>
+<tr>
+<td><code>PrevLine(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to start of previous N lines</td>
+</tr>
+<tr>
+<td><code>Home()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Move to top-left corner (1,1)</td>
+</tr>
+<tr>
+<td><code>MoveRelative(dx, dy)</code></td>
+<td>Integer dx, dy</td>
+<td>String</td>
+<td>Move relative to current position</td>
+</tr>
+</tbody>
+</table>
+<h2 id="visibility">Visibility<a class="headerlink" href="#visibility" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Show()</code></td>
+<td>String</td>
+<td>Make cursor visible</td>
+</tr>
+<tr>
+<td><code>Hide()</code></td>
+<td>String</td>
+<td>Hide cursor</td>
+</tr>
+</tbody>
+</table>
+<h2 id="position">Position<a class="headerlink" href="#position" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GetPosition()</code></td>
+<td>String</td>
+<td>Query cursor position (returns CPR escape sequence; requires raw mode)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="position-saving">Position Saving<a class="headerlink" href="#position-saving" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Save()</code></td>
+<td>String</td>
+<td>Save current cursor position</td>
+</tr>
+<tr>
+<td><code>Restore()</code></td>
+<td>String</td>
+<td>Restore previously saved position</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="simple-cursor-movement">Simple cursor movement<a class="headerlink" href="#simple-cursor-movement" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Move to column 10 on current line
+XjTerminal.Write(XjCursor.MoveToColumn(10))
+XjTerminal.Write(&quot;Start here&quot;)
+
+// Move up 2 lines, then right 5 columns
+XjTerminal.Write(XjCursor.MoveUp(2) + XjCursor.MoveRight(5))
+</code></pre></div>
+
+<h3 id="save-and-restore-position">Save and restore position<a class="headerlink" href="#save-and-restore-position" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Save current position
+XjTerminal.Write(XjCursor.Save())
+
+// Write progress indicator at specific location
+XjTerminal.Write(XjCursor.MoveTo(10, 50))
+XjTerminal.Write(&quot;Progress: 50%&quot;)
+
+// Return to saved position
+XjTerminal.Write(XjCursor.Restore())
+</code></pre></div>
+
+<h3 id="hide-cursor-during-output">Hide cursor during output<a class="headerlink" href="#hide-cursor-during-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjCursor.Hide())
+
+Try
+  // Your drawing/output code
+  For i As Integer = 1 To 100
+    XjTerminal.Write(&quot;Line &quot; + i.ToString())
+  Next
+Finally
+  XjTerminal.Write(XjCursor.Show())
+End Try
+</code></pre></div>
+
+<h3 id="hide-cursor-for-full-screen-apps">Hide cursor for full-screen apps<a class="headerlink" href="#hide-cursor-for-full-screen-apps" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjCursor.Hide())
+
+Try
+  Var loop As New XjEventLoop(50)
+  loop.Run(Me)
+Finally
+  XjTerminal.Write(XjCursor.Show())
+End Try
+</code></pre></div>
+
+<h3 id="navigate-to-specific-locations">Navigate to specific locations<a class="headerlink" href="#navigate-to-specific-locations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Clear screen and position at center
+Var width As Integer = XjTerminal.Width()
+Var height As Integer = XjTerminal.Height()
+Var centerCol As Integer = width \ 2
+Var centerRow As Integer = height \ 2
+
+XjTerminal.Write(XjScreen.Clear())
+XjTerminal.Write(XjCursor.MoveTo(centerRow, centerCol))
+XjTerminal.Write(&quot;Centered text&quot;)
+</code></pre></div>
+
+<h3 id="cursor-movement-with-relative-positioning">Cursor movement with relative positioning<a class="headerlink" href="#cursor-movement-with-relative-positioning" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Move down 3 lines, right 10 columns
+XjTerminal.Write(XjCursor.MoveRelative(10, 3))
+
+// Or use absolute positioning
+XjTerminal.Write(XjCursor.MoveTo(5, 15))
+</code></pre></div>
+
+<h3 id="multi-line-prompt-with-cursor-control">Multi-line prompt with cursor control<a class="headerlink" href="#multi-line-prompt-with-cursor-control" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(&quot;Enter your name: &quot;)
+Var nameStart As String = XjCursor.Save()
+
+XjTerminal.Write(&quot;(Hint: First and Last)&quot;)
+XjTerminal.Write(XjCursor.MoveLeft(20)) // Adjust for prompt length
+
+&#39; User enters name here
+Var name As String = &quot;John Doe&quot;
+XjTerminal.Write(XjCursor.Restore())
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Coordinate system</strong>: All cursor methods use 1-based coordinates (row 1, column 1 is top-left). This matches ANSI escape sequence conventions.</p>
+<p><strong>String concatenation</strong>: All methods return escape sequences that can be concatenated with text and other escape sequences:</p>
+<div class="highlight"><pre><span></span><code>Var combined As String = XjCursor.Home() + XjScreen.Clear() + &quot;Ready&quot;
+XjTerminal.Write(combined)
+</code></pre></div>
+
+<p><strong>Position queries</strong>: GetPosition() is advanced. It sends a CPR (Cursor Position Report) query and requires raw mode to read the response. Use it cautiously in interactive applications.</p>
+<p><strong>Visible positioning</strong>: MoveTo() immediately positions the cursor. The text you write appears at that location, without explicit cursor movement between lines.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The XjCursor module only returns escape sequences. Actual cursor movement happens when XjTerminal.Write() sends the sequences to the terminal.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/color.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Colors</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/screen.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Screen</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#movement">Movement</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#visibility">Visibility</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#position">Position</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#position-saving">Position Saving</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#simple-cursor-movement">Simple cursor movement</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#save-and-restore-position">Save and restore position</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#hide-cursor-during-output">Hide cursor during output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#hide-cursor-for-full-screen-apps">Hide cursor for full-screen apps</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#navigate-to-specific-locations">Navigate to specific locations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#cursor-movement-with-relative-positioning">Cursor movement with relative positioning</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#multi-line-prompt-with-cursor-control">Multi-line prompt with cursor control</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

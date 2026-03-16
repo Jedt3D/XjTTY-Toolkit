@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANSI Escape Codes — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjANSI module provides low-level ANSI escape code builders for terminal control, text styling, colors, cursor movement, and screen operations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">ANSI Escape Codes</h1>
+          <p class="page-description">XjANSI module provides low-level ANSI escape code builders for terminal control, text styling, colors, cursor movement, and screen operations.</p>
+        </div>
+
+        <h1 id="ansi-escape-codes">ANSI Escape Codes<a class="headerlink" href="#ansi-escape-codes" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjANSI</strong> module builds ANSI escape sequences for low-level terminal control. These codes control colors, cursor position, screen clearing, mouse tracking, and more.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most applications use higher-level abstractions (XjColor, XjCursor, XjScreen) instead of calling XjANSI directly. Use XjANSI when you need precise escape sequence control.</p>
+</div>
+<h2 id="control-sequences">Control Sequences<a class="headerlink" href="#control-sequences" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ESC()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Returns ESC character (ASCII 27)</td>
+</tr>
+<tr>
+<td><code>CSI()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Returns CSI prefix (ESC[) for cursor/screen control</td>
+</tr>
+<tr>
+<td><code>OSC()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Returns OSC prefix (ESC]) for operating system command</td>
+</tr>
+<tr>
+<td><code>ST()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Returns ST terminator (ESC) for OSC sequences</td>
+</tr>
+<tr>
+<td><code>SGR(code)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Select Graphic Rendition — returns complete SGR sequence</td>
+</tr>
+<tr>
+<td><code>Reset()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Returns reset sequence (all attributes to default)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="text-styling">Text Styling<a class="headerlink" href="#text-styling" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Bold()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Bold/bright text</td>
+</tr>
+<tr>
+<td><code>Dim()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Dim/faint text</td>
+</tr>
+<tr>
+<td><code>Italic()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Italic text</td>
+</tr>
+<tr>
+<td><code>Underline()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Underlined text</td>
+</tr>
+<tr>
+<td><code>Blink()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Blinking text (slow blink)</td>
+</tr>
+<tr>
+<td><code>FastBlink()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Blinking text (rapid blink)</td>
+</tr>
+<tr>
+<td><code>Inverse()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Swap foreground and background</td>
+</tr>
+<tr>
+<td><code>Strikethrough()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Strikethrough text</td>
+</tr>
+<tr>
+<td><code>DoubleUnderline()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Double underline</td>
+</tr>
+</tbody>
+</table>
+<h2 id="colors">Colors<a class="headerlink" href="#colors" title="Permanent link">&para;</a></h2>
+<p>All color methods return SGR sequences that can be concatenated with text:</p>
+<h3 id="foreground-colors-8-color-palette">Foreground Colors (8-color palette)<a class="headerlink" href="#foreground-colors-8-color-palette" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FG_BLACK</code></td>
+<td>&ldquo;30&rdquo;</td>
+<td>Black</td>
+</tr>
+<tr>
+<td><code>FG_RED</code></td>
+<td>&ldquo;31&rdquo;</td>
+<td>Red</td>
+</tr>
+<tr>
+<td><code>FG_GREEN</code></td>
+<td>&ldquo;32&rdquo;</td>
+<td>Green</td>
+</tr>
+<tr>
+<td><code>FG_YELLOW</code></td>
+<td>&ldquo;33&rdquo;</td>
+<td>Yellow</td>
+</tr>
+<tr>
+<td><code>FG_BLUE</code></td>
+<td>&ldquo;34&rdquo;</td>
+<td>Blue</td>
+</tr>
+<tr>
+<td><code>FG_MAGENTA</code></td>
+<td>&ldquo;35&rdquo;</td>
+<td>Magenta</td>
+</tr>
+<tr>
+<td><code>FG_CYAN</code></td>
+<td>&ldquo;36&rdquo;</td>
+<td>Cyan</td>
+</tr>
+<tr>
+<td><code>FG_WHITE</code></td>
+<td>&ldquo;37&rdquo;</td>
+<td>White</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bright-foreground-colors">Bright Foreground Colors<a class="headerlink" href="#bright-foreground-colors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FG_BRIGHT_BLACK</code></td>
+<td>&ldquo;90&rdquo;</td>
+<td>Bright Black (Gray)</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_RED</code></td>
+<td>&ldquo;91&rdquo;</td>
+<td>Bright Red</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_GREEN</code></td>
+<td>&ldquo;92&rdquo;</td>
+<td>Bright Green</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_YELLOW</code></td>
+<td>&ldquo;93&rdquo;</td>
+<td>Bright Yellow</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_BLUE</code></td>
+<td>&ldquo;94&rdquo;</td>
+<td>Bright Blue</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_MAGENTA</code></td>
+<td>&ldquo;95&rdquo;</td>
+<td>Bright Magenta</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_CYAN</code></td>
+<td>&ldquo;96&rdquo;</td>
+<td>Bright Cyan</td>
+</tr>
+<tr>
+<td><code>FG_BRIGHT_WHITE</code></td>
+<td>&ldquo;97&rdquo;</td>
+<td>Bright White</td>
+</tr>
+</tbody>
+</table>
+<h3 id="background-colors-8-color-palette">Background Colors (8-color palette)<a class="headerlink" href="#background-colors-8-color-palette" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BG_BLACK</code></td>
+<td>&ldquo;40&rdquo;</td>
+<td>Black background</td>
+</tr>
+<tr>
+<td><code>BG_RED</code></td>
+<td>&ldquo;41&rdquo;</td>
+<td>Red background</td>
+</tr>
+<tr>
+<td><code>BG_GREEN</code></td>
+<td>&ldquo;42&rdquo;</td>
+<td>Green background</td>
+</tr>
+<tr>
+<td><code>BG_YELLOW</code></td>
+<td>&ldquo;43&rdquo;</td>
+<td>Yellow background</td>
+</tr>
+<tr>
+<td><code>BG_BLUE</code></td>
+<td>&ldquo;44&rdquo;</td>
+<td>Blue background</td>
+</tr>
+<tr>
+<td><code>BG_MAGENTA</code></td>
+<td>&ldquo;45&rdquo;</td>
+<td>Magenta background</td>
+</tr>
+<tr>
+<td><code>BG_CYAN</code></td>
+<td>&ldquo;46&rdquo;</td>
+<td>Cyan background</td>
+</tr>
+<tr>
+<td><code>BG_WHITE</code></td>
+<td>&ldquo;47&rdquo;</td>
+<td>White background</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bright-background-colors">Bright Background Colors<a class="headerlink" href="#bright-background-colors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BG_BRIGHT_BLACK</code></td>
+<td>&ldquo;100&rdquo;</td>
+<td>Bright Black background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_RED</code></td>
+<td>&ldquo;101&rdquo;</td>
+<td>Bright Red background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_GREEN</code></td>
+<td>&ldquo;102&rdquo;</td>
+<td>Bright Green background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_YELLOW</code></td>
+<td>&ldquo;103&rdquo;</td>
+<td>Bright Yellow background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_BLUE</code></td>
+<td>&ldquo;104&rdquo;</td>
+<td>Bright Blue background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_MAGENTA</code></td>
+<td>&ldquo;105&rdquo;</td>
+<td>Bright Magenta background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_CYAN</code></td>
+<td>&ldquo;106&rdquo;</td>
+<td>Bright Cyan background</td>
+</tr>
+<tr>
+<td><code>BG_BRIGHT_WHITE</code></td>
+<td>&ldquo;107&rdquo;</td>
+<td>Bright White background</td>
+</tr>
+</tbody>
+</table>
+<h3 id="advanced-color-methods">Advanced Color Methods<a class="headerlink" href="#advanced-color-methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FG256(code)</code></td>
+<td>Integer (0-255)</td>
+<td>String</td>
+<td>256-color foreground</td>
+</tr>
+<tr>
+<td><code>BG256(code)</code></td>
+<td>Integer (0-255)</td>
+<td>String</td>
+<td>256-color background</td>
+</tr>
+<tr>
+<td><code>FGRGB(r, g, b)</code></td>
+<td>Integer r, g, b (0-255)</td>
+<td>String</td>
+<td>True color (24-bit) foreground</td>
+</tr>
+<tr>
+<td><code>BGRGB(r, g, b)</code></td>
+<td>Integer r, g, b (0-255)</td>
+<td>String</td>
+<td>True color (24-bit) background</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cursor-movement">Cursor Movement<a class="headerlink" href="#cursor-movement" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CursorUp(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor up N lines</td>
+</tr>
+<tr>
+<td><code>CursorDown(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor down N lines</td>
+</tr>
+<tr>
+<td><code>CursorForward(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor right N columns</td>
+</tr>
+<tr>
+<td><code>CursorBack(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move cursor left N columns</td>
+</tr>
+<tr>
+<td><code>CursorNextLine(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to beginning of next N lines</td>
+</tr>
+<tr>
+<td><code>CursorPrevLine(n)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to beginning of previous N lines</td>
+</tr>
+<tr>
+<td><code>CursorHorizontalAbs(col)</code></td>
+<td>Integer</td>
+<td>String</td>
+<td>Move to column (1-based)</td>
+</tr>
+<tr>
+<td><code>CursorPosition(row, col)</code></td>
+<td>Integer row, col</td>
+<td>String</td>
+<td>Move to row and column (1-based)</td>
+</tr>
+<tr>
+<td><code>CursorHome()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Move to home (1,1)</td>
+</tr>
+<tr>
+<td><code>SaveCursorPosition()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Save cursor position</td>
+</tr>
+<tr>
+<td><code>RestoreCursorPosition()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Restore cursor position</td>
+</tr>
+<tr>
+<td><code>GetCursorPosition()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Query cursor position (CPR)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="erase-operations">Erase Operations<a class="headerlink" href="#erase-operations" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EraseLine()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase entire line</td>
+</tr>
+<tr>
+<td><code>EraseToEndOfLine()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase from cursor to end of line</td>
+</tr>
+<tr>
+<td><code>EraseToStartOfLine()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase from start of line to cursor</td>
+</tr>
+<tr>
+<td><code>EraseDisplay()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase entire display</td>
+</tr>
+<tr>
+<td><code>EraseToEndOfDisplay()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase from cursor to end of display</td>
+</tr>
+<tr>
+<td><code>EraseToStartOfDisplay()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Erase from start of display to cursor</td>
+</tr>
+<tr>
+<td><code>ClearScrollback()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Clear scrollback buffer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="screen-modes">Screen Modes<a class="headerlink" href="#screen-modes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnterAlternateScreen()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Switch to alternate screen buffer</td>
+</tr>
+<tr>
+<td><code>ExitAlternateScreen()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Exit alternate screen buffer</td>
+</tr>
+<tr>
+<td><code>EnterRawMode()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Disable line buffering (handled by XjTerminal)</td>
+</tr>
+<tr>
+<td><code>ExitRawMode()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Restore line buffering (handled by XjTerminal)</td>
+</tr>
+<tr>
+<td><code>HideCursor()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Hide text cursor</td>
+</tr>
+<tr>
+<td><code>ShowCursor()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Show text cursor</td>
+</tr>
+<tr>
+<td><code>SetAutoWrap(enable)</code></td>
+<td>Boolean</td>
+<td>String</td>
+<td>Enable/disable automatic line wrapping</td>
+</tr>
+<tr>
+<td><code>SetBracketedPasteMode(enable)</code></td>
+<td>Boolean</td>
+<td>String</td>
+<td>Enable/disable bracketed paste mode</td>
+</tr>
+<tr>
+<td><code>SetMouseTracking(enable, mode)</code></td>
+<td>Boolean, Integer</td>
+<td>String</td>
+<td>Enable mouse tracking (0=normal, 1=any-event)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="utilities">Utilities<a class="headerlink" href="#utilities" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StripCodes(text)</code></td>
+<td>String</td>
+<td>String</td>
+<td>Remove all ANSI codes from text</td>
+</tr>
+<tr>
+<td><code>VisibleLength(text)</code></td>
+<td>String</td>
+<td>Integer</td>
+<td>Return visible length (excluding ANSI codes)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-colored-output">Basic colored output<a class="headerlink" href="#basic-colored-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjANSI.CSI() + XjANSI.FG_RED + &quot;mRed text&quot; + XjANSI.Reset())
+</code></pre></div>
+
+<h3 id="styled-output">Styled output<a class="headerlink" href="#styled-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var bold As String = XjANSI.Bold()
+Var underline As String = XjANSI.Underline()
+Var reset As String = XjANSI.Reset()
+XjTerminal.Write(bold + underline + &quot;Important&quot; + reset)
+</code></pre></div>
+
+<h3 id="cursor-movement_1">Cursor movement<a class="headerlink" href="#cursor-movement_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjANSI.CursorHome())
+XjTerminal.Write(XjANSI.EraseLine())
+XjTerminal.Write(&quot;Start of line&quot;)
+</code></pre></div>
+
+<h3 id="rgb-color">RGB color<a class="headerlink" href="#rgb-color" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var orange As String = XjANSI.FGRGB(255, 165, 0)
+XjTerminal.Write(orange + &quot;Orange text&quot; + XjANSI.Reset())
+</code></pre></div>
+
+<h3 id="strip-ansi-codes">Strip ANSI codes<a class="headerlink" href="#strip-ansi-codes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var styled As String = XjColor.Red(&quot;Error&quot;) + &quot; occurred&quot;
+Var plain As String = XjANSI.StripCodes(styled)
+// plain = &quot;Error occurred&quot;
+</code></pre></div>
+
+<h2 id="performance-notes">Performance notes<a class="headerlink" href="#performance-notes" title="Permanent link">&para;</a></h2>
+<p>ANSI methods are lightweight string builders. They concatenate escape codes without I/O. Actual terminal output happens via XjTerminal.Write().</p>
+<p>For high-volume output, batch write operations together:</p>
+<div class="highlight"><pre><span></span><code>Var output As String = XjANSI.CursorHome() + XjANSI.EraseDisplay() + content
+XjTerminal.Write(output)
+</code></pre></div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/platform.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Platform Detection</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/terminal.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Terminal Control</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#control-sequences">Control Sequences</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#text-styling">Text Styling</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#colors">Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#foreground-colors-8-color-palette">Foreground Colors (8-color palette)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#bright-foreground-colors">Bright Foreground Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#background-colors-8-color-palette">Background Colors (8-color palette)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#bright-background-colors">Bright Background Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#advanced-color-methods">Advanced Color Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#cursor-movement">Cursor Movement</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#erase-operations">Erase Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#screen-modes">Screen Modes</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#utilities">Utilities</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#basic-colored-output">Basic colored output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#styled-output">Styled output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#cursor-movement">Cursor movement</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rgb-color">RGB color</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#strip-ansi-codes">Strip ANSI codes</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#performance-notes">Performance notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

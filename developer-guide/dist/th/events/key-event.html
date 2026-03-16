@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Key Event — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjKeyEvent class สำหรับแทนการกด keyboard event" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Key Event</h1>
+          <p class="page-description">XjKeyEvent class สำหรับแทนการกด keyboard event</p>
+        </div>
+
+        <h1 id="key-event-xjkeyevent">Key Event (XjKeyEvent)<a class="headerlink" href="#key-event-xjkeyevent" title="Permanent link">&para;</a></h1>
+<p><strong>XjKeyEvent</strong> แทน single keyboard event — อักขระที่กด, key code (Enter, Escape, arrow, ฯลฯ), และ modifier flags (Ctrl, Alt, Shift) สิ่งสำคัญคือเมื่อผู้ใช้กด keyboard terminal ส่ง escape sequence เราต้อง parse ลำดับนั้นและแปลงมันเป็น XjKeyEvent</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New(keyCode As Integer, char As String, ctrl As Boolean, alt As Boolean, shift As Boolean)
+</code></pre></div>
+
+<p>สร้าง key event ที่มี key code, อักขระ, และ modifier flags</p>
+<h2 id="accessors">Accessors<a class="headerlink" href="#accessors" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function KeyCode() As Integer
+</code></pre></div>
+
+<p>ดึง key code (KEY_ENTER, KEY_ESCAPE, KEY_CHAR, เป็นต้น)</p>
+<div class="highlight"><pre><span></span><code>Function Char() As String
+</code></pre></div>
+
+<p>ดึงอักขระที่กด (เทพ่อที่ KEY_CHAR)</p>
+<h2 id="modifier-flags">Modifier Flags<a class="headerlink" href="#modifier-flags" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function IsCtrl() As Boolean
+Function IsAlt() As Boolean
+Function IsShift() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบว่า modifier ใดถูกกด</p>
+<h2 id="key-tests">Key Tests<a class="headerlink" href="#key-tests" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function IsCharKey() As Boolean
+</code></pre></div>
+
+<p>คืน <code>True</code> ถ้า key code == KEY_CHAR (อักขระธรรมดา)</p>
+<div class="highlight"><pre><span></span><code>Function IsEnter() As Boolean
+Function IsEscape() As Boolean
+Function IsTab() As Boolean
+Function IsBackspace() As Boolean
+Function IsDelete() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบพิเศษ key</p>
+<div class="highlight"><pre><span></span><code>Function IsArrow() As Boolean
+</code></pre></div>
+
+<p>คืน <code>True</code> ถ้าเป็น arrow key (UP, DOWN, LEFT, RIGHT)</p>
+<div class="highlight"><pre><span></span><code>Function IsArrowUp/Down/Left/Right() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบ arrow key เฉพาะ</p>
+<div class="highlight"><pre><span></span><code>Function IsHome() As Boolean
+Function IsEnd() As Boolean
+Function IsPageUp() As Boolean
+Function IsPageDown() As Boolean
+Function IsInsert() As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบ navigation key อื่นๆ</p>
+<div class="highlight"><pre><span></span><code>Function IsFunction() As Boolean
+</code></pre></div>
+
+<p>คืน <code>True</code> ถ้าเป็น F1-F12</p>
+<div class="highlight"><pre><span></span><code>Function IsFunctionKey(num As Integer) As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบ function key เฉพาะ (1-12)</p>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function KeyName() As String
+</code></pre></div>
+
+<p>คืนชื่อ key ในรูป string เช่น &ldquo;Enter&rdquo;, &ldquo;Escape&rdquo;, &ldquo;ArrowUp&rdquo;, &ldquo;Ctrl+A&rdquo;, &ldquo;F1&rdquo;</p>
+<div class="highlight"><pre><span></span><code>Function ToString() As String
+</code></pre></div>
+
+<p>เหมือนกับ KeyName()</p>
+<h2 id="key-code-constants">Key Code Constants<a class="headerlink" href="#key-code-constants" title="Permanent link">&para;</a></h2>
+<h3 id="character-key">Character Key<a class="headerlink" href="#character-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const KEY_CHAR = 0 &#39; Regular character
+</code></pre></div>
+
+<h3 id="special-keys">Special Keys<a class="headerlink" href="#special-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const KEY_ENTER = 1
+Const KEY_ESCAPE = 2
+Const KEY_TAB = 3
+Const KEY_BACKTAB = 4 &#39; Shift+Tab
+Const KEY_BACKSPACE = 5
+Const KEY_DELETE = 6
+</code></pre></div>
+
+<h3 id="arrow-keys">Arrow Keys<a class="headerlink" href="#arrow-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const KEY_UP = 10
+Const KEY_DOWN = 11
+Const KEY_RIGHT = 12
+Const KEY_LEFT = 13
+</code></pre></div>
+
+<h3 id="navigation-keys">Navigation Keys<a class="headerlink" href="#navigation-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const KEY_HOME = 14
+Const KEY_END = 15
+Const KEY_PAGEUP = 16
+Const KEY_PAGEDOWN = 17
+Const KEY_INSERT = 18
+</code></pre></div>
+
+<h3 id="function-keys">Function Keys<a class="headerlink" href="#function-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const KEY_F1 = 20
+Const KEY_F2 = 21
+&#39; ... up to ...
+Const KEY_F12 = 31
+</code></pre></div>
+
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="key-event-handler">ตรวจสอบ Key ใน Event Handler<a class="headerlink" href="#key-event-handler" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var key As XjKeyEvent = &#39; ... from input reader
+If key.IsEscape() Then
+  &#39; Exit app
+ElseIf key.IsArrowUp() Then
+  &#39; Move selection up
+ElseIf key.IsCharKey() And key.Char() = &quot;q&quot; Then
+  &#39; Quit
+End If
+</code></pre></div>
+
+<h3 id="modifier">ตรวจสอบ Modifier<a class="headerlink" href="#modifier" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If key.IsCtrl() And key.Char() = &quot;c&quot; Then
+  &#39; Ctrl+C pressed
+  &#39; Cancel operation
+End If
+</code></pre></div>
+
+<h3 id="key-display">ดึงชื่อ Key สำหรับ Display<a class="headerlink" href="#key-display" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var keyName As String = key.KeyName()
+XjTerminal.Write(&quot;You pressed: &quot; + keyName)
+</code></pre></div>
+
+<h3 id="function-key">ฟังก์ชัน Function Key<a class="headerlink" href="#function-key" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If key.IsFunction() Then
+  Var num As Integer = key.KeyCode() - KEY_F1 + 1
+  XjTerminal.Write(&quot;Pressed F&quot; + num.ToString())
+End If
+</code></pre></div>
+
+<h3 id="shifttab">ตรวจสอบ Shift+Tab<a class="headerlink" href="#shifttab" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If key.KeyCode() = XjKeyEvent.KEY_BACKTAB Then
+  &#39; Focus previous widget
+End If
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>XjKeyEvent ถูก parse โดย XjReader ซึ่ง translate escape sequence เช่น &ldquo;ESC[A&rdquo; (arrow up) เป็น XjKeyEvent ที่มี KEY_UP</p>
+<p>สำหรับส่วนใหญ่ของ app ไม่ต้อง construct XjKeyEvent ด้วยตัวเอง — ใช้ XjEventLoop callback ซึ่งส่ง XjKeyEvent ที่ parsed แล้ว</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../styling/symbols.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">XjSymbols</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../events/event.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Event System</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#accessors">Accessors</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#modifier-flags">Modifier Flags</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#key-tests">Key Tests</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#output">Output</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#key-code-constants">Key Code Constants</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#character-key">Character Key</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#special-keys">Special Keys</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#arrow-keys">Arrow Keys</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#navigation-keys">Navigation Keys</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#function-keys">Function Keys</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตรวจสอบ-key-ใน-event-handler">ตรวจสอบ Key ใน Event Handler</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตรวจสอบ-modifier">ตรวจสอบ Modifier</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ดงชอ-key-สำหรบ-display">ดึงชื่อ Key สำหรับ Display</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ฟงกชน-function-key">ฟังก์ชัน Function Key</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตรวจสอบ-shifttab">ตรวจสอบ Shift+Tab</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

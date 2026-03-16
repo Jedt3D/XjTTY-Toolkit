@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>レイアウトノード — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjLayoutNodeクラスはFlexboxライクなレイアウトツリーを構成し、枠線、タイトル、パディング、マージンをサポートします。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">レイアウトノード</h1>
+          <p class="page-description">XjLayoutNodeクラスはFlexboxライクなレイアウトツリーを構成し、枠線、タイトル、パディング、マージンをサポートします。</p>
+        </div>
+
+        <h1 id="xjlayoutnode">レイアウトノード（XjLayoutNode）<a class="headerlink" href="#xjlayoutnode" title="Permanent link">&para;</a></h1>
+<p>XjLayoutNodeクラスはFlexboxに似たフレキシブルレイアウトツリーを構築するためのノードです。方向（行・列）、サイズ制約、パディング、マージン、枠線、タイトル等を指定できます。</p>
+<h2 id="_1">方向定数<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Const DIR_ROW = 0      // 水平方向（左から右）
+Const DIR_COLUMN = 1   // 垂直方向（上から下）
+</code></pre></div>
+
+<h2 id="_2">レイアウト設定<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetDirection(direction As Integer)
+Sub SetWidth(constraint As XjConstraint)
+Sub SetHeight(constraint As XjConstraint)
+Sub SetPadding(top As Integer, right As Integer, bottom As Integer, left As Integer)
+Sub SetMargin(top As Integer, right As Integer, bottom As Integer, left As Integer)
+</code></pre></div>
+
+<h3 id="_3">設定例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var node As New XjLayoutNode()
+Call node.SetDirection(XjLayoutNode.DIR_COLUMN)
+Call node.SetWidth(XjConstraint.Auto())
+Call node.SetHeight(XjConstraint.Fixed(10))
+Call node.SetPadding(1, 2, 1, 2)      // 上1、右2、下1、左2
+Call node.SetMargin(1, 1, 1, 1)       // 上1、右1、下1、左1
+</code></pre></div>
+
+<h2 id="_4">スタイル設定<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetBorder(style As Integer, color As Integer)
+Sub SetName(name As String)
+Sub SetTitle(title As String)
+</code></pre></div>
+
+<ul>
+<li><code>SetBorder()</code> — ボーダースタイル（0-4）と色</li>
+<li><code>SetName()</code> — ノードの識別名</li>
+<li><code>SetTitle()</code> — ボーダー内に表示するタイトル</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Var node As New XjLayoutNode()
+Call node.SetBorder(0, XjANSI.FG_BLUE)
+Call node.SetTitle(&quot;My Box&quot;)
+</code></pre></div>
+
+<h2 id="_5">子ノード管理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub AddChild(child As XjLayoutNode)
+</code></pre></div>
+
+<p>親ノードに子ノードを追加します。</p>
+<div class="highlight"><pre><span></span><code>Var parent As New XjLayoutNode()
+Var child As New XjLayoutNode()
+Call parent.AddChild(child)
+</code></pre></div>
+
+<h2 id="_6">レイアウト情報の取得<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function ComputedX() As Integer       // 計算された X座標
+Function ComputedY() As Integer       // 計算された Y座標
+Function ComputedWidth() As Integer
+Function ComputedHeight() As Integer
+Function ContentX() As Integer        // コンテンツ開始X（パディング後）
+Function ContentY() As Integer        // コンテンツ開始Y（パディング後）
+Function ContentWidth() As Integer
+Function ContentHeight() As Integer
+</code></pre></div>
+
+<p>これらは<code>XjLayoutSolver.Solve()</code>実行後に値が設定されます。</p>
+<div class="highlight"><pre><span></span><code>Var root As New XjLayoutNode()
+Call root.SetWidth(XjConstraint.Fixed(80))
+Call root.SetHeight(XjConstraint.Fixed(24))
+
+// ソルバーで解決
+XjLayoutSolver.Solve(root, 80, 24)
+
+// レイアウト情報を取得
+Var x As Integer = root.ComputedX()
+Var y As Integer = root.ComputedY()
+Var w As Integer = root.ComputedWidth()
+Var h As Integer = root.ComputedHeight()
+</code></pre></div>
+
+<h2 id="_7">描画<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub PaintSelf(canvas As XjCanvas)
+Sub PaintTo(canvas As XjCanvas)
+</code></pre></div>
+
+<ul>
+<li><code>PaintSelf()</code> — ノード自身のボーダー・タイトルのみを描画</li>
+<li><code>PaintTo()</code> — ボーダー・タイトル・子要素全てを描画</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(80, 24)
+Var root As New XjLayoutNode()
+// ... レイアウト設定
+
+XjLayoutSolver.Solve(root, 80, 24)
+Call root.PaintTo(canvas)  // ツリー全体を描画
+</code></pre></div>
+
+<h2 id="_8">ノード検索<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function FindByName(name As String) As XjLayoutNode
+</code></pre></div>
+
+<p>ツリーから指定名のノードを検索して返します。見つからない場合はNilを返します。</p>
+<div class="highlight"><pre><span></span><code>Var root As New XjLayoutNode()
+Var mainPanel As New XjLayoutNode()
+Call mainPanel.SetName(&quot;main&quot;)
+Call root.AddChild(mainPanel)
+
+Var found As XjLayoutNode = root.FindByName(&quot;main&quot;)
+If found &lt;&gt; Nil Then
+  // ノード見つかった
+End If
+</code></pre></div>
+
+<h2 id="_9">実装例<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="_10">シンプルなレイアウト<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub CreateLayout() As XjLayoutNode
+  // ルート：列方向レイアウト
+  Var root As New XjLayoutNode()
+  Call root.SetDirection(XjLayoutNode.DIR_COLUMN)
+  Call root.SetWidth(XjConstraint.Auto())
+  Call root.SetHeight(XjConstraint.Auto())
+
+  // ヘッダー
+  Var header As New XjLayoutNode()
+  Call header.SetHeight(XjConstraint.Fixed(3))
+  Call header.SetBorder(0, XjANSI.FG_CYAN)
+  Call header.SetTitle(&quot;Header&quot;)
+  Call root.AddChild(header)
+
+  // メインコンテンツ
+  Var main As New XjLayoutNode()
+  Call main.SetHeight(XjConstraint.Auto())
+  Call main.SetPadding(1, 1, 1, 1)
+  Call main.SetName(&quot;main&quot;)
+  Call root.AddChild(main)
+
+  Return root
+End Sub
+</code></pre></div>
+
+<h3 id="_11">複雑なネストレイアウト<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub CreateComplexLayout() As XjLayoutNode
+  // ルート：列方向
+  Var root As New XjLayoutNode()
+  Call root.SetDirection(XjLayoutNode.DIR_COLUMN)
+
+  // 上部：行方向（サイドバー + メイン）
+  Var topRow As New XjLayoutNode()
+  Call topRow.SetDirection(XjLayoutNode.DIR_ROW)
+  Call topRow.SetHeight(XjConstraint.Percent(80))
+
+  // サイドバー
+  Var sidebar As New XjLayoutNode()
+  Call sidebar.SetWidth(XjConstraint.Fixed(20))
+  Call sidebar.SetBorder(1, XjANSI.FG_GREEN)
+  Call topRow.AddChild(sidebar)
+
+  // メインコンテンツ
+  Var main As New XjLayoutNode()
+  Call main.SetWidth(XjConstraint.Auto())
+  Call main.SetBorder(1, XjANSI.FG_YELLOW)
+  Call topRow.AddChild(main)
+
+  Call root.AddChild(topRow)
+
+  // フッター
+  Var footer As New XjLayoutNode()
+  Call footer.SetHeight(XjConstraint.Fixed(3))
+  Call footer.SetBorder(1, XjANSI.FG_MAGENTA)
+  Call root.AddChild(footer)
+
+  Return root
+End Sub
+</code></pre></div>
+
+<h3 id="_12">パディングとマージン<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub DemonstratePaddingMargin()
+  Var root As New XjLayoutNode()
+  Call root.SetDirection(XjLayoutNode.DIR_COLUMN)
+  Call root.SetPadding(1, 2, 1, 2)     // ルートのパディング
+
+  Var child As New XjLayoutNode()
+  Call child.SetMargin(1, 1, 1, 1)     // 子のマージン
+  Call child.SetBorder(0, XjANSI.FG_RED)
+  Call root.AddChild(child)
+
+  // マージンはルートの枠線から距離を取る
+  // パディングは子の枠線から内部コンテンツまでの距離
+End Sub
+</code></pre></div>
+
+<h2 id="xjlayoutsolver">XjLayoutSolverとの関係<a class="headerlink" href="#xjlayoutsolver" title="Permanent link">&para;</a></h2>
+<p>ノードをセットアップした後、<code>XjLayoutSolver.Solve()</code>でツリー全体の計算座標を決定します。</p>
+<div class="highlight"><pre><span></span><code>Var root As XjLayoutNode = CreateLayout()
+XjLayoutSolver.Solve(root, 80, 24)  // 80x24のスペースで解決
+
+// この後、ComputedX/Y等が利用可能
+</code></pre></div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../layout/constraint.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Constraints</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../layout/solver.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Layout Solver</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#方向定数">方向定数</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#レイアウト設定">レイアウト設定</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#設定例">設定例</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スタイル設定">スタイル設定</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#子ノード管理">子ノード管理</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#レイアウト情報の取得">レイアウト情報の取得</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#描画">描画</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ノード検索">ノード検索</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#実装例">実装例</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#シンプルなレイアウト">シンプルなレイアウト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#複雑なネストレイアウト">複雑なネストレイアウト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#パディングとマージン">パディングとマージン</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjlayoutsolverとの関係">XjLayoutSolverとの関係</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLI Options — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjOption class สำหรับ argument parser ที่สร้าง auto-generated help text" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">CLI Options</h1>
+          <p class="page-description">XjOption class สำหรับ argument parser ที่สร้าง auto-generated help text</p>
+        </div>
+
+        <h1 id="cli-options-xjoption">CLI Options (XjOption)<a class="headerlink" href="#cli-options-xjoption" title="Permanent link">&para;</a></h1>
+<p><strong>XjOption</strong> เป็น argument parser สำหรับ command-line applications — define options (&ndash;flag), flags (boolean), arguments (positional), จากนั้น parse command-line args และ auto-generate help text</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New(appName As String = &quot;&quot;, appDescription As String = &quot;&quot;)
+</code></pre></div>
+
+<p>สร้าง option parser ด้วย app name และ description</p>
+<h2 id="adding-arguments">Adding Arguments<a class="headerlink" href="#adding-arguments" title="Permanent link">&para;</a></h2>
+<h3 id="options-flag-value">Options (&ndash;flag value)<a class="headerlink" href="#options-flag-value" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AddOption(name As String, short As String, long As String, description As String, default As String = &quot;&quot;)
+</code></pre></div>
+
+<p>เพิ่ม option ที่รับค่า (เช่น &ndash;host localhost)</p>
+<p>ตัวอย่าง:</p>
+<div class="highlight"><pre><span></span><code>AddOption(&quot;host&quot;, &quot;h&quot;, &quot;host&quot;, &quot;Database host&quot;, &quot;localhost&quot;)
+</code></pre></div>
+
+<p>ใช้: <code>--host 192.168.1.1</code> หรือ <code>-h 192.168.1.1</code></p>
+<h3 id="flags-boolean">Flags (boolean)<a class="headerlink" href="#flags-boolean" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AddFlag(name As String, short As String, long As String, description As String)
+</code></pre></div>
+
+<p>เพิ่ม flag ที่ boolean (เช่น &ndash;verbose)</p>
+<p>ตัวอย่าง:</p>
+<div class="highlight"><pre><span></span><code>AddFlag(&quot;verbose&quot;, &quot;v&quot;, &quot;verbose&quot;, &quot;Enable verbose output&quot;)
+</code></pre></div>
+
+<p>ใช้: <code>--verbose</code> หรือ <code>-v</code></p>
+<h3 id="arguments-positional">Arguments (positional)<a class="headerlink" href="#arguments-positional" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AddArgument(name As String, description As String, required As Boolean = False)
+</code></pre></div>
+
+<p>เพิ่ม positional argument (ไม่มี prefix)</p>
+<p>ตัวอย่าง:</p>
+<div class="highlight"><pre><span></span><code>AddArgument(&quot;command&quot;, &quot;Command to run&quot;, True)
+AddArgument(&quot;file&quot;, &quot;Input file&quot;, False)
+</code></pre></div>
+
+<p>ใช้: <code>program start input.txt</code></p>
+<h2 id="parsing">Parsing<a class="headerlink" href="#parsing" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Parse(args() As String)
+</code></pre></div>
+
+<p>Parse command-line args array</p>
+<h2 id="getting-values">Getting Values<a class="headerlink" href="#getting-values" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function GetString(name As String, default As String = &quot;&quot;) As String
+</code></pre></div>
+
+<p>ดึง option value เป็น string</p>
+<div class="highlight"><pre><span></span><code>Function GetFlag(name As String) As Boolean
+</code></pre></div>
+
+<p>ดึง flag value (True ถ้า flag ถูกกำหนด)</p>
+<div class="highlight"><pre><span></span><code>Function GetInteger(name As String, default As Integer = 0) As Integer
+</code></pre></div>
+
+<p>ดึง option value เป็น integer</p>
+<div class="highlight"><pre><span></span><code>Function Has(name As String) As Boolean
+</code></pre></div>
+
+<p>ตรวจสอบว่า option/argument ถูกกำหนด</p>
+<h2 id="help">Help<a class="headerlink" href="#help" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Help() As String
+</code></pre></div>
+
+<p>สร้าง auto-generated help text พร้อมทั้ง options, flags, arguments</p>
+<div class="highlight"><pre><span></span><code>Sub PrintHelp()
+</code></pre></div>
+
+<p>พิมพ์ help ไปยัง terminal</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="simple-cli-tool">Simple CLI Tool<a class="headerlink" href="#simple-cli-tool" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption(&quot;mytool&quot;, &quot;A tool for something&quot;)
+opts.AddOption(&quot;output&quot;, &quot;o&quot;, &quot;output&quot;, &quot;Output file&quot;, &quot;result.txt&quot;)
+opts.AddFlag(&quot;verbose&quot;, &quot;v&quot;, &quot;verbose&quot;, &quot;Enable verbose output&quot;)
+opts.AddArgument(&quot;input&quot;, &quot;Input file&quot;, True)
+
+Var args() As String = CommandLine.Split
+opts.Parse(args)
+
+Var input As String = opts.GetString(&quot;input&quot;)
+Var output As String = opts.GetString(&quot;output&quot;)
+Var verbose As Boolean = opts.GetFlag(&quot;verbose&quot;)
+
+If verbose Then
+  XjPrompt.Say(&quot;Processing: &quot; + input)
+End If
+</code></pre></div>
+
+<h3 id="server-configuration">Server Configuration<a class="headerlink" href="#server-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption(&quot;server&quot;, &quot;Web server&quot;)
+opts.AddOption(&quot;host&quot;, &quot;h&quot;, &quot;host&quot;, &quot;Listen address&quot;, &quot;0.0.0.0&quot;)
+opts.AddOption(&quot;port&quot;, &quot;p&quot;, &quot;port&quot;, &quot;Listen port&quot;, &quot;8080&quot;)
+opts.AddOption(&quot;workers&quot;, &quot;w&quot;, &quot;workers&quot;, &quot;Worker threads&quot;, &quot;4&quot;)
+opts.AddFlag(&quot;ssl&quot;, &quot;s&quot;, &quot;ssl&quot;, &quot;Enable SSL&quot;)
+opts.AddFlag(&quot;debug&quot;, &quot;d&quot;, &quot;debug&quot;, &quot;Debug mode&quot;)
+
+opts.Parse(CommandLine.Split())
+
+Var host As String = opts.GetString(&quot;host&quot;)
+Var port As Integer = opts.GetInteger(&quot;port&quot;)
+Var workers As Integer = opts.GetInteger(&quot;workers&quot;)
+Var ssl As Boolean = opts.GetFlag(&quot;ssl&quot;)
+</code></pre></div>
+
+<h3 id="file-processing">File Processing<a class="headerlink" href="#file-processing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption(&quot;processor&quot;, &quot;Process files&quot;)
+opts.AddArgument(&quot;input&quot;, &quot;Input file path&quot;, True)
+opts.AddArgument(&quot;output&quot;, &quot;Output file path&quot;, False)
+opts.AddOption(&quot;format&quot;, &quot;f&quot;, &quot;format&quot;, &quot;Output format&quot;, &quot;json&quot;)
+opts.AddFlag(&quot;compress&quot;, &quot;z&quot;, &quot;compress&quot;, &quot;Compress output&quot;)
+opts.AddFlag(&quot;verify&quot;, &quot;&quot;, &quot;verify&quot;, &quot;Verify after processing&quot;)
+
+opts.Parse(CommandLine.Split())
+
+Var input As String = opts.GetString(&quot;input&quot;)
+Var output As String = opts.GetString(&quot;output&quot;, &quot;output.json&quot;)
+Var format As String = opts.GetString(&quot;format&quot;)
+Var compress As Boolean = opts.GetFlag(&quot;compress&quot;)
+
+&#39; Process file...
+</code></pre></div>
+
+<h3 id="help-text-generation">Help Text Generation<a class="headerlink" href="#help-text-generation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption(&quot;tool&quot;, &quot;Description of tool&quot;)
+opts.AddOption(&quot;config&quot;, &quot;c&quot;, &quot;config&quot;, &quot;Config file path&quot;)
+opts.AddFlag(&quot;help&quot;, &quot;h&quot;, &quot;help&quot;, &quot;Show this help message&quot;)
+
+Var helpText As String = opts.Help()
+XjTerminal.Write(helpText)
+
+&#39; Output:
+&#39; Usage: tool [options] [arguments]
+&#39; Description of tool
+&#39;
+&#39; Options:
+&#39;   -c, --config &lt;value&gt;    Config file path
+&#39;   -h, --help             Show this help message
+</code></pre></div>
+
+<h2 id="usage-pattern">Usage Pattern<a class="headerlink" href="#usage-pattern" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Usage: program [options] [arguments]
+Examples:
+  program --verbose input.txt
+  program -o output.txt -f json input.txt
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>AddOption สร้าง option ที่รับค่า (flag + argument)</p>
+<p>AddFlag สร้าง boolean flag (ตัวอักษรหรือ long option)</p>
+<p>AddArgument สร้าง positional argument (ต้อง required ก่อน optional)</p>
+<p>GetString/GetInteger/GetFlag ส่งคืนค่าเสมอ — ใช้ default ถ้าไม่ได้กำหนด</p>
+<p>Has() ตรวจสอบว่า option ถูกกำหนด — ใช้เพื่อ required arguments</p>
+<p>Help() auto-generate help text จาก definition ทั้งหมด</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/logger.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Logger</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/config.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Configuration</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#adding-arguments">Adding Arguments</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#options---flag-value">Options (--flag value)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#flags-boolean">Flags (boolean)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#arguments-positional">Arguments (positional)</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#parsing">Parsing</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#getting-values">Getting Values</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#help">Help</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#simple-cli-tool">Simple CLI Tool</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#server-configuration">Server Configuration</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#file-processing">File Processing</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#help-text-generation">Help Text Generation</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#usage-pattern">Usage Pattern</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

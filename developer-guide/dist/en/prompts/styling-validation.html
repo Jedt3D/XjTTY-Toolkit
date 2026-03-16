@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styling & Validation — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjPromptStyle for theming prompts; XjValidation for input constraints; XjConversion for text transforms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Styling & Validation</h1>
+          <p class="page-description">XjPromptStyle for theming prompts; XjValidation for input constraints; XjConversion for text transforms.</p>
+        </div>
+
+        <h1 id="styling-validation">Styling &amp; Validation<a class="headerlink" href="#styling-validation" title="Permanent link">&para;</a></h1>
+<p>XjPromptStyle customizes prompt appearance. XjValidation enforces input constraints. XjConversion transforms input text.</p>
+<h2 id="xjpromptstyle">XjPromptStyle<a class="headerlink" href="#xjpromptstyle" title="Permanent link">&para;</a></h2>
+<p>Controls prompt visual styling.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetPrefix(p)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set prompt prefix (default: &ldquo;?&rdquo;)</td>
+</tr>
+<tr>
+<td><code>SetQuestion(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set question text style</td>
+</tr>
+<tr>
+<td><code>SetAnswer(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set answer text style</td>
+</tr>
+<tr>
+<td><code>SetCursor(c)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set cursor character</td>
+</tr>
+<tr>
+<td><code>SetError(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set error message style</td>
+</tr>
+<tr>
+<td><code>SetPlaceholder(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set placeholder style</td>
+</tr>
+<tr>
+<td><code>SetIndicator(i)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set success/error indicator</td>
+</tr>
+<tr>
+<td><code>SetHighlight(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set highlighted option style</td>
+</tr>
+<tr>
+<td><code>SetDisabled(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set disabled option style</td>
+</tr>
+<tr>
+<td><code>SetHelp(s)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set help text style</td>
+</tr>
+<tr>
+<td><code>SetHint(h)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set hint text</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var style As New XjPromptStyle()
+Call style.SetPrefix(&quot;&gt;&gt;&gt; &quot;)
+Call style.SetQuestion(XjStyle.Success())
+Call style.SetAnswer(XjStyle.BoldText())
+Call style.SetError(XjStyle.Danger())
+Call style.SetCursor(&quot;▶ &quot;)
+
+Call XjPrompt.SetStyle(style)
+
+// All subsequent prompts use this style
+Var name As String = XjPrompt.Ask(&quot;Name: &quot;)
+</code></pre></div>
+
+<h2 id="xjvalidation">XjValidation<a class="headerlink" href="#xjvalidation" title="Permanent link">&para;</a></h2>
+<p>Input validators enforce constraints on user input.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Required()</code></td>
+<td>—</td>
+<td>XjValidation</td>
+<td>Text cannot be empty</td>
+</tr>
+<tr>
+<td><code>MinLength(len)</code></td>
+<td>Integer</td>
+<td>XjValidation</td>
+<td>Minimum character count</td>
+</tr>
+<tr>
+<td><code>MaxLength(len)</code></td>
+<td>Integer</td>
+<td>XjValidation</td>
+<td>Maximum character count</td>
+</tr>
+<tr>
+<td><code>RangeInt(min, max)</code></td>
+<td>Integer × 2</td>
+<td>XjValidation</td>
+<td>Integer in range</td>
+</tr>
+<tr>
+<td><code>InList(options)</code></td>
+<td>String()</td>
+<td>XjValidation</td>
+<td>Value must be in list</td>
+</tr>
+<tr>
+<td><code>Pattern(regex)</code></td>
+<td>String</td>
+<td>XjValidation</td>
+<td>Match regex pattern</td>
+</tr>
+<tr>
+<td><code>Custom(fn)</code></td>
+<td>Function</td>
+<td>XjValidation</td>
+<td>Custom validation function</td>
+</tr>
+<tr>
+<td><code>Validate(text)</code></td>
+<td>String</td>
+<td>String</td>
+<td>Validate and return error (empty if valid)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Required field
+Var name As String = XjPrompt.AskValidated(&quot;Name: &quot;, XjValidation.Required())
+
+// Min/max length
+Var pin As String = XjPrompt.AskValidated(&quot;PIN: &quot;, XjValidation.MinLength(4).MaxLength(6))
+
+// Email pattern
+Var email As String = XjPrompt.AskValidated(&quot;Email: &quot;, XjValidation.Pattern(&quot;[^@]+@[^@]+\.[^@]+&quot;))
+
+// One of a list
+Var choice As String = XjPrompt.AskValidated(&quot;Color: &quot;, XjValidation.InList(Array(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;)))
+</code></pre></div>
+
+<h2 id="xjconversion">XjConversion<a class="headerlink" href="#xjconversion" title="Permanent link">&para;</a></h2>
+<p>Text transformation functions (uppercase, lowercase, trim, etc.).</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MOD_UPPERCASE</code></td>
+<td>1</td>
+<td>Convert to uppercase</td>
+</tr>
+<tr>
+<td><code>MOD_LOWERCASE</code></td>
+<td>2</td>
+<td>Convert to lowercase</td>
+</tr>
+<tr>
+<td><code>MOD_TRIM</code></td>
+<td>4</td>
+<td>Trim leading/trailing whitespace</td>
+</tr>
+<tr>
+<td><code>MOD_CAPITALIZE</code></td>
+<td>8</td>
+<td>Capitalize first letter</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ToInteger(text)</code></td>
+<td>String</td>
+<td>Integer</td>
+<td>Parse as integer</td>
+</tr>
+<tr>
+<td><code>ToDouble(text)</code></td>
+<td>String</td>
+<td>Double</td>
+<td>Parse as double</td>
+</tr>
+<tr>
+<td><code>ToBool(text)</code></td>
+<td>String</td>
+<td>Boolean</td>
+<td>Parse as boolean</td>
+</tr>
+<tr>
+<td><code>ApplyModifier(text, mod)</code></td>
+<td>String, Integer</td>
+<td>String</td>
+<td>Apply transformation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Apply modifier to input
+Var prompt As New XjAskPrompt()
+Call prompt.SetQuestion(&quot;Name: &quot;)
+Call prompt.SetModifier(XjConversion.MOD_UPPERCASE)
+
+Var name As String = prompt.Prompt()  // &quot;john&quot; → &quot;JOHN&quot;
+
+// Convert string to number
+Var numStr As String = XjPrompt.Ask(&quot;Age: &quot;)
+Var age As Integer = XjConversion.ToInteger(numStr)
+
+// Parse boolean
+Var boolStr As String = XjPrompt.Ask(&quot;Continue? (yes/no): &quot;)
+Var shouldContinue As Boolean = XjConversion.ToBool(boolStr)
+</code></pre></div>
+
+<h2 id="xjinlinerenderer">XjInlineRenderer<a class="headerlink" href="#xjinlinerenderer" title="Permanent link">&para;</a></h2>
+<p>Advanced: Renders inline prompt output to terminal (used internally).</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Begin()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Start rendering</td>
+</tr>
+<tr>
+<td><code>End_()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Finish rendering</td>
+</tr>
+<tr>
+<td><code>Render(text)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Render output</td>
+</tr>
+<tr>
+<td><code>RenderSettled(text)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Render settled state</td>
+</tr>
+<tr>
+<td><code>ReadKey()</code></td>
+<td>—</td>
+<td>XjKeyEvent</td>
+<td>Read keyboard input</td>
+</tr>
+</tbody>
+</table>
+<h2 id="combined-example">Combined Example<a class="headerlink" href="#combined-example" title="Permanent link">&para;</a></h2>
+<h3 id="custom-styled-validation-prompt">Custom styled validation prompt<a class="headerlink" href="#custom-styled-validation-prompt" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Setup custom style
+Var style As New XjPromptStyle()
+Call style.SetPrefix(&quot;→ &quot;)
+Call style.SetQuestion(XjStyle.Info())
+Call style.SetError(XjStyle.Danger())
+Call XjPrompt.SetStyle(style)
+
+// Create validator
+Var emailValidator As XjValidation = XjValidation.Pattern(&quot;[^@]+@[^@]+&quot;)
+
+// Prompt with validation
+Var email As String = XjPrompt.AskValidated(&quot;Email: &quot;, emailValidator)
+
+// Transform output
+Var normalized As String = XjConversion.ApplyModifier(email, XjConversion.MOD_LOWERCASE)
+Call XjConversion.ApplyModifier(normalized, XjConversion.MOD_TRIM)
+
+XjPrompt.Ok(&quot;Email saved: &quot; + normalized)
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Global style</strong>: XjPrompt.SetStyle() sets the theme for all subsequent prompts. Create once, reuse everywhere.</p>
+<p><strong>Chained validators</strong>: Validators can be chained (though implementation may vary).</p>
+<p><strong>Error feedback</strong>: Validation errors show to user; they can retry until input passes.</p>
+<p><strong>Modifiers</strong>: Applied after input is entered. Useful for normalization (uppercase usernames, trim whitespace).</p>
+<p><strong>Conversions</strong>: ToInteger/ToDouble parse strings. Use them after getting string input from prompts.</p>
+<p><strong>Pattern syntax</strong>: Patterns use standard regex syntax. Keep patterns simple for user clarity.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Custom validation functions are advanced. For simple cases, use built-in validators (Required, MinLength, Pattern, InList).</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../prompts/special-prompts.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Special Prompts</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/logger.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Logger</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjpromptstyle">XjPromptStyle</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjvalidation">XjValidation</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjconversion">XjConversion</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjinlinerenderer">XjInlineRenderer</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#combined-example">Combined Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#custom-styled-validation-prompt">Custom styled validation prompt</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event System — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjEvent class is a discriminated union representing all event types (keyboard, mouse, resize, tick, custom)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Event System</h1>
+          <p class="page-description">XjEvent class is a discriminated union representing all event types (keyboard, mouse, resize, tick, custom).</p>
+        </div>
+
+        <h1 id="event-system">Event System<a class="headerlink" href="#event-system" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjEvent</strong> class is a discriminated union that can hold any event type: key, mouse, resize, tick, or custom. It&rsquo;s used by XjEventLoop and XjReader to deliver all event types through a single interface.</p>
+<h2 id="event-type-constants">Event Type Constants<a class="headerlink" href="#event-type-constants" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EVENT_KEY</code></td>
+<td>1</td>
+<td>Keyboard input event</td>
+</tr>
+<tr>
+<td><code>EVENT_MOUSE</code></td>
+<td>2</td>
+<td>Mouse input event</td>
+</tr>
+<tr>
+<td><code>EVENT_RESIZE</code></td>
+<td>3</td>
+<td>Terminal resize event</td>
+</tr>
+<tr>
+<td><code>EVENT_TICK</code></td>
+<td>4</td>
+<td>Timer tick event</td>
+</tr>
+<tr>
+<td><code>EVENT_CUSTOM</code></td>
+<td>5</td>
+<td>Custom user event</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mouse-constants">Mouse Constants<a class="headerlink" href="#mouse-constants" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MOUSE_LEFT_CLICK</code></td>
+<td>0</td>
+<td>Left mouse button click</td>
+</tr>
+<tr>
+<td><code>MOUSE_RIGHT_CLICK</code></td>
+<td>1</td>
+<td>Right mouse button click</td>
+</tr>
+<tr>
+<td><code>MOUSE_MIDDLE_CLICK</code></td>
+<td>2</td>
+<td>Middle mouse button click</td>
+</tr>
+<tr>
+<td><code>MOUSE_WHEEL_UP</code></td>
+<td>3</td>
+<td>Mouse wheel scroll up</td>
+</tr>
+<tr>
+<td><code>MOUSE_WHEEL_DOWN</code></td>
+<td>4</td>
+<td>Mouse wheel scroll down</td>
+</tr>
+<tr>
+<td><code>MOUSE_MOVE</code></td>
+<td>5</td>
+<td>Mouse move (no buttons)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="factory-methods">Factory Methods<a class="headerlink" href="#factory-methods" title="Permanent link">&para;</a></h2>
+<p>Create events using factory methods:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CreateKeyEvent(keyEvent)</code></td>
+<td>XjKeyEvent</td>
+<td>XjEvent</td>
+<td>Create key event</td>
+</tr>
+<tr>
+<td><code>CreateResizeEvent(width, height)</code></td>
+<td>Integer, Integer</td>
+<td>XjEvent</td>
+<td>Create resize event</td>
+</tr>
+<tr>
+<td><code>CreateMouseEvent(button, row, col)</code></td>
+<td>Integer button, row, col</td>
+<td>XjEvent</td>
+<td>Create mouse event</td>
+</tr>
+<tr>
+<td><code>CreateTickEvent(tickCount)</code></td>
+<td>Integer</td>
+<td>XjEvent</td>
+<td>Create tick event</td>
+</tr>
+<tr>
+<td><code>CreateCustomEvent(tag, data)</code></td>
+<td>String tag; Any</td>
+<td>XjEvent</td>
+<td>Create custom event</td>
+</tr>
+</tbody>
+</table>
+<h2 id="type-checking">Type Checking<a class="headerlink" href="#type-checking" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GetType()</code></td>
+<td>Integer</td>
+<td>Get event type (EVENT_KEY, EVENT_MOUSE, etc.)</td>
+</tr>
+<tr>
+<td><code>IsKeyEvent()</code></td>
+<td>Boolean</td>
+<td>Return True if key event</td>
+</tr>
+<tr>
+<td><code>IsMouseEvent()</code></td>
+<td>Boolean</td>
+<td>Return True if mouse event</td>
+</tr>
+<tr>
+<td><code>IsResizeEvent()</code></td>
+<td>Boolean</td>
+<td>Return True if resize event</td>
+</tr>
+<tr>
+<td><code>IsTickEvent()</code></td>
+<td>Boolean</td>
+<td>Return True if tick event</td>
+</tr>
+<tr>
+<td><code>IsCustomEvent()</code></td>
+<td>Boolean</td>
+<td>Return True if custom event</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-access">Data Access<a class="headerlink" href="#data-access" title="Permanent link">&para;</a></h2>
+<p>Access event data after type checking:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GetKeyEvent()</code></td>
+<td>XjKeyEvent</td>
+<td>Get key event data (if IsKeyEvent)</td>
+</tr>
+<tr>
+<td><code>GetMouseButton()</code></td>
+<td>Integer</td>
+<td>Get mouse button code</td>
+</tr>
+<tr>
+<td><code>GetMouseRow()</code></td>
+<td>Integer</td>
+<td>Get mouse row (1-based)</td>
+</tr>
+<tr>
+<td><code>GetMouseCol()</code></td>
+<td>Integer</td>
+<td>Get mouse column (1-based)</td>
+</tr>
+<tr>
+<td><code>GetWidth()</code></td>
+<td>Integer</td>
+<td>Get new width (if resize)</td>
+</tr>
+<tr>
+<td><code>GetHeight()</code></td>
+<td>Integer</td>
+<td>Get new height (if resize)</td>
+</tr>
+<tr>
+<td><code>GetTickCount()</code></td>
+<td>Integer</td>
+<td>Get tick count (if tick)</td>
+</tr>
+<tr>
+<td><code>GetCustomTag()</code></td>
+<td>String</td>
+<td>Get custom event tag</td>
+</tr>
+<tr>
+<td><code>GetCustomData()</code></td>
+<td>Any</td>
+<td>Get custom event data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="dispatch-event-in-event-loop">Dispatch event in event loop<a class="headerlink" href="#dispatch-event-in-event-loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleEvent(event As XjEvent)
+  Select Case event.GetType()
+    Case XjEvent.EVENT_KEY
+      HandleKeyInput(event.GetKeyEvent())
+
+    Case XjEvent.EVENT_MOUSE
+      HandleMouseInput(event.GetMouseButton(), event.GetMouseRow(), event.GetMouseCol())
+
+    Case XjEvent.EVENT_RESIZE
+      HandleResize(event.GetWidth(), event.GetHeight())
+
+    Case XjEvent.EVENT_TICK
+      HandleTick(event.GetTickCount())
+
+    Case XjEvent.EVENT_CUSTOM
+      HandleCustomEvent(event.GetCustomTag(), event.GetCustomData())
+  End Select
+End Sub
+</code></pre></div>
+
+<h3 id="create-and-dispatch-custom-event">Create and dispatch custom event<a class="headerlink" href="#create-and-dispatch-custom-event" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// In your event loop
+Var customEvent As XjEvent = XjEvent.CreateCustomEvent(&quot;download_complete&quot;, downloadedData)
+HandleEvent(customEvent)
+</code></pre></div>
+
+<h3 id="handle-mouse-click">Handle mouse click<a class="headerlink" href="#handle-mouse-click" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If event.IsMouseEvent() Then
+  Select Case event.GetMouseButton()
+    Case XjEvent.MOUSE_LEFT_CLICK
+      XjTerminal.Write(&quot;Left click at &quot; + event.GetMouseRow().ToString() + &quot;,&quot; + event.GetMouseCol().ToString())
+
+    Case XjEvent.MOUSE_RIGHT_CLICK
+      ShowContextMenu(event.GetMouseRow(), event.GetMouseCol())
+
+    Case XjEvent.MOUSE_WHEEL_UP
+      ScrollUp()
+
+    Case XjEvent.MOUSE_WHEEL_DOWN
+      ScrollDown()
+  End Select
+End If
+</code></pre></div>
+
+<h3 id="handle-terminal-resize">Handle terminal resize<a class="headerlink" href="#handle-terminal-resize" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If event.IsResizeEvent() Then
+  Var newWidth As Integer = event.GetWidth()
+  Var newHeight As Integer = event.GetHeight()
+
+  XjTerminal.Write(&quot;Terminal resized to &quot; + newWidth.ToString() + &quot;x&quot; + newHeight.ToString())
+
+  // Recalculate layout
+  RecalculateLayout(newWidth, newHeight)
+  Redraw()
+End If
+</code></pre></div>
+
+<h3 id="handle-tick-events">Handle tick events<a class="headerlink" href="#handle-tick-events" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If event.IsTickEvent() Then
+  Var tick As Integer = event.GetTickCount()
+
+  If tick Mod 10 = 0 Then
+    // Every 10 ticks (e.g., every 500ms with 50ms tick interval)
+    UpdateAnimation()
+  End If
+
+  Redraw()
+End If
+</code></pre></div>
+
+<h3 id="type-safe-event-handling-with-guard">Type-safe event handling with guard<a class="headerlink" href="#type-safe-event-handling-with-guard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If event.IsKeyEvent() Then
+  Var keyEvent As XjKeyEvent = event.GetKeyEvent()
+
+  If keyEvent.IsEscape() Then
+    shouldExit = True
+  ElseIf keyEvent.IsArrow() Then
+    HandleNavigation(keyEvent)
+  ElseIf keyEvent.IsCharKey() Then
+    HandleCharInput(keyEvent.GetChar())
+  End If
+End If
+</code></pre></div>
+
+<h3 id="combined-event-handling">Combined event handling<a class="headerlink" href="#combined-event-handling" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+  // Handle all event types
+  If event.IsKeyEvent() Then
+    Var key As XjKeyEvent = event.GetKeyEvent()
+    If key.GetChar() = &quot;q&quot; Then
+      mLoop.Stop_()
+    End If
+  ElseIf event.IsMouseEvent() Then
+    HandleMouseClick(event.GetMouseButton(), event.GetMouseRow(), event.GetMouseCol())
+  ElseIf event.IsResizeEvent() Then
+    HandleTerminalResize(event.GetWidth(), event.GetHeight())
+  End If
+
+  Redraw()
+End Sub
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Discriminated union pattern</strong>: XjEvent is a discriminated union (tagged union). It can hold any single event type, but not multiple types. Always check the type before accessing data:</p>
+<div class="highlight"><pre><span></span><code>If event.IsKeyEvent() Then
+  Var key As XjKeyEvent = event.GetKeyEvent()
+  // Safe to access key-specific methods
+End If
+</code></pre></div>
+
+<p><strong>Safe data access</strong>: Calling GetKeyEvent() on a non-key event returns an empty key event. Always type-check first.</p>
+<p><strong>Factory pattern</strong>: Use factory methods to create events. Don&rsquo;t construct XjEvent directly.</p>
+<p><strong>Event loop integration</strong>: XjEventLoop creates and dispatches XjEvent objects via your callback methods. You rarely create events manually.</p>
+<p><strong>Custom events</strong>: Use EVENT_CUSTOM to implement domain-specific events (download complete, socket data, etc.). The custom data can be any object.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Events are immutable. Once created, they cannot be modified. Create a new event if you need different data.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../events/key-event.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Key Events</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../events/event-loop.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Event Loop</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#event-type-constants">Event Type Constants</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#mouse-constants">Mouse Constants</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#factory-methods">Factory Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#type-checking">Type Checking</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#data-access">Data Access</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#dispatch-event-in-event-loop">Dispatch event in event loop</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#create-and-dispatch-custom-event">Create and dispatch custom event</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#handle-mouse-click">Handle mouse click</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#handle-terminal-resize">Handle terminal resize</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#handle-tick-events">Handle tick events</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#type-safe-event-handling-with-guard">Type-safe event handling with guard</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#combined-event-handling">Combined event handling</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

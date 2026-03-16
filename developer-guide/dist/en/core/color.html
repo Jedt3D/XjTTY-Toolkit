@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colors — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjColor module provides convenient color functions, gradients, semantic colors, and text styling for terminal output." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Colors</h1>
+          <p class="page-description">XjColor module provides convenient color functions, gradients, semantic colors, and text styling for terminal output.</p>
+        </div>
+
+        <h1 id="colors">Colors<a class="headerlink" href="#colors" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjColor</strong> module offers convenience functions for colored and styled text without building ANSI codes manually. All methods return styled strings ready to print.</p>
+<h2 id="basic-colors">Basic Colors<a class="headerlink" href="#basic-colors" title="Permanent link">&para;</a></h2>
+<p>All colors return styled text (prefix + content + reset):</p>
+<div class="highlight"><pre><span></span><code>Var output As String = XjColor.Red(&quot;Error&quot;)
+XjTerminal.Write(output)
+</code></pre></div>
+
+<h3 id="named-foreground-colors">Named foreground colors<a class="headerlink" href="#named-foreground-colors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Black(text)</code></td>
+<td>Black text</td>
+</tr>
+<tr>
+<td><code>Red(text)</code></td>
+<td>Red text</td>
+</tr>
+<tr>
+<td><code>Green(text)</code></td>
+<td>Green text</td>
+</tr>
+<tr>
+<td><code>Yellow(text)</code></td>
+<td>Yellow text</td>
+</tr>
+<tr>
+<td><code>Blue(text)</code></td>
+<td>Blue text</td>
+</tr>
+<tr>
+<td><code>Magenta(text)</code></td>
+<td>Magenta text</td>
+</tr>
+<tr>
+<td><code>Cyan(text)</code></td>
+<td>Cyan text</td>
+</tr>
+<tr>
+<td><code>White(text)</code></td>
+<td>White text</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bright-foreground-colors">Bright foreground colors<a class="headerlink" href="#bright-foreground-colors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BrightBlack(text)</code></td>
+<td>Bright Black (Gray)</td>
+</tr>
+<tr>
+<td><code>BrightRed(text)</code></td>
+<td>Bright Red</td>
+</tr>
+<tr>
+<td><code>BrightGreen(text)</code></td>
+<td>Bright Green</td>
+</tr>
+<tr>
+<td><code>BrightYellow(text)</code></td>
+<td>Bright Yellow</td>
+</tr>
+<tr>
+<td><code>BrightBlue(text)</code></td>
+<td>Bright Blue</td>
+</tr>
+<tr>
+<td><code>BrightMagenta(text)</code></td>
+<td>Bright Magenta</td>
+</tr>
+<tr>
+<td><code>BrightCyan(text)</code></td>
+<td>Bright Cyan</td>
+</tr>
+<tr>
+<td><code>BrightWhite(text)</code></td>
+<td>Bright White</td>
+</tr>
+</tbody>
+</table>
+<h3 id="text-styling">Text styling<a class="headerlink" href="#text-styling" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BoldText(text)</code></td>
+<td>Bold/bright text</td>
+</tr>
+<tr>
+<td><code>DimText(text)</code></td>
+<td>Dim/faint text</td>
+</tr>
+<tr>
+<td><code>ItalicText(text)</code></td>
+<td>Italic text</td>
+</tr>
+<tr>
+<td><code>UnderlineText(text)</code></td>
+<td>Underlined text</td>
+</tr>
+<tr>
+<td><code>StrikethroughText(text)</code></td>
+<td>Strikethrough text</td>
+</tr>
+<tr>
+<td><code>InverseText(text)</code></td>
+<td>Swap foreground/background</td>
+</tr>
+</tbody>
+</table>
+<h2 id="background-colors">Background Colors<a class="headerlink" href="#background-colors" title="Permanent link">&para;</a></h2>
+<p>Apply background color while keeping foreground:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OnBlack(text)</code></td>
+<td>Black background</td>
+</tr>
+<tr>
+<td><code>OnRed(text)</code></td>
+<td>Red background</td>
+</tr>
+<tr>
+<td><code>OnGreen(text)</code></td>
+<td>Green background</td>
+</tr>
+<tr>
+<td><code>OnYellow(text)</code></td>
+<td>Yellow background</td>
+</tr>
+<tr>
+<td><code>OnBlue(text)</code></td>
+<td>Blue background</td>
+</tr>
+<tr>
+<td><code>OnMagenta(text)</code></td>
+<td>Magenta background</td>
+</tr>
+<tr>
+<td><code>OnCyan(text)</code></td>
+<td>Cyan background</td>
+</tr>
+<tr>
+<td><code>OnWhite(text)</code></td>
+<td>White background</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bright-background-colors">Bright background colors<a class="headerlink" href="#bright-background-colors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OnBrightBlack(text)</code></td>
+<td>Bright Black background</td>
+</tr>
+<tr>
+<td><code>OnBrightRed(text)</code></td>
+<td>Bright Red background</td>
+</tr>
+<tr>
+<td><code>OnBrightGreen(text)</code></td>
+<td>Bright Green background</td>
+</tr>
+<tr>
+<td><code>OnBrightYellow(text)</code></td>
+<td>Bright Yellow background</td>
+</tr>
+<tr>
+<td><code>OnBrightBlue(text)</code></td>
+<td>Bright Blue background</td>
+</tr>
+<tr>
+<td><code>OnBrightMagenta(text)</code></td>
+<td>Bright Magenta background</td>
+</tr>
+<tr>
+<td><code>OnBrightCyan(text)</code></td>
+<td>Bright Cyan background</td>
+</tr>
+<tr>
+<td><code>OnBrightWhite(text)</code></td>
+<td>Bright White background</td>
+</tr>
+</tbody>
+</table>
+<h2 id="advanced-colors">Advanced Colors<a class="headerlink" href="#advanced-colors" title="Permanent link">&para;</a></h2>
+<h3 id="rgb-color">RGB Color<a class="headerlink" href="#rgb-color" title="Permanent link">&para;</a></h3>
+<p>True color (24-bit) support. Returns styled text with RGB foreground:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RGB(text, r, g, b)</code></td>
+<td>String text, Integer r, g, b (0-255)</td>
+<td>RGB foreground color</td>
+</tr>
+<tr>
+<td><code>RGBBG(text, r, g, b)</code></td>
+<td>String text, Integer r, g, b (0-255)</td>
+<td>RGB background color</td>
+</tr>
+</tbody>
+</table>
+<h3 id="256-color-palette">256-Color Palette<a class="headerlink" href="#256-color-palette" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Color256(text, code)</code></td>
+<td>String text, Integer code (0-255)</td>
+<td>256-color foreground</td>
+</tr>
+<tr>
+<td><code>BGColor256(text, code)</code></td>
+<td>String text, Integer code (0-255)</td>
+<td>256-color background</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gradients">Gradients<a class="headerlink" href="#gradients" title="Permanent link">&para;</a></h3>
+<p>Smooth color transitions across text:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Gradient(text, startR, startG, startB, endR, endG, endB)</code></td>
+<td>String text, 6× Integer (0-255)</td>
+<td>RGB gradient from start to end color</td>
+</tr>
+<tr>
+<td><code>Rainbow(text)</code></td>
+<td>String text</td>
+<td>Predefined rainbow gradient</td>
+</tr>
+</tbody>
+</table>
+<h2 id="semantic-colors">Semantic Colors<a class="headerlink" href="#semantic-colors" title="Permanent link">&para;</a></h2>
+<p>High-level color functions with semantic meaning:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Success(text)</code></td>
+<td>String</td>
+<td>Green color for success messages</td>
+</tr>
+<tr>
+<td><code>Warning(text)</code></td>
+<td>String</td>
+<td>Yellow color for warnings</td>
+</tr>
+<tr>
+<td><code>Error_(text)</code></td>
+<td>String</td>
+<td>Red color for errors</td>
+</tr>
+<tr>
+<td><code>Info(text)</code></td>
+<td>String</td>
+<td>Cyan color for informational messages</td>
+</tr>
+<tr>
+<td><code>Muted(text)</code></td>
+<td>String</td>
+<td>Dim gray for secondary text</td>
+</tr>
+<tr>
+<td><code>Highlight(text)</code></td>
+<td>String</td>
+<td>Bright yellow for highlights</td>
+</tr>
+</tbody>
+</table>
+<h2 id="global-control">Global Control<a class="headerlink" href="#global-control" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DisableColors()</code></td>
+<td>—</td>
+<td>Disable all color output (returns plain text)</td>
+</tr>
+<tr>
+<td><code>EnableColors()</code></td>
+<td>—</td>
+<td>Re-enable color output</td>
+</tr>
+<tr>
+<td><code>AreColorsEnabled()</code></td>
+<td>Boolean</td>
+<td>Return whether colors are currently enabled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-colored-output">Basic colored output<a class="headerlink" href="#basic-colored-output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjColor.Red(&quot;Error: &quot;) + &quot;something went wrong&quot;)
+XjTerminal.Write(XjColor.Green(&quot;✓ Success!&quot;))
+</code></pre></div>
+
+<h3 id="semantic-colors_1">Semantic colors<a class="headerlink" href="#semantic-colors_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.Write(XjColor.Success(&quot;All tests passed&quot;))
+XjTerminal.Write(XjColor.Warning(&quot;Running in debug mode&quot;))
+XjTerminal.Write(XjColor.Error_(&quot;Connection timeout&quot;))
+</code></pre></div>
+
+<h3 id="combined-styles">Combined styles<a class="headerlink" href="#combined-styles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var important As String = XjColor.BoldText(XjColor.Red(&quot;CRITICAL&quot;))
+XjTerminal.Write(important)
+</code></pre></div>
+
+<h3 id="rgb-colors">RGB colors<a class="headerlink" href="#rgb-colors" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Custom orange: RGB(255, 165, 0)
+XjTerminal.Write(XjColor.RGB(&quot;Warning&quot;, 255, 165, 0))
+
+// Custom gradient
+XjTerminal.Write(XjColor.Gradient(&quot;Gradient&quot;, 255, 0, 0, 0, 0, 255))
+</code></pre></div>
+
+<h3 id="conditional-colors-based-on-terminal-support">Conditional colors based on terminal support<a class="headerlink" href="#conditional-colors-based-on-terminal-support" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjTerminal.SupportsColor() Then
+  Select Case XjTerminal.ColorDepth()
+    Case 256
+      XjTerminal.Write(XjColor.Color256(&quot;Text&quot;, 196)) // 256-color palette
+    Case Else
+      XjTerminal.Write(XjColor.BrightRed(&quot;Text&quot;)) // Use basic colors
+  End Select
+Else
+  XjTerminal.Write(&quot;[ERROR] Something went wrong&quot;)
+End If
+</code></pre></div>
+
+<h3 id="conditional-disabling">Conditional disabling<a class="headerlink" href="#conditional-disabling" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If Environment.OSVersion.StartsWith(&quot;Windows&quot;) And Not hasTrue ColorSupport Then
+  XjColor.DisableColors()
+End If
+
+XjTerminal.Write(XjColor.Green(&quot;This respects the setting&quot;))
+</code></pre></div>
+
+<h3 id="background-and-foreground">Background and foreground<a class="headerlink" href="#background-and-foreground" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Red text on white background
+XjTerminal.Write(XjColor.OnWhite(XjColor.Red(&quot;Alert&quot;)))
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Automatic reset</strong>: All color functions automatically append the ANSI reset sequence. Colors don&rsquo;t bleed into subsequent text.</p>
+<p><strong>Composable</strong>: Colors can be nested since each function handles its own reset:</p>
+<div class="highlight"><pre><span></span><code>Var result As String = XjColor.Bold(XjColor.Red(&quot;Bold Red&quot;))
+</code></pre></div>
+
+<p><strong>Performance</strong>: Color functions are lightweight string builders. They don&rsquo;t perform I/O — only XjTerminal.Write() does.</p>
+<p><strong>Disabling colors</strong>: Call <code>XjColor.DisableColors()</code> before using any color functions to get plain text instead. Useful for piping output to files or CI/CD systems that don&rsquo;t support ANSI codes.</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/terminal.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Terminal Control</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/cursor.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Cursor</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#basic-colors">Basic Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#named-foreground-colors">Named foreground colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#bright-foreground-colors">Bright foreground colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#text-styling">Text styling</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#background-colors">Background Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#bright-background-colors">Bright background colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#advanced-colors">Advanced Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rgb-color">RGB Color</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#256-color-palette">256-Color Palette</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#gradients">Gradients</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#semantic-colors">Semantic Colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#global-control">Global Control</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#basic-colored-output">Basic colored output</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#semantic-colors">Semantic colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#combined-styles">Combined styles</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rgb-colors">RGB colors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#conditional-colors-based-on-terminal-support">Conditional colors based on terminal support</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#conditional-disabling">Conditional disabling</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#background-and-foreground">Background and foreground</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

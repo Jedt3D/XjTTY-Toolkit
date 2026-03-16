@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjConfig class สำหรับจัดเก็บ key-value config พร้อม file I/O และ environment override" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Configuration</h1>
+          <p class="page-description">XjConfig class สำหรับจัดเก็บ key-value config พร้อม file I/O และ environment override</p>
+        </div>
+
+        <h1 id="configuration-xjconfig">Configuration (XjConfig)<a class="headerlink" href="#configuration-xjconfig" title="Permanent link">&para;</a></h1>
+<p><strong>XjConfig</strong> จัดเก็บ key-value configuration — load/save ไป text file, override ด้วย environment variables</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง config dictionary ว่างเปล่า</p>
+<h2 id="setting-getting-values">Setting &amp; Getting Values<a class="headerlink" href="#setting-getting-values" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Set(key As String, value As String)
+Function Get(key As String, default As String = &quot;&quot;) As String
+Function Has(key As String) As Boolean
+Sub Remove(key As String)
+</code></pre></div>
+
+<p>ตั้ง/ดึง/ตรวจสอบ/ลบ key-value pair</p>
+<h2 id="type-conversions">Type Conversions<a class="headerlink" href="#type-conversions" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function GetInteger(key As String, default As Integer = 0) As Integer
+Function GetBoolean(key As String, default As Boolean = False) As Boolean
+</code></pre></div>
+
+<p>ดึง value เป็น integer/boolean</p>
+<h2 id="list-operations">List Operations<a class="headerlink" href="#list-operations" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Count() As Integer
+Function Keys() As String()
+</code></pre></div>
+
+<p>ดึงจำนวนและ list ของทั้งหมด keys</p>
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetEnvPrefix(prefix As String)
+</code></pre></div>
+
+<p>ตั้งค่า prefix สำหรับ environment variable override</p>
+<p>ตัวอย่าง: prefix=&rdquo;APP_&rdquo; -&gt; APP_DATABASE_HOST override &ldquo;database_host&rdquo;</p>
+<h2 id="file-io">File I/O<a class="headerlink" href="#file-io" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub LoadFromFile(path As String)
+</code></pre></div>
+
+<p>โหลด config จาก text file (key=value format, line-by-line)</p>
+<div class="highlight"><pre><span></span><code>Sub SaveToFile(path As String)
+</code></pre></div>
+
+<p>บันทึก config ไป text file</p>
+<h2 id="merging">Merging<a class="headerlink" href="#merging" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Merge(other As XjConfig)
+</code></pre></div>
+
+<p>merge ค่าจาก XjConfig อื่น (overwrite existing keys)</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="simple-config">Simple Config<a class="headerlink" href="#simple-config" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.Set(&quot;database_host&quot;, &quot;localhost&quot;)
+config.Set(&quot;database_port&quot;, &quot;5432&quot;)
+config.Set(&quot;database_name&quot;, &quot;myapp&quot;)
+
+Var host As String = config.Get(&quot;database_host&quot;)
+Var port As String = config.Get(&quot;database_port&quot;)
+</code></pre></div>
+
+<h3 id="type-conversion">Type Conversion<a class="headerlink" href="#type-conversion" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.Set(&quot;port&quot;, &quot;8080&quot;)
+config.Set(&quot;debug&quot;, &quot;true&quot;)
+
+Var port As Integer = config.GetInteger(&quot;port&quot;) &#39; 8080
+Var debug As Boolean = config.GetBoolean(&quot;debug&quot;) &#39; True
+</code></pre></div>
+
+<h3 id="load-from-file">Load from File<a class="headerlink" href="#load-from-file" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.LoadFromFile(&quot;/etc/myapp/config.conf&quot;)
+
+&#39; config.conf:
+&#39; database_host=localhost
+&#39; database_port=5432
+&#39; database_name=myapp
+&#39; debug=false
+
+Var host As String = config.Get(&quot;database_host&quot;)
+</code></pre></div>
+
+<h3 id="environment-override">Environment Override<a class="headerlink" href="#environment-override" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.LoadFromFile(&quot;config.conf&quot;)
+config.SetEnvPrefix(&quot;MYAPP_&quot;)
+
+&#39; Now MYAPP_DATABASE_HOST env var overrides &quot;database_host&quot; from file
+Var host As String = config.Get(&quot;database_host&quot;)
+</code></pre></div>
+
+<h3 id="save-config">Save Config<a class="headerlink" href="#save-config" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.Set(&quot;api_key&quot;, &quot;secret123&quot;)
+config.Set(&quot;log_level&quot;, &quot;info&quot;)
+
+config.SaveToFile(&quot;user_config.conf&quot;)
+&#39; Creates file with key=value pairs
+</code></pre></div>
+
+<h3 id="merge-configs">Merge Configs<a class="headerlink" href="#merge-configs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var defaults As New XjConfig
+defaults.Set(&quot;timeout&quot;, &quot;30&quot;)
+defaults.Set(&quot;retries&quot;, &quot;3&quot;)
+
+Var user As New XjConfig
+user.LoadFromFile(&quot;~/.myapp.conf&quot;)
+
+defaults.Merge(user) &#39; User config overrides defaults
+</code></pre></div>
+
+<h3 id="check-keys">Check Keys<a class="headerlink" href="#check-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var config As New XjConfig
+config.Set(&quot;feature_a&quot;, &quot;enabled&quot;)
+config.Set(&quot;feature_b&quot;, &quot;disabled&quot;)
+
+If config.Has(&quot;feature_a&quot;) Then
+  &#39; Feature enabled
+End If
+
+Var allKeys() As String = config.Keys()
+For Each key As String In allKeys
+  XjPrompt.Say(key + &quot;: &quot; + config.Get(key))
+Wend
+</code></pre></div>
+
+<h2 id="config-file-format">Config File Format<a class="headerlink" href="#config-file-format" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>database_host=localhost
+database_port=5432
+database_name=myapp
+debug=false
+api_timeout=30
+log_level=info
+features=feature1,feature2
+</code></pre></div>
+
+<h2 id="environment-variable-pattern">Environment Variable Pattern<a class="headerlink" href="#environment-variable-pattern" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set in shell</span>
+<span class="nb">export</span> <span class="nv">MYAPP_DATABASE_HOST</span><span class="o">=</span>prod.example.com
+<span class="nb">export</span> <span class="nv">MYAPP_DEBUG</span><span class="o">=</span><span class="nb">false</span>
+
+<span class="c1"># In code</span>
+config.SetEnvPrefix<span class="o">(</span><span class="s2">&quot;MYAPP_&quot;</span><span class="o">)</span>
+config.Set<span class="o">(</span><span class="s2">&quot;database_host&quot;</span>, <span class="s2">&quot;localhost&quot;</span><span class="o">)</span>
+<span class="c1"># Result: &quot;prod.example.com&quot; (from env var, not from Set)</span>
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>LoadFromFile() อ่าน text file บรรทัด-ต่อบรรทัด โดยคาดหวัง key=value format</p>
+<p>SaveToFile() เขียน text file ในรูป key=value</p>
+<p>SetEnvPrefix() ทำให้ environment variables override loaded config — ใช้สำหรับ deploy-time overrides (production ไม่ต้องแก้ไข config file)</p>
+<p>GetInteger/GetBoolean ทำ type conversion อัตโนมัติ — ถ้า parse fail ใช้ default</p>
+<p>Merge() ยินดีออก overwrite — ตัวแรกคือ base, ตัวที่สองคือ override</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/options.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">CLI Options</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/commands.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Commands & Pager</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#setting-getting-values">Setting & Getting Values</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#type-conversions">Type Conversions</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#list-operations">List Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#environment-variables">Environment Variables</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#file-io">File I/O</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#merging">Merging</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#simple-config">Simple Config</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#type-conversion">Type Conversion</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#load-from-file">Load from File</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#environment-override">Environment Override</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#save-config">Save Config</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#merge-configs">Merge Configs</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#check-keys">Check Keys</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#config-file-format">Config File Format</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#environment-variable-pattern">Environment Variable Pattern</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

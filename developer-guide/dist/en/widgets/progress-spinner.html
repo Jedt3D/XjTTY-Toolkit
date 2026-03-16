@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProgressBar & Spinner Widgets — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjProgressBar shows progress with format tokens; XjSpinner provides animated loading indicators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">ProgressBar & Spinner Widgets</h1>
+          <p class="page-description">XjProgressBar shows progress with format tokens; XjSpinner provides animated loading indicators.</p>
+        </div>
+
+        <h1 id="progressbar-spinner">ProgressBar &amp; Spinner<a class="headerlink" href="#progressbar-spinner" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjProgressBar</strong> widget displays progress with customizable format, animated bar, and indeterminate mode. The <strong>XjSpinner</strong> widget shows rotating activity indicators.</p>
+<h2 id="xjprogressbar">XjProgressBar<a class="headerlink" href="#xjprogressbar" title="Permanent link">&para;</a></h2>
+<h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetValue(value)</code></td>
+<td>Integer</td>
+<td>—</td>
+<td>Set current progress (0-100 or custom max)</td>
+</tr>
+<tr>
+<td><code>SetTotal(total)</code></td>
+<td>Integer</td>
+<td>—</td>
+<td>Set total value (for calculations)</td>
+</tr>
+<tr>
+<td><code>SetFormat(fmt)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set format string with tokens</td>
+</tr>
+<tr>
+<td><code>SetBarChars(empty, fill)</code></td>
+<td>String × 2</td>
+<td>—</td>
+<td>Set bar characters</td>
+</tr>
+<tr>
+<td><code>SetIndeterminate(enable)</code></td>
+<td>Boolean</td>
+<td>—</td>
+<td>Enable bouncing animation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="format-tokens">Format Tokens<a class="headerlink" href="#format-tokens" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:bar</code></td>
+<td>Progress bar (animated fill)</td>
+</tr>
+<tr>
+<td><code>:percent</code></td>
+<td>Percentage (0-100)</td>
+</tr>
+<tr>
+<td><code>:current</code></td>
+<td>Current value</td>
+</tr>
+<tr>
+<td><code>:total</code></td>
+<td>Total value</td>
+</tr>
+<tr>
+<td><code>:eta</code></td>
+<td>Estimated time remaining</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var progress As New XjProgressBar()
+Call progress.SetValue(50)
+Call progress.SetTotal(100)
+Call progress.SetFormat(&quot;:bar :percent&quot;)
+
+// Animate progress
+For i As Integer = 0 To 100
+  Call progress.SetValue(i)
+  Redraw()
+  System.Sleep(100)
+Next
+</code></pre></div>
+
+<h3 id="indeterminate-progress">Indeterminate progress<a class="headerlink" href="#indeterminate-progress" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var spinner As New XjProgressBar()
+Call spinner.SetIndeterminate(True)
+Call spinner.SetFormat(&quot;Loading... :bar&quot;)
+
+// The bar bounces back and forth
+While isLoading
+  Redraw()
+  System.Sleep(50)
+Wend
+</code></pre></div>
+
+<h3 id="custom-format">Custom format<a class="headerlink" href="#custom-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var progress As New XjProgressBar()
+Call progress.SetValue(75)
+Call progress.SetTotal(100)
+Call progress.SetFormat(&quot;[ETA: :eta] :bar :percent&quot;)
+</code></pre></div>
+
+<h2 id="xjspinner">XjSpinner<a class="headerlink" href="#xjspinner" title="Permanent link">&para;</a></h2>
+<h3 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetMessage(msg)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set spinner message</td>
+</tr>
+<tr>
+<td><code>SetInterval(ms)</code></td>
+<td>Integer</td>
+<td>—</td>
+<td>Set frame interval (milliseconds)</td>
+</tr>
+<tr>
+<td><code>SetFormat(fmt)</code></td>
+<td>Integer format</td>
+<td>—</td>
+<td>Set spinner format (0-12+)</td>
+</tr>
+<tr>
+<td><code>Success()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Show success mark and stop</td>
+</tr>
+<tr>
+<td><code>Error_()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Show error mark and stop</td>
+</tr>
+<tr>
+<td><code>GetFrame()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get current frame</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spinner-formats">Spinner Formats<a class="headerlink" href="#spinner-formats" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>dots</td>
+<td>Animated dots (. .. &hellip;)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>line</td>
+<td>Rotating line (| / - )</td>
+</tr>
+<tr>
+<td>2</td>
+<td>arc</td>
+<td>Rotating arc (◜ ◠ ◝ ◞)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>star</td>
+<td>Rotating star</td>
+</tr>
+<tr>
+<td>4</td>
+<td>bounce</td>
+<td>Bouncing ball</td>
+</tr>
+<tr>
+<td>5</td>
+<td>square</td>
+<td>Rotating square</td>
+</tr>
+<tr>
+<td>6</td>
+<td>circle</td>
+<td>Rotating circle</td>
+</tr>
+<tr>
+<td>7+</td>
+<td>Additional formats</td>
+<td>Various animations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var spinner As New XjSpinner()
+Call spinner.SetMessage(&quot;Loading files...&quot;)
+Call spinner.SetFormat(0)  // Dots format
+Call spinner.SetInterval(100)
+
+While isLoading
+  XjTerminal.Write(XjCursor.SavePosition())
+  XjTerminal.Write(spinner.GetFrame() + &quot; &quot; + spinner.GetMessage())
+  XjTerminal.Write(XjCursor.Restore())
+
+  System.Sleep(spinner.GetInterval())
+Wend
+
+Call spinner.Success()  // Show checkmark
+</code></pre></div>
+
+<h3 id="completion-indicators">Completion indicators<a class="headerlink" href="#completion-indicators" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var spinner As New XjSpinner()
+Call spinner.SetMessage(&quot;Processing...&quot;)
+Call spinner.SetFormat(0)
+
+Try
+  DoHeavyWork()
+  Call spinner.Success()  // Green checkmark
+Catch err As Exception
+  Call spinner.Error_()   // Red X mark
+End Try
+</code></pre></div>
+
+<h3 id="multiple-spinners">Multiple spinners<a class="headerlink" href="#multiple-spinners" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var spinner1 As New XjSpinner()
+Call spinner1.SetMessage(&quot;Task 1&quot;)
+Call spinner1.SetFormat(1)  // Line format
+
+Var spinner2 As New XjSpinner()
+Call spinner2.SetMessage(&quot;Task 2&quot;)
+Call spinner2.SetFormat(2)  // Arc format
+
+While tasksRunning
+  XjTerminal.Write(spinner1.GetFrame() + &quot; &quot; + spinner1.GetMessage())
+  XjTerminal.Write(spinner2.GetFrame() + &quot; &quot; + spinner2.GetMessage())
+  System.Sleep(100)
+Wend
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>ProgressBar</strong>: The :bar token shows a visual progress bar. Frame-by-frame animation requires calling Redraw() regularly.</p>
+<p><strong>ETA calculation</strong>: The :eta token estimates remaining time based on SetTotal() and progress rate.</p>
+<p><strong>Spinner updates</strong>: Call GetFrame() to get the current animation frame. Advance frames manually or let the interval control timing.</p>
+<p><strong>Success/Error</strong>: Call spinner.Success() or spinner.Error_() to complete with a visual indicator.</p>
+<p><strong>Format selection</strong>: Dots and line formats work everywhere. Unicode formats (arc, star) require terminal support.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For inline progress in prompts, use XjProgressBar with SetIndeterminate(True). For full-screen spinners, use XjEventLoop with tick-based frame updates.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/table.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Table</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/tree.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Tree</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjprogressbar">XjProgressBar</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#format-tokens">Format Tokens</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#indeterminate-progress">Indeterminate progress</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#custom-format">Custom format</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjspinner">XjSpinner</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#spinner-formats">Spinner Formats</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#completion-indicators">Completion indicators</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#multiple-spinners">Multiple spinners</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

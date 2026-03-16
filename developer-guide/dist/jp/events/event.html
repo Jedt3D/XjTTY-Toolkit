@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>イベントシステム — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjEventクラスは鑑別共用体パターンで、キー、マウス、リサイズ、カスタムイベントを統一的に処理します。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">イベントシステム</h1>
+          <p class="page-description">XjEventクラスは鑑別共用体パターンで、キー、マウス、リサイズ、カスタムイベントを統一的に処理します。</p>
+        </div>
+
+        <h1 id="xjevent">イベントシステム（XjEvent）<a class="headerlink" href="#xjevent" title="Permanent link">&para;</a></h1>
+<p>XjEventクラスはキーボード入力、マウス操作、ターミナルリサイズなど、異なる種類のイベントを統一的に表現する鑑別共用体パターンの実装です。</p>
+<h2 id="_1">イベントタイプ定数<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Const EVENT_KEY = 1
+Const EVENT_MOUSE = 2
+Const EVENT_RESIZE = 3
+Const EVENT_TICK = 4
+Const EVENT_CUSTOM = 5
+</code></pre></div>
+
+<h2 id="_2">マウスイベントタイプ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Const MOUSE_PRESS = 0
+Const MOUSE_RELEASE = 1
+Const MOUSE_MOTION = 2
+Const MOUSE_SCROLL_UP = 3
+Const MOUSE_SCROLL_DOWN = 4
+</code></pre></div>
+
+<h2 id="_3">ファクトリーメソッド（イベント生成）<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Shared Function CreateKeyEvent(key As XjKeyEvent) As XjEvent
+
+Shared Function CreateMouseEvent(button As Integer, x As Integer, y As Integer,
+                                  ctrl As Boolean, alt As Boolean, shift As Boolean) As XjEvent
+
+Shared Function CreateResizeEvent(width As Integer, height As Integer) As XjEvent
+
+Shared Function CreateTickEvent(tickCount As Integer) As XjEvent
+
+Shared Function CreateCustomEvent(customData As Variant) As XjEvent
+</code></pre></div>
+
+<h2 id="_4">イベント判定メソッド<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function IsKeyEvent() As Boolean
+Function IsMouseEvent() As Boolean
+Function IsResizeEvent() As Boolean
+Function IsTickEvent() As Boolean
+Function IsCustomEvent() As Boolean
+Function EventType() As Integer
+</code></pre></div>
+
+<h2 id="_5">イベント取得メソッド<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Key() As XjKeyEvent                    // キーイベントの取得
+
+Function MouseButton() As Integer               // マウスボタンの種類
+Function MouseX() As Integer                    // マウス X座標（0ベース）
+Function MouseY() As Integer                    // マウス Y座標（0ベース）
+Function MouseCtrl() As Boolean
+Function MouseAlt() As Boolean
+Function MouseShift() As Boolean
+
+Function ResizeWidth() As Integer               // リサイズ後の幅
+Function ResizeHeight() As Integer              // リサイズ後の高さ
+
+Function TickCount() As Integer                 // ティック番号
+
+Function CustomData() As Variant                // カスタムイベントのデータ
+</code></pre></div>
+
+<h2 id="_6">イベント情報<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Timestamp() As Integer                 // イベント発生時刻（ミリ秒）
+</code></pre></div>
+
+<h2 id="_7">使用例<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">キーイベント処理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleEvent(evt As XjEvent)
+  If evt.IsKeyEvent() Then
+    Var key As XjKeyEvent = evt.Key()
+    If key.IsEscape() Then
+      XjTerminal.Write(&quot;Escape pressed&quot;)
+    ElseIf key.IsCharKey() Then
+      XjTerminal.Write(&quot;Character: &quot; + key.Char())
+    End If
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="_9">マウスイベント処理<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleMouseEvent(evt As XjEvent)
+  If evt.IsMouseEvent() Then
+    Var button As Integer = evt.MouseButton()
+    Var x As Integer = evt.MouseX()
+    Var y As Integer = evt.MouseY()
+
+    Select Case button
+      Case XjEvent.MOUSE_PRESS
+        XjTerminal.Write(&quot;Click at (&quot; + x.ToString() + &quot;,&quot; + y.ToString() + &quot;)&quot;)
+      Case XjEvent.MOUSE_SCROLL_UP
+        XjTerminal.Write(&quot;Scroll up&quot;)
+      Case XjEvent.MOUSE_SCROLL_DOWN
+        XjTerminal.Write(&quot;Scroll down&quot;)
+    End Select
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="_10">リサイズイベント処理<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleResizeEvent(evt As XjEvent)
+  If evt.IsResizeEvent() Then
+    Var newWidth As Integer = evt.ResizeWidth()
+    Var newHeight As Integer = evt.ResizeHeight()
+
+    // レイアウトを再計算
+    Var canvas As New XjCanvas(newWidth, newHeight)
+    // ... 描画処理
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="_11">ティックイベント処理<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleTickEvent(evt As XjEvent)
+  If evt.IsTickEvent() Then
+    Var tickCount As Integer = evt.TickCount()
+
+    // アニメーション更新
+    If tickCount Mod 10 = 0 Then
+      // 10フレームごとにアニメーション更新
+    End If
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="_12">カスタムイベント処理<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub HandleCustomEvent(evt As XjEvent)
+  If evt.IsCustomEvent() Then
+    Var data As Variant = evt.CustomData()
+    XjTerminal.Write(&quot;Custom event: &quot; + data.ToString())
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="_13">統一的なイベント処理<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub ProcessEvent(evt As XjEvent)
+  Select Case evt.EventType()
+    Case XjEvent.EVENT_KEY
+      HandleKeyboardInput(evt.Key())
+
+    Case XjEvent.EVENT_MOUSE
+      HandleMouseClick(evt.MouseButton(), evt.MouseX(), evt.MouseY())
+
+    Case XjEvent.EVENT_RESIZE
+      HandleTerminalResize(evt.ResizeWidth(), evt.ResizeHeight())
+
+    Case XjEvent.EVENT_TICK
+      HandleTimerTick(evt.TickCount())
+
+    Case XjEvent.EVENT_CUSTOM
+      HandleCustomEvent(evt.CustomData())
+  End Select
+End Sub
+</code></pre></div>
+
+<h3 id="_14">イベントディスパッチャー<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class EventDispatcher
+  Private mHandlers As New Dictionary()
+
+  Sub On(eventType As Integer, handler As Delegate)
+    Var key As String = eventType.ToString()
+    mHandlers.Value(key) = handler
+  End Sub
+
+  Sub Dispatch(evt As XjEvent)
+    Var key As String = evt.EventType().ToString()
+    Var handler As Delegate = mHandlers.Lookup(key, Nil)
+    If handler &lt;&gt; Nil Then
+      handler.Invoke(evt)
+    End If
+  End Sub
+End Class
+
+// 使用例
+Var dispatcher As New EventDispatcher()
+dispatcher.On(XjEvent.EVENT_KEY, AddressOf HandleKeyEvent)
+dispatcher.On(XjEvent.EVENT_RESIZE, AddressOf HandleResizeEvent)
+dispatcher.Dispatch(evt)
+</code></pre></div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../events/key-event.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Key Events</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../events/event-loop.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Event Loop</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#イベントタイプ定数">イベントタイプ定数</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#マウスイベントタイプ">マウスイベントタイプ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ファクトリーメソッドイベント生成">ファクトリーメソッド（イベント生成）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#イベント判定メソッド">イベント判定メソッド</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#イベント取得メソッド">イベント取得メソッド</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#イベント情報">イベント情報</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#使用例">使用例</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#キーイベント処理">キーイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#マウスイベント処理">マウスイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#リサイズイベント処理">リサイズイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ティックイベント処理">ティックイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#カスタムイベント処理">カスタムイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#統一的なイベント処理">統一的なイベント処理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#イベントディスパッチャー">イベントディスパッチャー</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

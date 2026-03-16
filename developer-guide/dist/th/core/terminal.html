@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>การควบคุม Terminal — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTerminal module สำหรับการตั้งค่าโหมดดิบ, การอ่านไบต์, ขนาด terminal และอื่นๆ" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">การควบคุม Terminal</h1>
+          <p class="page-description">XjTerminal module สำหรับการตั้งค่าโหมดดิบ, การอ่านไบต์, ขนาด terminal และอื่นๆ</p>
+        </div>
+
+        <h1 id="terminal-xjterminal">การควบคุม Terminal (XjTerminal)<a class="headerlink" href="#terminal-xjterminal" title="Permanent link">&para;</a></h1>
+<p><strong>XjTerminal</strong> เป็น module ที่จัดให้มี low-level API สำหรับควบคุม terminal ตั้งแต่ enable raw mode, อ่านไบต์โดยไม่บล็อก, ไปจนถึงได้รู้ขนาด terminal สิ่งสำคัญคือสำหรับ interactive app ต้องปิดการใช้งาน line buffering (cooked mode) และรับทราบว่า terminal มีขนาดเท่าไร</p>
+<h2 id="terminal">โหมด Terminal<a class="headerlink" href="#terminal" title="Permanent link">&para;</a></h2>
+<h3 id="enabledisable-raw-mode">Enable/Disable Raw Mode<a class="headerlink" href="#enabledisable-raw-mode" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub EnableRawMode()
+</code></pre></div>
+
+<p>เปิด raw mode — ปิด line buffering, echo, และ signal handling เพื่อให้ app ได้รับแต่ละ keypress ทันที บน Unix ใช้ termios, บน Windows ใช้ SetConsoleMode</p>
+<div class="highlight"><pre><span></span><code>Sub DisableRawMode()
+</code></pre></div>
+
+<p>ปิด raw mode — คืนค่า terminal กลับไปเป็นสถานะเดิม (cooked mode)</p>
+<div class="highlight"><pre><span></span><code>Function IsRawMode() As Boolean
+</code></pre></div>
+
+<p>ส่งกลับ <code>True</code> ถ้า raw mode เปิดอยู่</p>
+<h2 id="terminal_1">ข้อมูลขนาด Terminal<a class="headerlink" href="#terminal_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Width() As Integer
+</code></pre></div>
+
+<p>ดึงความกว้างของ terminal (จำนวนคอลัมน์)</p>
+<div class="highlight"><pre><span></span><code>Function Height() As Integer
+</code></pre></div>
+
+<p>ดึงความสูงของ terminal (จำนวนบรรทัด)</p>
+<div class="highlight"><pre><span></span><code>Sub GetSize(ByRef w As Integer, ByRef h As Integer)
+</code></pre></div>
+
+<p>ดึงขนาด terminal ทั้งสองมิติพร้อมกัน (มีประสิทธิภาพกว่าเรียก Width/Height แยกกัน)</p>
+<h2 id="_1">การตรวจสอบสีและสมรรถนะ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function SupportsColor() As Boolean
+</code></pre></div>
+
+<p>ส่งกลับ <code>True</code> ถ้า terminal รองรับสี (ตรวจสอบ TERM environment variable)</p>
+<div class="highlight"><pre><span></span><code>Function ColorDepth() As Integer
+</code></pre></div>
+
+<p>ส่งกลับจำนวนสีที่ terminal รองรับ: 1 (monochrome), 16 (basic), 256 (256-color), หรือ 16777216 (true color/24-bit RGB)</p>
+<h2 id="input">การอ่านข้อมูล Input<a class="headerlink" href="#input" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function ReadByte() As Integer
+</code></pre></div>
+
+<p>อ่านไบต์เดียว (0-255) จาก stdin โดยไม่บล็อก ถ้าไม่มีข้อมูล คืน -1 (เฉพาะใน raw mode)</p>
+<h2 id="output">การเขียนข้อมูล Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Write(text As String)
+</code></pre></div>
+
+<p>เขียน text ไปยัง stdout ใช้สำหรับทั้ง plain text และ ANSI escape sequence</p>
+<h2 id="non-blocking-input">Non-Blocking Input<a class="headerlink" href="#non-blocking-input" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub EnableNonBlockingInput()
+</code></pre></div>
+
+<p>ตั้งค่า stdin เป็น non-blocking mode เพื่อให้ ReadByte() ไม่รอ</p>
+<h2 id="alternate-screen">Alternate Screen<a class="headerlink" href="#alternate-screen" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub EnterAlternateScreen()
+</code></pre></div>
+
+<p>เข้าไปยัง alternate screen buffer (ซ่อนบรรทัดเดิม) ใช้สำหรับแอป fullscreen เช่น vim</p>
+<div class="highlight"><pre><span></span><code>Sub ExitAlternateScreen()
+</code></pre></div>
+
+<p>ออกจาก alternate screen buffer และคืนไปยัง main buffer</p>
+<h2 id="mouse-tracking">Mouse Tracking<a class="headerlink" href="#mouse-tracking" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub EnableMouseTracking()
+</code></pre></div>
+
+<p>เปิด mouse event reporting ให้ app ได้รับ click, drag, scroll</p>
+<div class="highlight"><pre><span></span><code>Sub DisableMouseTracking()
+</code></pre></div>
+
+<p>ปิด mouse event reporting</p>
+<h2 id="_2">ตัวอย่างการใช้งาน<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="raw-mode-keypress">ตั้งค่า Raw Mode และอ่าน Keypress<a class="headerlink" href="#raw-mode-keypress" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.EnableRawMode()
+Var byte As Integer = XjTerminal.ReadByte()
+If byte &gt; 0 Then
+  XjTerminal.Write(&quot;Pressed: &quot; + Chr(byte))
+End If
+XjTerminal.DisableRawMode()
+</code></pre></div>
+
+<h3 id="terminal_2">ดึงขนาด Terminal<a class="headerlink" href="#terminal_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var w, h As Integer
+XjTerminal.GetSize(w, h)
+XjTerminal.Write(&quot;Terminal is &quot; + w.ToString() + &quot;x&quot; + h.ToString())
+</code></pre></div>
+
+<h3 id="_3">ตรวจสอบสี<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjTerminal.SupportsColor() Then
+  Var depth As Integer = XjTerminal.ColorDepth()
+  If depth &gt;= 256 Then
+    &#39; Safe to use 256-color palette
+  End If
+End If
+</code></pre></div>
+
+<h3 id="alternate-screen-fullscreen-app">Alternate Screen (Fullscreen App)<a class="headerlink" href="#alternate-screen-fullscreen-app" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjTerminal.EnableRawMode()
+XjTerminal.EnterAlternateScreen()
+&#39; Draw app
+XjTerminal.ExitAlternateScreen()
+XjTerminal.DisableRawMode()
+</code></pre></div>
+
+<h2 id="_4">หมายเหตุการออกแบบ<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>XjTerminal สั่งการ platform-specific ผ่านทาง XjPlatform:
+- บน Unix (macOS, Linux): ใช้ termios system call
+- บน Windows: ใช้ Console API</p>
+<p>แทนการเรียก XjTerminal โดยตรง เราแนะนำใช้ XjEventLoop ซึ่งจัดการ raw mode, alternate screen และ mouse tracking โดยอัตโนมัติ</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/ansi.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">ANSI Escape Codes</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/color.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Colors</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#โหมด-terminal">โหมด Terminal</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#enabledisable-raw-mode">Enable/Disable Raw Mode</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ขอมลขนาด-terminal">ข้อมูลขนาด Terminal</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การตรวจสอบสและสมรรถนะ">การตรวจสอบสีและสมรรถนะ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การอานขอมล-input">การอ่านข้อมูล Input</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การเขยนขอมล-output">การเขียนข้อมูล Output</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#non-blocking-input">Non-Blocking Input</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#alternate-screen">Alternate Screen</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#mouse-tracking">Mouse Tracking</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตงคา-raw-mode-และอาน-keypress">ตั้งค่า Raw Mode และอ่าน Keypress</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ดงขนาด-terminal">ดึงขนาด Terminal</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตรวจสอบส">ตรวจสอบสี</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#alternate-screen-fullscreen-app">Alternate Screen (Fullscreen App)</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

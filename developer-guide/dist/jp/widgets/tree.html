@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ツリーウィジェット — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTreeとXjTreeNodeで階層構造を表示します。展開・折りたたみ、ボックス描画、スクロール対応。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">ツリーウィジェット</h1>
+          <p class="page-description">XjTreeとXjTreeNodeで階層構造を表示します。展開・折りたたみ、ボックス描画、スクロール対応。</p>
+        </div>
+
+        <h1 id="xjtreexjtreenode">ツリーウィジェット（XjTree、XjTreeNode）<a class="headerlink" href="#xjtreexjtreenode" title="Permanent link">&para;</a></h1>
+<p>XjTreeは階層構造（ディレクトリツリーやメニューなど）を表示するウィジェットです。XjTreeNodeは各ノードを表現し、展開・折りたたみをサポートしています。</p>
+<h2 id="xjtreenode">XjTreeNode（ツリーノード）<a class="headerlink" href="#xjtreenode" title="Permanent link">&para;</a></h2>
+<p>階層構造の個別要素を表します。</p>
+<h3 id="_1">コンストラクタ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New(label As String)
+</code></pre></div>
+
+<h3 id="_2">ノード管理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AddChild(child As XjTreeNode)
+Function ChildCount() As Integer
+Function Child(index As Integer) As XjTreeNode
+Function IsLeaf() As Boolean
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Var root As New XjTreeNode(&quot;Files&quot;)
+Var folder As New XjTreeNode(&quot;Documents&quot;)
+Var file As New XjTreeNode(&quot;report.txt&quot;)
+
+Call folder.AddChild(file)
+Call root.AddChild(folder)
+
+Var hasChildren As Boolean = Not root.IsLeaf()
+</code></pre></div>
+
+<h3 id="_3">ノード情報<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Label() As String
+Sub SetLabel(label As String)
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Var node As New XjTreeNode(&quot;Original&quot;)
+Call node.SetLabel(&quot;Updated&quot;)
+Var label As String = node.Label()
+</code></pre></div>
+
+<h3 id="_4">展開状態<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function IsExpanded() As Boolean
+Sub SetExpanded(expanded As Boolean)
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Var node As New XjTreeNode(&quot;Folder&quot;)
+Call node.SetExpanded(True)   // 展開
+Call node.SetExpanded(False)  // 折りたたみ
+</code></pre></div>
+
+<h3 id="_5">スタイリング<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function SetNodeStyle(style As XjStyle) As XjTreeNode
+</code></pre></div>
+
+<p>ノードラベルのスタイルを設定。</p>
+<div class="highlight"><pre><span></span><code>Var node As New XjTreeNode(&quot;Important&quot;)
+Call node.SetNodeStyle(XjStyle.Warning())
+</code></pre></div>
+
+<h2 id="xjtree">XjTree（ツリーウィジェット）<a class="headerlink" href="#xjtree" title="Permanent link">&para;</a></h2>
+<p>ツリー全体を管理・表示するウィジェット。</p>
+<h3 id="_6">コンストラクタ<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<h3 id="_7">ルート管理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AddRoot(root As XjTreeNode)
+Function GetData() As XjTreeNode
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Var tree As New XjTree()
+Var root As New XjTreeNode(&quot;Root&quot;)
+Call tree.AddRoot(root)
+Var data As XjTreeNode = tree.GetData()
+</code></pre></div>
+
+<h3 id="_8">スタイリング<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function SetNodeStyle(style As XjStyle) As XjTree
+Function SetBranchStyle(style As XjStyle) As XjTree
+</code></pre></div>
+
+<p>ノードと枝線のスタイルを設定。</p>
+<div class="highlight"><pre><span></span><code>Var tree As New XjTree()
+Call tree.SetNodeStyle(XjStyle.Default())
+Call tree.SetBranchStyle(XjStyle.Muted())
+</code></pre></div>
+
+<h3 id="_9">スクロール<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function SetScrollOffset(offset As Integer) As XjTree
+Function LineCount() As Integer
+</code></pre></div>
+
+<p>表示行数が多い場合のスクロール制御。</p>
+<div class="highlight"><pre><span></span><code>Var tree As New XjTree()
+// ... ツリー構築
+Var lines As Integer = tree.LineCount()
+Call tree.SetScrollOffset(0)  // 最上部から表示
+</code></pre></div>
+
+<h3 id="_10">ツリー再構築<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Rebuild()
+</code></pre></div>
+
+<p>ツリーデータ変更後に呼び出し（レイアウト更新）。</p>
+<div class="highlight"><pre><span></span><code>Var tree As New XjTree()
+// ... ツリーデータ変更
+Call tree.Rebuild()
+</code></pre></div>
+
+<h2 id="_11">実装例<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="_12">ディレクトリ構造表示<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function BuildFileTree() As XjTree
+  Var tree As New XjTree()
+
+  Var root As New XjTreeNode(&quot;📁 projects&quot;)
+  Call root.SetExpanded(True)
+
+  Var project1 As New XjTreeNode(&quot;📁 app-a&quot;)
+  Call project1.SetExpanded(True)
+  Call project1.AddChild(New XjTreeNode(&quot;📄 main.xojo&quot;))
+  Call project1.AddChild(New XjTreeNode(&quot;📄 config.ini&quot;))
+
+  Var project2 As New XjTreeNode(&quot;📁 app-b&quot;)
+  Call project2.AddChild(New XjTreeNode(&quot;📄 main.xojo&quot;))
+
+  Call root.AddChild(project1)
+  Call root.AddChild(project2)
+
+  Call tree.AddRoot(root)
+  Return tree
+End Function
+</code></pre></div>
+
+<h3 id="_13">メニューツリー<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function BuildMenuTree() As XjTree
+  Var tree As New XjTree()
+
+  Var root As New XjTreeNode(&quot;Menu&quot;)
+  Call root.SetExpanded(True)
+
+  // File メニュー
+  Var fileMenu As New XjTreeNode(&quot;File&quot;)
+  Call fileMenu.AddChild(New XjTreeNode(&quot;New&quot;))
+  Call fileMenu.AddChild(New XjTreeNode(&quot;Open&quot;))
+  Call fileMenu.AddChild(New XjTreeNode(&quot;Save&quot;))
+  Call fileMenu.AddChild(New XjTreeNode(&quot;Exit&quot;))
+  Call root.AddChild(fileMenu)
+
+  // Edit メニュー
+  Var editMenu As New XjTreeNode(&quot;Edit&quot;)
+  Call editMenu.AddChild(New XjTreeNode(&quot;Undo&quot;))
+  Call editMenu.AddChild(New XjTreeNode(&quot;Redo&quot;))
+  Call editMenu.AddChild(New XjTreeNode(&quot;Cut&quot;))
+  Call editMenu.AddChild(New XjTreeNode(&quot;Copy&quot;))
+  Call editMenu.AddChild(New XjTreeNode(&quot;Paste&quot;))
+  Call root.AddChild(editMenu)
+
+  // Help メニュー
+  Var helpMenu As New XjTreeNode(&quot;Help&quot;)
+  Call helpMenu.AddChild(New XjTreeNode(&quot;About&quot;))
+  Call helpMenu.AddChild(New XjTreeNode(&quot;Manual&quot;))
+  Call root.AddChild(helpMenu)
+
+  Call tree.AddRoot(root)
+  Return tree
+End Function
+</code></pre></div>
+
+<h3 id="_14">組織図<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function BuildOrgChart() As XjTree
+  Var tree As New XjTree()
+
+  Var ceo As New XjTreeNode(&quot;CEO&quot;)
+  Call ceo.SetExpanded(True)
+
+  // 部長
+  Var engMgr As New XjTreeNode(&quot;Engineering Manager&quot;)
+  Call engMgr.SetExpanded(True)
+  Call engMgr.AddChild(New XjTreeNode(&quot;Developer 1&quot;))
+  Call engMgr.AddChild(New XjTreeNode(&quot;Developer 2&quot;))
+
+  Var salesMgr As New XjTreeNode(&quot;Sales Manager&quot;)
+  Call salesMgr.AddChild(New XjTreeNode(&quot;Sales Rep 1&quot;))
+  Call salesMgr.AddChild(New XjTreeNode(&quot;Sales Rep 2&quot;))
+
+  Call ceo.AddChild(engMgr)
+  Call ceo.AddChild(salesMgr)
+
+  Call tree.AddRoot(ceo)
+  Return tree
+End Function
+</code></pre></div>
+
+<h3 id="_15">セマンティックスタイリング<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub BuildStyledTree()
+  Var tree As New XjTree()
+
+  Var root As New XjTreeNode(&quot;Project&quot;)
+  Call root.SetNodeStyle(XjStyle.Success())
+  Call root.SetExpanded(True)
+
+  // エラー
+  Var errors As New XjTreeNode(&quot;Errors&quot;)
+  Call errors.SetNodeStyle(XjStyle.Danger())
+  Call errors.AddChild(New XjTreeNode(&quot;Line 42: syntax error&quot;))
+
+  // 警告
+  Var warnings As New XjTreeNode(&quot;Warnings&quot;)
+  Call warnings.SetNodeStyle(XjStyle.Warning())
+  Call warnings.AddChild(New XjTreeNode(&quot;Unused variable&quot;))
+
+  // 情報
+  Var info As New XjTreeNode(&quot;Info&quot;)
+  Call info.SetNodeStyle(XjStyle.Info())
+  Call info.AddChild(New XjTreeNode(&quot;3 files modified&quot;))
+
+  Call root.AddChild(errors)
+  Call root.AddChild(warnings)
+  Call root.AddChild(info)
+
+  Call tree.AddRoot(root)
+End Sub
+</code></pre></div>
+
+<h3 id="_16">インタラクティブツリー<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class InteractiveTree
+  Extends XjTree
+  Private mSelectedNode As XjTreeNode
+
+  Function HandleKey(key As XjKeyEvent) As Boolean
+    If key.IsArrowRight() Then
+      If mSelectedNode &lt;&gt; Nil And Not mSelectedNode.IsLeaf() Then
+        Call mSelectedNode.SetExpanded(True)
+        Call Rebuild()
+        MarkDirty()
+        Return True
+      End If
+    ElseIf key.IsArrowLeft() Then
+      If mSelectedNode &lt;&gt; Nil Then
+        Call mSelectedNode.SetExpanded(False)
+        Call Rebuild()
+        MarkDirty()
+        Return True
+      End If
+    ElseIf key.IsEnter() Then
+      // ノード選択確定
+      Return True
+    End If
+    Return False
+  End Function
+
+  Sub SetSelectedNode(node As XjTreeNode)
+    mSelectedNode = node
+  End Sub
+
+  Function GetSelectedNode() As XjTreeNode
+    Return mSelectedNode
+  End Function
+End Class
+</code></pre></div>
+
+<h3 id="_17">動的ツリー更新<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class DynamicTree
+  Private mTree As XjTree
+  Private mRoot As XjTreeNode
+
+  Sub New()
+    mTree = New XjTree()
+    mRoot = New XjTreeNode(&quot;Dynamic Tree&quot;)
+    Call mRoot.SetExpanded(True)
+    Call mTree.AddRoot(mRoot)
+  End Sub
+
+  Sub AddItem(parentLabel As String, itemLabel As String)
+    // parentLabelに該当するノードを見つけて子を追加
+    Var parent As XjTreeNode = FindNode(mRoot, parentLabel)
+    If parent &lt;&gt; Nil Then
+      Call parent.AddChild(New XjTreeNode(itemLabel))
+      Call mTree.Rebuild()
+    End If
+  End Sub
+
+  Private Function FindNode(node As XjTreeNode, label As String) As XjTreeNode
+    If node.Label() = label Then
+      Return node
+    End If
+
+    For i As Integer = 0 To node.ChildCount() - 1
+      Var found As XjTreeNode = FindNode(node.Child(i), label)
+      If found &lt;&gt; Nil Then
+        Return found
+      End If
+    Wend
+
+    Return Nil
+  End Function
+
+  Function GetTree() As XjTree
+    Return mTree
+  End Function
+End Class
+</code></pre></div>
+
+<h2 id="_18">ツリーレイアウト<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<p>ツリーは通常、以下の形式で表示されます：</p>
+<div class="highlight"><pre><span></span><code>Root
+├─ Child 1
+│  ├─ Grandchild 1
+│  └─ Grandchild 2
+├─ Child 2
+│  └─ Grandchild 3
+└─ Child 3
+</code></pre></div>
+
+<p>ボックス描画文字（─、│、├、└）は自動的に選択されます。</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/progress-spinner.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">ProgressBar & Spinner</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/focus-manager.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Focus Manager</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjtreenodeツリーノード">XjTreeNode（ツリーノード）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#コンストラクタ">コンストラクタ</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ノード管理">ノード管理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ノード情報">ノード情報</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#展開状態">展開状態</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#スタイリング">スタイリング</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjtreeツリーウィジェット">XjTree（ツリーウィジェット）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#コンストラクタ">コンストラクタ</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ルート管理">ルート管理</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#スタイリング">スタイリング</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#スクロール">スクロール</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ツリー再構築">ツリー再構築</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#実装例">実装例</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ディレクトリ構造表示">ディレクトリ構造表示</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#メニューツリー">メニューツリー</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#組織図">組織図</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#セマンティックスタイリング">セマンティックスタイリング</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#インタラクティブツリー">インタラクティブツリー</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#動的ツリー更新">動的ツリー更新</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ツリーレイアウト">ツリーレイアウト</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

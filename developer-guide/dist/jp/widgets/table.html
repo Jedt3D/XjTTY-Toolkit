@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>テーブルウィジェット — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTableは複数列のテーブル表示、ヘッダー、自動折り返し、列幅制御、スタイリングをサポート。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">テーブルウィジェット</h1>
+          <p class="page-description">XjTableは複数列のテーブル表示、ヘッダー、自動折り返し、列幅制御、スタイリングをサポート。</p>
+        </div>
+
+        <h1 id="xjtable">テーブルウィジェット（XjTable）<a class="headerlink" href="#xjtable" title="Permanent link">&para;</a></h1>
+<p>XjTableは行列形式でデータを表示するウィジェットです。ヘッダー、列幅制御、配置、スタイリング、交互行色などをサポートしています。</p>
+<h2 id="_1">コンストラクタ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<h2 id="_2">ヘッダー設定<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function SetHeaders(headers() As String) As XjTable
+</code></pre></div>
+
+<p>テーブルのヘッダー行を設定します。</p>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Var headers() As String = Array(&quot;Name&quot;, &quot;Age&quot;, &quot;Email&quot;)
+Call table.SetHeaders(headers)
+</code></pre></div>
+
+<h2 id="_3">データ管理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function AddRow(cells() As String) As XjTable
+Sub ClearRows()
+Function RowCount() As Integer
+</code></pre></div>
+
+<p>行を追加・クリア・カウントします。</p>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Call table.AddRow(Array(&quot;Alice&quot;, &quot;30&quot;, &quot;alice@example.com&quot;))
+Call table.AddRow(Array(&quot;Bob&quot;, &quot;25&quot;, &quot;bob@example.com&quot;))
+Var rowCount As Integer = table.RowCount()  // 2
+</code></pre></div>
+
+<h2 id="_4">列設定<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function SetColumnWidth(columnIndex As Integer, width As Integer) As XjTable
+Function SetColumnAlign(columnIndex As Integer, align As Integer) As XjTable
+</code></pre></div>
+
+<p>列の幅と配置（0=左、1=中央、2=右）を制御します。</p>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Call table.SetColumnWidth(0, 15)   // 名前列：15文字
+Call table.SetColumnWidth(1, 5)    // 年齢列：5文字
+Call table.SetColumnAlign(1, 1)    // 年齢列：中央配置
+</code></pre></div>
+
+<h2 id="_5">ヘッダー・ボーダー<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function SetShowHeader(show As Boolean) As XjTable
+Function SetShowBorder(show As Boolean) As XjTable
+Function SetBorderChars(borderStyle As Integer) As XjTable
+</code></pre></div>
+
+<p>ヘッダー表示、ボーダー表示、ボーダースタイル（0-4）を制御します。</p>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Call table.SetShowHeader(True)
+Call table.SetShowBorder(True)
+Call table.SetBorderChars(0)  // シングルライン
+</code></pre></div>
+
+<h2 id="_6">スタイリング<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function SetHeaderStyle(style As XjStyle) As XjTable
+Function SetCellStyle(style As XjStyle) As XjTable
+Function SetAltRowStyle(style As XjStyle) As XjTable
+</code></pre></div>
+
+<p>ヘッダー、セル、交互行のスタイルを設定します。</p>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Call table.SetHeaderStyle(XjStyle.Success())     // ヘッダー：緑
+Call table.SetCellStyle(XjStyle.Default())       // 通常セル
+Call table.SetAltRowStyle(XjStyle.Muted())       // 交互行：グレイ
+</code></pre></div>
+
+<h2 id="_7">実装例<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">シンプルなデータテーブル<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub DisplayDataTable()
+  Var table As New XjTable()
+
+  // ヘッダー設定
+  Var headers() As String = Array(&quot;Product&quot;, &quot;Price&quot;, &quot;Qty&quot;)
+  Call table.SetHeaders(headers)
+
+  // 列幅設定
+  Call table.SetColumnWidth(0, 20)
+  Call table.SetColumnWidth(1, 10)
+  Call table.SetColumnWidth(2, 5)
+
+  // データ追加
+  Call table.AddRow(Array(&quot;Apple&quot;, &quot;$1.50&quot;, &quot;10&quot;))
+  Call table.AddRow(Array(&quot;Banana&quot;, &quot;$0.75&quot;, &quot;15&quot;))
+  Call table.AddRow(Array(&quot;Orange&quot;, &quot;$1.25&quot;, &quot;8&quot;))
+
+  // スタイル設定
+  Call table.SetHeaderStyle(XjStyle.Success())
+  Call table.SetAltRowStyle(XjStyle.Muted())
+End Sub
+</code></pre></div>
+
+<h3 id="_9">アライメント付きテーブル<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub CreateAlignedTable()
+  Var table As New XjTable()
+
+  Var headers() As String = Array(&quot;Name&quot;, &quot;Score&quot;, &quot;Grade&quot;)
+  Call table.SetHeaders(headers)
+
+  // 左配置、中央配置、右配置
+  Call table.SetColumnAlign(0, 0)  // Name：左
+  Call table.SetColumnAlign(1, 1)  // Score：中央
+  Call table.SetColumnAlign(2, 2)  // Grade：右
+
+  Call table.SetColumnWidth(0, 15)
+  Call table.SetColumnWidth(1, 8)
+  Call table.SetColumnWidth(2, 6)
+
+  Call table.AddRow(Array(&quot;Alice&quot;, &quot;95&quot;, &quot;A&quot;))
+  Call table.AddRow(Array(&quot;Bob&quot;, &quot;87&quot;, &quot;B&quot;))
+  Call table.AddRow(Array(&quot;Charlie&quot;, &quot;92&quot;, &quot;A&quot;))
+End Sub
+</code></pre></div>
+
+<h3 id="_10">ボーダースタイル<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class TableDemo
+  Sub ShowTable()
+    Var table As New XjTable()
+
+    // ヘッダー
+    Var headers() As String = Array(&quot;ID&quot;, &quot;Status&quot;, &quot;Message&quot;)
+    Call table.SetHeaders(headers)
+
+    // 列設定
+    Call table.SetColumnWidth(0, 4)
+    Call table.SetColumnWidth(1, 10)
+    Call table.SetColumnWidth(2, 30)
+
+    // ボーダー設定
+    Call table.SetShowBorder(True)
+    Call table.SetBorderChars(0)  // シングルライン
+
+    // データ
+    Call table.AddRow(Array(&quot;1&quot;, &quot;OK&quot;, &quot;Operation successful&quot;))
+    Call table.AddRow(Array(&quot;2&quot;, &quot;ERROR&quot;, &quot;Connection failed&quot;))
+    Call table.AddRow(Array(&quot;3&quot;, &quot;WARN&quot;, &quot;Memory low&quot;))
+
+    // スタイル
+    Call table.SetHeaderStyle(XjStyle.Info())
+    Call table.SetCellStyle(XjStyle.Default())
+  End Sub
+End Class
+</code></pre></div>
+
+<h3 id="_11">動的なテーブル更新<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class DataTable
+  Private mTable As XjTable
+
+  Sub New()
+    mTable = New XjTable()
+    Var headers() As String = Array(&quot;Timestamp&quot;, &quot;Value&quot;, &quot;Status&quot;)
+    Call mTable.SetHeaders(headers)
+    Call mTable.SetShowBorder(True)
+  End Sub
+
+  Sub AddDataPoint(timestamp As String, value As String, status As String)
+    Call mTable.AddRow(Array(timestamp, value, status))
+  End Sub
+
+  Sub ClearData()
+    Call mTable.ClearRows()
+  End Sub
+
+  Function GetTable() As XjTable
+    Return mTable
+  End Function
+End Class
+
+// 使用例
+Var dataTable As New DataTable()
+dataTable.AddDataPoint(&quot;10:00&quot;, &quot;42.5&quot;, &quot;OK&quot;)
+dataTable.AddDataPoint(&quot;10:01&quot;, &quot;41.2&quot;, &quot;OK&quot;)
+dataTable.AddDataPoint(&quot;10:02&quot;, &quot;39.8&quot;, &quot;WARN&quot;)
+</code></pre></div>
+
+<h3 id="_12">インタラクティブなテーブル<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class SelectableTable
+  Extends XjTable
+  Private mSelectedRow As Integer = 0
+
+  Function HandleKey(key As XjKeyEvent) As Boolean
+    If key.IsArrowUp() Then
+      mSelectedRow = Max(0, mSelectedRow - 1)
+      MarkDirty()
+      Return True
+    ElseIf key.IsArrowDown() Then
+      mSelectedRow = Min(RowCount() - 1, mSelectedRow + 1)
+      MarkDirty()
+      Return True
+    ElseIf key.IsEnter() Then
+      // 選択確定
+      Return True
+    End If
+    Return False
+  End Function
+
+  Function GetSelectedRow() As Integer
+    Return mSelectedRow
+  End Function
+End Class
+</code></pre></div>
+
+<h2 id="_13">フルーエント設定例<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Var table As New XjTable()
+Call table.SetHeaders(Array(&quot;Col1&quot;, &quot;Col2&quot;, &quot;Col3&quot;))
+Call table.SetColumnWidth(0, 10)
+Call table.SetColumnWidth(1, 15)
+Call table.SetColumnWidth(2, 10)
+Call table.SetColumnAlign(0, 0)
+Call table.SetColumnAlign(1, 1)
+Call table.SetColumnAlign(2, 2)
+Call table.SetShowHeader(True)
+Call table.SetShowBorder(True)
+Call table.SetHeaderStyle(XjStyle.Success())
+Call table.SetAltRowStyle(XjStyle.Muted())
+</code></pre></div>
+
+<h2 id="_14">レスポンシブカラム幅<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Class ResponsiveTable
+  Private mTable As XjTable
+
+  Sub AdjustColumnWidths(availableWidth As Integer)
+    Var colCount As Integer = 3  // 例
+    Var colWidth As Integer = availableWidth / colCount
+
+    For i As Integer = 0 To colCount - 1
+      Call mTable.SetColumnWidth(i, colWidth)
+    Wend
+  End Sub
+End Class
+</code></pre></div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/text-input.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">TextInput</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/progress-spinner.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">ProgressBar & Spinner</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#コンストラクタ">コンストラクタ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ヘッダー設定">ヘッダー設定</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#データ管理">データ管理</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#列設定">列設定</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ヘッダーボーダー">ヘッダー・ボーダー</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スタイリング">スタイリング</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#実装例">実装例</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#シンプルなデータテーブル">シンプルなデータテーブル</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#アライメント付きテーブル">アライメント付きテーブル</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ボーダースタイル">ボーダースタイル</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#動的なテーブル更新">動的なテーブル更新</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#インタラクティブなテーブル">インタラクティブなテーブル</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#フルーエント設定例">フルーエント設定例</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#レスポンシブカラム幅">レスポンシブカラム幅</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

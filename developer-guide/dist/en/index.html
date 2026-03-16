@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTTY-Toolkit is a comprehensive Terminal UI (TUI) library for Xojo, inspired by Ruby TTY-Toolkit, Python Prompt Toolkit, and Rust IOCraft." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="./index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="./yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Introduction</h1>
+          <p class="page-description">XjTTY-Toolkit is a comprehensive Terminal UI (TUI) library for Xojo, inspired by Ruby TTY-Toolkit, Python Prompt Toolkit, and Rust IOCraft.</p>
+        </div>
+
+        <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p><strong>XjTTY-Toolkit</strong> is a full-featured Terminal UI (TUI) library for Xojo console applications. It provides everything needed to build rich, interactive terminal interfaces — from low-level ANSI escape codes to high-level prompt dialogs and widget-based layouts.</p>
+<p>The toolkit is inspired by <strong>Ruby&rsquo;s TTY-Toolkit</strong>, <strong>Python&rsquo;s Prompt Toolkit</strong>, and <strong>Rust&rsquo;s IOCraft</strong>, adapted for Xojo&rsquo;s language features and cross-platform capabilities.</p>
+<h2 id="architecture-overview">Architecture overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<p>The library is organized in layers, each building on the one below:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Components</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core</strong></td>
+<td>XjPlatform, XjANSI, XjTerminal, XjColor, XjCursor, XjScreen</td>
+<td>Platform detection, raw terminal I/O, ANSI escape codes</td>
+</tr>
+<tr>
+<td><strong>Styling</strong></td>
+<td>XjStyle, XjCell, XjCanvas, XjSymbols</td>
+<td>Immutable style builder, character cells, 2D rendering grid</td>
+</tr>
+<tr>
+<td><strong>Events</strong></td>
+<td>XjKeyEvent, XjEvent, XjEventLoop, XjReader</td>
+<td>Keyboard/mouse parsing, main loop with tick/resize callbacks</td>
+</tr>
+<tr>
+<td><strong>Layout</strong></td>
+<td>XjConstraint, XjLayoutNode, XjLayoutSolver</td>
+<td>Flexbox-like constraint-based layout engine</td>
+</tr>
+<tr>
+<td><strong>Widgets</strong></td>
+<td>XjWidget, XjBox, XjText, XjTextInput, XjTable, XjProgressBar, XjSpinner, XjTree, XjFocusManager</td>
+<td>Paintable UI components with focus management</td>
+</tr>
+<tr>
+<td><strong>Prompts</strong></td>
+<td>XjPrompt, XjAskPrompt, XjConfirmPrompt, XjSelectPrompt, &hellip; (13 types)</td>
+<td>Interactive inline prompt dialogs</td>
+</tr>
+<tr>
+<td><strong>Utilities</strong></td>
+<td>XjLogger, XjOption, XjConfig, XjCommand, XjPager, XjFont, XjPie, XjMarkdown, XjHistory</td>
+<td>CLI helpers, logging, configuration, display utilities</td>
+</tr>
+<tr>
+<td><strong>YAML UI</strong></td>
+<td>XjYAML, XjYAMLNode, XjUIParser</td>
+<td>Declarative UI definition from YAML markup</td>
+</tr>
+</tbody>
+</table>
+<h2 id="63-components">63 components<a class="headerlink" href="#63-components" title="Permanent link">&para;</a></h2>
+<p>The library contains 63 carefully designed components across 7 development phases. All have been analyzed and optimized for Big O performance.</p>
+<h2 id="platform-support">Platform support<a class="headerlink" href="#platform-support" title="Permanent link">&para;</a></h2>
+<p>XjTTY-Toolkit runs on <strong>macOS</strong>, <strong>Linux</strong>, and <strong>Windows</strong>. Platform-specific code (termios vs Win32) is handled internally by XjPlatform and XjTerminal.</p>
+<h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>// Simple colored output
+XjTerminal.Write(XjColor.Green(&quot;Hello, &quot;) + XjColor.BoldText(&quot;World!&quot;) + XjANSI.Reset())
+
+// Interactive prompt
+Var name As String = XjPrompt.Ask(&quot;What is your name?&quot;)
+XjPrompt.Ok(&quot;Welcome, &quot; + name + &quot;!&quot;)
+
+// Confirmation
+If XjPrompt.Confirm(&quot;Continue?&quot;) Then
+  XjPrompt.Say(&quot;Let&#39;s go!&quot;)
+End If
+</code></pre></div>
+
+<h2 id="whats-in-this-guide">What&rsquo;s in this guide<a class="headerlink" href="#whats-in-this-guide" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>What you&rsquo;ll learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="core/platform.html">Platform Detection</a></td>
+<td>Cross-platform OS and architecture detection</td>
+</tr>
+<tr>
+<td><a href="core/ansi.html">ANSI Escape Codes</a></td>
+<td>Low-level terminal control sequences</td>
+</tr>
+<tr>
+<td><a href="core/terminal.html">Terminal Control</a></td>
+<td>Raw mode, terminal size, byte-level I/O</td>
+</tr>
+<tr>
+<td><a href="core/color.html">Colors</a></td>
+<td>Convenience color functions, gradients, semantic colors</td>
+</tr>
+<tr>
+<td><a href="core/cursor.html">Cursor</a></td>
+<td>Cursor movement and visibility</td>
+</tr>
+<tr>
+<td><a href="core/screen.html">Screen</a></td>
+<td>Screen clearing, scrolling, fullscreen, drawing</td>
+</tr>
+<tr>
+<td><a href="styling/style.html">XjStyle</a></td>
+<td>Immutable style builder with fluent API</td>
+</tr>
+<tr>
+<td><a href="styling/cell-canvas.html">Cell &amp; Canvas</a></td>
+<td>Character cells and 2D rendering grid</td>
+</tr>
+<tr>
+<td><a href="styling/symbols.html">Symbols</a></td>
+<td>Unicode/ASCII glyph sets</td>
+</tr>
+<tr>
+<td><a href="events/key-event.html">Key Events</a></td>
+<td>Keyboard event representation</td>
+</tr>
+<tr>
+<td><a href="events/event.html">Event System</a></td>
+<td>Discriminated union for all event types</td>
+</tr>
+<tr>
+<td><a href="events/event-loop.html">Event Loop</a></td>
+<td>Main application loop</td>
+</tr>
+<tr>
+<td><a href="events/reader.html">Input Reader</a></td>
+<td>VT100/xterm escape sequence parser</td>
+</tr>
+<tr>
+<td><a href="layout/constraint.html">Constraints</a></td>
+<td>Size constraints for layout</td>
+</tr>
+<tr>
+<td><a href="layout/layout-node.html">Layout Nodes</a></td>
+<td>Flexbox-like layout tree</td>
+</tr>
+<tr>
+<td><a href="layout/solver.html">Layout Solver</a></td>
+<td>Stateless layout computation</td>
+</tr>
+<tr>
+<td><a href="widgets/widget.html">Widgets</a></td>
+<td>Base widget class</td>
+</tr>
+<tr>
+<td><a href="widgets/box-text.html">Box &amp; Text</a></td>
+<td>Container and text display widgets</td>
+</tr>
+<tr>
+<td><a href="widgets/text-input.html">TextInput</a></td>
+<td>Single-line text input widget</td>
+</tr>
+<tr>
+<td><a href="widgets/table.html">Table</a></td>
+<td>Tabular data display</td>
+</tr>
+<tr>
+<td><a href="widgets/progress-spinner.html">ProgressBar &amp; Spinner</a></td>
+<td>Progress indicators</td>
+</tr>
+<tr>
+<td><a href="widgets/tree.html">Tree</a></td>
+<td>Hierarchical tree display</td>
+</tr>
+<tr>
+<td><a href="widgets/focus-manager.html">Focus Manager</a></td>
+<td>Tab-based focus cycling</td>
+</tr>
+<tr>
+<td><a href="prompts/facade.html">Prompt Facade</a></td>
+<td>Top-level prompt API</td>
+</tr>
+<tr>
+<td><a href="prompts/text-prompts.html">Text Prompts</a></td>
+<td>Ask, Password, MultiLine, Suggest</td>
+</tr>
+<tr>
+<td><a href="prompts/selection-prompts.html">Selection Prompts</a></td>
+<td>Select, MultiSelect, EnumSelect, Expand</td>
+</tr>
+<tr>
+<td><a href="prompts/special-prompts.html">Special Prompts</a></td>
+<td>Confirm, Slider, KeyPress, Collect</td>
+</tr>
+<tr>
+<td><a href="prompts/styling-validation.html">Styling &amp; Validation</a></td>
+<td>Prompt themes and input validation</td>
+</tr>
+<tr>
+<td><a href="utilities/logger.html">Logger</a></td>
+<td>Structured colored logging</td>
+</tr>
+<tr>
+<td><a href="utilities/options.html">CLI Options</a></td>
+<td>Argument parser with auto help</td>
+</tr>
+<tr>
+<td><a href="utilities/config.html">Configuration</a></td>
+<td>Key-value config with file I/O</td>
+</tr>
+<tr>
+<td><a href="utilities/commands.html">Commands &amp; Pager</a></td>
+<td>Shell execution and content paging</td>
+</tr>
+<tr>
+<td><a href="utilities/display.html">Font, Pie &amp; Markdown</a></td>
+<td>ASCII art, charts, markdown rendering</td>
+</tr>
+<tr>
+<td><a href="yaml/parser.html">YAML Parser</a></td>
+<td>Simple YAML parser</td>
+</tr>
+<tr>
+<td><a href="yaml/ui-builder.html">UI Builder</a></td>
+<td>YAML-to-widget-tree builder</td>
+</tr>
+</tbody>
+</table>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>Start with <a href="core/platform.html">Platform Detection</a> to understand how the toolkit detects your environment, then explore <a href="core/ansi.html">ANSI Escape Codes</a> for low-level terminal control. For interactive applications, jump to <a href="prompts/facade.html">Prompts</a> or <a href="events/event-loop.html">Event Loop</a>.</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="./core/platform.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Platform Detection</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#architecture-overview">Architecture overview</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#63-components">63 components</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#platform-support">Platform support</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#quick-start">Quick start</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#whats-in-this-guide">What's in this guide</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#getting-started">Getting started</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="./../assets/docs.js"></script>
+</body>
+</html>

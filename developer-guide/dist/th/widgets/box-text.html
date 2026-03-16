@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Box และ Text — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjBox (container) และ XjText (display) widget" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Box และ Text</h1>
+          <p class="page-description">XjBox (container) และ XjText (display) widget</p>
+        </div>
+
+        <h1 id="box-text">Box และ Text<a class="headerlink" href="#box-text" title="Permanent link">&para;</a></h1>
+<h2 id="xjbox-container-widget">XjBox (Container Widget)<a class="headerlink" href="#xjbox-container-widget" title="Permanent link">&para;</a></h2>
+<p><strong>XjBox</strong> เป็น container widget — ประกอบด้วย padding, border, background fill, และ content alignment จะมีประโยชน์สำหรับจัดกลุ่มไปว์เจต</p>
+<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง box ว่างเปล่า</p>
+<h3 id="content-alignment">Content Alignment<a class="headerlink" href="#content-alignment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetContentAlign(align As Integer)
+Function ContentAlign() As Integer
+</code></pre></div>
+
+<p>ตั้ง/ดึง horizontal alignment: ALIGN_LEFT (0), ALIGN_CENTER (1), ALIGN_RIGHT (2)</p>
+<div class="highlight"><pre><span></span><code>Sub SetContentVAlign(valign As Integer)
+Function ContentVAlign() As Integer
+</code></pre></div>
+
+<p>ตั้ง/ดึง vertical alignment: VALIGN_TOP (0), VALIGN_MIDDLE (1), VALIGN_BOTTOM (2)</p>
+<h3 id="background-fill">Background Fill<a class="headerlink" href="#background-fill" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetFill(char As String, style As XjStyle)
+</code></pre></div>
+
+<p>ตั้งค่า character และ style สำหรับเติม background</p>
+<h3 id="semantic-constructors">Semantic Constructors<a class="headerlink" href="#semantic-constructors" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Shared Function Info(title As String) As XjBox
+Shared Function Warning(title As String) As XjBox
+Shared Function Success(title As String) As XjBox
+Shared Function Error_(title As String) As XjBox
+</code></pre></div>
+
+<p>สร้าง box ที่มีชื่อเรื่องและสี semantic (blue, yellow, green, red)</p>
+<h2 id="xjtext-display-widget">XjText (Display Widget)<a class="headerlink" href="#xjtext-display-widget" title="Permanent link">&para;</a></h2>
+<p><strong>XjText</strong> เป็น display widget สำหรับแสดง text ธรรมดา รองรับ word wrapping, alignment, scroll</p>
+<h3 id="constructor_1">Constructor<a class="headerlink" href="#constructor_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง text widget ว่างเปล่า</p>
+<h3 id="content">Content<a class="headerlink" href="#content" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetText(text As String)
+Function Text() As String
+</code></pre></div>
+
+<p>ตั้ง/ดึง text content</p>
+<h3 id="formatting">Formatting<a class="headerlink" href="#formatting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetAlign(align As Integer)
+Function Align() As Integer
+</code></pre></div>
+
+<p>ตั้ง/ดึง alignment: ALIGN_LEFT (0), ALIGN_CENTER (1), ALIGN_RIGHT (2)</p>
+<div class="highlight"><pre><span></span><code>Sub SetWrap(wrap As Boolean)
+Function Wrap() As Boolean
+</code></pre></div>
+
+<p>เปิด/ปิด word wrapping</p>
+<h3 id="scrolling">Scrolling<a class="headerlink" href="#scrolling" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetScrollOffset(offset As Integer)
+Function ScrollOffset() As Integer
+</code></pre></div>
+
+<p>ตั้ง/ดึง offset scroll บรรทัด</p>
+<div class="highlight"><pre><span></span><code>Function LineCount() As Integer
+</code></pre></div>
+
+<p>ดึงจำนวนบรรทัดที่ render (สำหรับการคำนวณ max scroll)</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="xjbox-container">XjBox Container<a class="headerlink" href="#xjbox-container" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var panel As New XjBox
+panel.SetWidth(XjConstraint.Fixed(40))
+panel.SetHeight(XjConstraint.Fixed(10))
+panel.SetBorder(0, &quot;blue&quot;) &#39; single border, blue
+panel.SetPadding(1, 2, 1, 2)
+panel.SetTitle(&quot;Options&quot;)
+
+Var text As New XjText
+text.SetText(&quot;Choose one:&quot;)
+panel.AddChild(text)
+</code></pre></div>
+
+<h3 id="xjbox-semantic">XjBox Semantic<a class="headerlink" href="#xjbox-semantic" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var error As XjBox = XjBox.Error_(&quot;Critical Error&quot;)
+error.SetWidth(XjConstraint.Percent(100))
+error.SetHeight(XjConstraint.Fixed(5))
+</code></pre></div>
+
+<h3 id="xjtext-centered">XjText Centered<a class="headerlink" href="#xjtext-centered" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var heading As New XjText
+heading.SetText(&quot;Welcome&quot;)
+heading.SetAlign(XjBox.ALIGN_CENTER)
+heading.SetStyle(XjStyle.MakeBold())
+</code></pre></div>
+
+<h3 id="xjtext-word-wrapped">XjText Word Wrapped<a class="headerlink" href="#xjtext-word-wrapped" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var desc As New XjText
+desc.SetText(&quot;This is a long description that will be wrapped to fit within the available width&quot;)
+desc.SetWrap(True)
+desc.SetWidth(XjConstraint.Fixed(30))
+</code></pre></div>
+
+<h3 id="scrollable-text">Scrollable Text<a class="headerlink" href="#scrollable-text" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var scroll As New XjText
+scroll.SetText(&quot;Line 1\nLine 2\nLine 3\nLine 4\nLine 5&quot;)
+scroll.SetHeight(XjConstraint.Fixed(3))
+scroll.SetScrollOffset(0)
+&#39; Scroll down
+scroll.SetScrollOffset(1)
+</code></pre></div>
+
+<h2 id="alignment-constants">Alignment Constants<a class="headerlink" href="#alignment-constants" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Const ALIGN_LEFT = 0
+Const ALIGN_CENTER = 1
+Const ALIGN_RIGHT = 2
+Const VALIGN_TOP = 0
+Const VALIGN_MIDDLE = 1
+Const VALIGN_BOTTOM = 2
+</code></pre></div>
+
+<h2 id="_2">หมายเหตุการออกแบบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>XjBox ส่วนใหญ่ใช้สำหรับ layout — เก็บ children widget ภายในและจัดตำแหน่ง ส่วน XjText ใช้สำหรับแสดงข้อความเท่านั้น (ไม่มี children)</p>
+<p>SetFill() ของ XjBox มีประโยชน์สำหรับสร้างพื้นหลังที่มีสี — ถ้าไม่มีการตั้งค่า ก็ปล่อยเป็นสีเริ่มต้นของ terminal</p>
+<p>XjText.LineCount() ใช้ calculate scroll range — ถ้าได้ 5 บรรทัด height 3, max scroll = 2</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/widget.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Widget Base Class</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/text-input.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">TextInput</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjbox-container-widget">XjBox (Container Widget)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#content-alignment">Content Alignment</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#background-fill">Background Fill</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#semantic-constructors">Semantic Constructors</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjtext-display-widget">XjText (Display Widget)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#content">Content</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#formatting">Formatting</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#scrolling">Scrolling</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#xjbox-container">XjBox Container</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#xjbox-semantic">XjBox Semantic</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#xjtext-centered">XjText Centered</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#xjtext-word-wrapped">XjText Word Wrapped</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#scrollable-text">Scrollable Text</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#alignment-constants">Alignment Constants</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

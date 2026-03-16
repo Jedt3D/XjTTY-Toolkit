@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cell & Canvas — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjCell represents styled characters; XjCanvas is a 2D grid for composable rendering with diff updates and box drawing support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Cell & Canvas</h1>
+          <p class="page-description">XjCell represents styled characters; XjCanvas is a 2D grid for composable rendering with diff updates and box drawing support.</p>
+        </div>
+
+        <h1 id="cell-canvas">Cell &amp; Canvas<a class="headerlink" href="#cell-canvas" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjCell</strong> class represents a single character with style. The <strong>XjCanvas</strong> class is a 2D grid of cells for composable rendering with automatic diff updates and professional box-drawing.</p>
+<h2 id="xjcell">XjCell<a class="headerlink" href="#xjcell" title="Permanent link">&para;</a></h2>
+<p>A cell is a character + style pair.</p>
+<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var cell As New XjCell()
+Var styledCell As New XjCell(&quot;A&quot;, boldRedStyle)
+</code></pre></div>
+
+<h3 id="properties-methods">Properties &amp; Methods<a class="headerlink" href="#properties-methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Char()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get character (single Unicode char)</td>
+</tr>
+<tr>
+<td><code>SetChar(c)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set character</td>
+</tr>
+<tr>
+<td><code>Style()</code></td>
+<td>—</td>
+<td>XjStyle</td>
+<td>Get style</td>
+</tr>
+<tr>
+<td><code>SetStyle(style)</code></td>
+<td>XjStyle</td>
+<td>—</td>
+<td>Set style</td>
+</tr>
+<tr>
+<td><code>Set(char, style)</code></td>
+<td>String, XjStyle</td>
+<td>—</td>
+<td>Set both character and style</td>
+</tr>
+<tr>
+<td><code>Reset()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Clear to space with default style</td>
+</tr>
+<tr>
+<td><code>Equals(other)</code></td>
+<td>XjCell</td>
+<td>Boolean</td>
+<td>Compare cells</td>
+</tr>
+<tr>
+<td><code>Clone()</code></td>
+<td>—</td>
+<td>XjCell</td>
+<td>Create independent copy</td>
+</tr>
+<tr>
+<td><code>Render()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Render cell as styled ANSI string</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var cell As New XjCell()
+Call cell.SetChar(&quot;X&quot;)
+Call cell.SetStyle(XjStyle.Danger())
+
+XjTerminal.Write(cell.Render())
+</code></pre></div>
+
+<h2 id="xjcanvas">XjCanvas<a class="headerlink" href="#xjcanvas" title="Permanent link">&para;</a></h2>
+<p>A canvas is a 2D grid of styled cells with diff-based rendering and professional box drawing.</p>
+<h3 id="constructor_1">Constructor<a class="headerlink" href="#constructor_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(width, height)
+</code></pre></div>
+
+<h3 id="dimensions">Dimensions<a class="headerlink" href="#dimensions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Width()</code></td>
+<td>Integer</td>
+<td>Grid width in columns</td>
+</tr>
+<tr>
+<td><code>Height()</code></td>
+<td>Integer</td>
+<td>Grid height in rows</td>
+</tr>
+<tr>
+<td><code>Size()</code></td>
+<td>Integer</td>
+<td>Total cell count (width × height)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cell-operations">Cell Operations<a class="headerlink" href="#cell-operations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cell(row, col)</code></td>
+<td>Integer row, col</td>
+<td>XjCell</td>
+<td>Get cell at position (1-based)</td>
+</tr>
+<tr>
+<td><code>SetCell(row, col, cell)</code></td>
+<td>Integer row, col; XjCell</td>
+<td>—</td>
+<td>Set cell at position</td>
+</tr>
+<tr>
+<td><code>SetChar(row, col, char)</code></td>
+<td>Integer row, col; String</td>
+<td>—</td>
+<td>Set character at position (keep style)</td>
+</tr>
+<tr>
+<td><code>SetStyle(row, col, style)</code></td>
+<td>Integer row, col; XjStyle</td>
+<td>—</td>
+<td>Set style at position (keep char)</td>
+</tr>
+<tr>
+<td><code>Clear()</code></td>
+<td>—</td>
+<td>—</td>
+<td>Clear all cells to space</td>
+</tr>
+<tr>
+<td><code>ClearRect(row, col, w, h)</code></td>
+<td>Integer row, col, w, h</td>
+<td>—</td>
+<td>Clear rectangle</td>
+</tr>
+</tbody>
+</table>
+<h3 id="text-operations">Text Operations<a class="headerlink" href="#text-operations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WriteText(row, col, text)</code></td>
+<td>Integer row, col; String</td>
+<td>—</td>
+<td>Write plain text (no wrapping)</td>
+</tr>
+<tr>
+<td><code>WriteTextStyled(row, col, text, style)</code></td>
+<td>Integer row, col; String; XjStyle</td>
+<td>—</td>
+<td>Write text with uniform style</td>
+</tr>
+<tr>
+<td><code>WriteTextWrapped(row, col, text, maxWidth, style)</code></td>
+<td>Integer row, col; String; Integer; XjStyle</td>
+<td>—</td>
+<td>Write text with word wrapping</td>
+</tr>
+</tbody>
+</table>
+<h3 id="region-operations">Region Operations<a class="headerlink" href="#region-operations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Fill(row, col, w, h, char, style)</code></td>
+<td>Integer row, col, w, h; String; XjStyle</td>
+<td>—</td>
+<td>Fill rectangle with character and style</td>
+</tr>
+<tr>
+<td><code>Blit(sourceCanvas, fromRow, fromCol, toRow, toCol, w, h)</code></td>
+<td>XjCanvas; Integer × 6</td>
+<td>—</td>
+<td>Copy rectangle from another canvas</td>
+</tr>
+<tr>
+<td><code>Snapshot()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Return complete canvas as string</td>
+</tr>
+</tbody>
+</table>
+<h3 id="box-drawing">Box Drawing<a class="headerlink" href="#box-drawing" title="Permanent link">&para;</a></h3>
+<p>Canvas supports 5 box-drawing styles:</p>
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Constant</th>
+<th>Characters</th>
+<th>Appearance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single</td>
+<td><code>BORDER_SINGLE</code> (0)</td>
+<td>─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼</td>
+<td>Traditional single line</td>
+</tr>
+<tr>
+<td>Double</td>
+<td><code>BORDER_DOUBLE</code> (1)</td>
+<td>═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬</td>
+<td>Heavy double line</td>
+</tr>
+<tr>
+<td>Round</td>
+<td><code>BORDER_ROUND</code> (2)</td>
+<td>─ │ ╭ ╮ ╰ ╯ ├ ┤ ┬ ┴ ┼</td>
+<td>Rounded corners</td>
+</tr>
+<tr>
+<td>Bold</td>
+<td><code>BORDER_BOLD</code> (3)</td>
+<td>━ ┃ ┏ ┓ ┗ ┛ ┣ ┫ ┳ ┻ ╋</td>
+<td>Heavy/bold lines</td>
+</tr>
+<tr>
+<td>ASCII</td>
+<td><code>BORDER_ASCII</code> (4)</td>
+<td>- | + + + + + + + + +</td>
+<td>ASCII-only fallback</td>
+</tr>
+</tbody>
+</table>
+<h3 id="box-methods">Box Methods<a class="headerlink" href="#box-methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DrawBox(row, col, w, h, style)</code></td>
+<td>Integer row, col, w, h; Integer style</td>
+<td>—</td>
+<td>Draw hollow box outline</td>
+</tr>
+<tr>
+<td><code>DrawHLine(row, col, length, style)</code></td>
+<td>Integer row, col, length; Integer style</td>
+<td>—</td>
+<td>Draw horizontal line</td>
+</tr>
+<tr>
+<td><code>DrawVLine(row, col, length, style)</code></td>
+<td>Integer row, col, length; Integer style</td>
+<td>—</td>
+<td>Draw vertical line</td>
+</tr>
+<tr>
+<td><code>DrawFilled(row, col, w, h, borderStyle, bgStyle)</code></td>
+<td>Integer row, col, w, h; Integer, XjStyle</td>
+<td>—</td>
+<td>Draw filled box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rendering">Rendering<a class="headerlink" href="#rendering" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Render()</code></td>
+<td>String</td>
+<td>Full render (clear screen + absolute positioning)</td>
+</tr>
+<tr>
+<td><code>DiffRender(previous)</code></td>
+<td>String</td>
+<td>Diff render (only changed cells)</td>
+</tr>
+<tr>
+<td><code>ToString()</code></td>
+<td>String</td>
+<td>String representation for debugging</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="build-and-render-a-canvas">Build and render a canvas<a class="headerlink" href="#build-and-render-a-canvas" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(40, 10)
+
+// Write content
+Call canvas.WriteTextStyled(1, 1, &quot;Welcome&quot;, XjStyle.Success())
+Call canvas.WriteTextStyled(3, 1, &quot;Enter your name:&quot;, XjStyle.Info())
+
+// Draw a box
+Call canvas.DrawBox(5, 1, 30, 3, XjCanvas.BORDER_SINGLE)
+
+// Render to screen
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="use-different-box-styles">Use different box styles<a class="headerlink" href="#use-different-box-styles" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(50, 20)
+
+// Single-line box
+Call canvas.DrawBox(1, 1, 15, 5, XjCanvas.BORDER_SINGLE)
+Call canvas.WriteTextStyled(2, 3, &quot;Single&quot;, XjStyle.Default())
+
+// Double-line box
+Call canvas.DrawBox(1, 20, 15, 5, XjCanvas.BORDER_DOUBLE)
+Call canvas.WriteTextStyled(2, 22, &quot;Double&quot;, XjStyle.Default())
+
+// Rounded corners
+Call canvas.DrawBox(8, 1, 15, 5, XjCanvas.BORDER_ROUND)
+Call canvas.WriteTextStyled(9, 3, &quot;Rounded&quot;, XjStyle.Default())
+
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="fill-region-with-background-color">Fill region with background color<a class="headerlink" href="#fill-region-with-background-color" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(30, 10)
+
+// Create background style
+Var bgStyle As New XjStyle
+Call bgStyle.SetBG(47)  // White background
+
+// Fill header area
+Call canvas.Fill(1, 1, 30, 2, &quot; &quot;, bgStyle)
+Call canvas.WriteTextStyled(1, 2, &quot;Application Title&quot;, XjStyle.Default())
+
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="copy-region-between-canvases">Copy region between canvases<a class="headerlink" href="#copy-region-between-canvases" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var src As New XjCanvas(10, 10)
+Call src.WriteTextStyled(1, 1, &quot;Source&quot;, XjStyle.Success())
+
+Var dst As New XjCanvas(20, 20)
+Call dst.Blit(src, 1, 1, 5, 5, 10, 10)
+
+XjTerminal.Write(dst.Render())
+</code></pre></div>
+
+<h3 id="multi-line-text-with-wrapping">Multi-line text with wrapping<a class="headerlink" href="#multi-line-text-with-wrapping" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(30, 10)
+
+Var longText As String = &quot;This is a long piece of text that needs to be wrapped at word boundaries.&quot;
+Call canvas.WriteTextWrapped(1, 1, longText, 28, XjStyle.Default())
+
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="diff-rendering-for-animation">Diff rendering for animation<a class="headerlink" href="#diff-rendering-for-animation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(40, 20)
+Var prevOutput As String = &quot;&quot;
+
+For frame As Integer = 1 To 100
+  Call canvas.Clear()
+  Call canvas.WriteTextStyled(10, 20, &quot;Frame: &quot; + frame.ToString(), XjStyle.Info())
+
+  Var output As String = canvas.DiffRender(prevOutput)
+  XjTerminal.Write(output)
+  prevOutput = output
+Next
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>1-based coordinates</strong>: All canvas methods use 1-based row/column indexing.</p>
+<p><strong>Immutable cells</strong>: Cell modification creates new cell objects. Use SetChar() or SetStyle() to modify canvas content.</p>
+<p><strong>Diff rendering</strong>: DiffRender() only updates cells that changed since the last render, reducing flicker and improving performance. For smooth animation, save the previous output and pass it:</p>
+<div class="highlight"><pre><span></span><code>Var prev As String = &quot;&quot;
+While True
+  prev = canvas.DiffRender(prev)
+  XjTerminal.Write(prev)
+End While
+</code></pre></div>
+
+<p><strong>Box drawing</strong>: Box methods automatically select appropriate corners and intersections. Choose BORDER_ASCII for maximum compatibility with limited terminals.</p>
+<p><strong>Text wrapping</strong>: WriteTextWrapped() respects word boundaries. Text is wrapped at spaces; lines are not hyphenated.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Canvas uses absolute positioning (CursorMoveTo commands) in Render() output. This enables placing the canvas anywhere on screen without pre-clearing the display.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../styling/style.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">XjStyle</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../styling/symbols.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">XjSymbols</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcell">XjCell</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#properties-methods">Properties & Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcanvas">XjCanvas</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#dimensions">Dimensions</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#cell-operations">Cell Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#text-operations">Text Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#region-operations">Region Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#box-drawing">Box Drawing</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#box-methods">Box Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rendering">Rendering</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#build-and-render-a-canvas">Build and render a canvas</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#use-different-box-styles">Use different box styles</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#fill-region-with-background-color">Fill region with background color</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#copy-region-between-canvases">Copy region between canvases</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#multi-line-text-with-wrapping">Multi-line text with wrapping</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#diff-rendering-for-animation">Diff rendering for animation</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constraints — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjConstraint class represents size constraints (Fixed, Percent, Auto) with min/max bounds for flexible layout." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Constraints</h1>
+          <p class="page-description">XjConstraint class represents size constraints (Fixed, Percent, Auto) with min/max bounds for flexible layout.</p>
+        </div>
+
+        <h1 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjConstraint</strong> class defines size constraints for layout nodes. A constraint can be a fixed size, a percentage of available space, automatic (content-based), or a range with min/max bounds.</p>
+<h2 id="constraint-modes">Constraint Modes<a class="headerlink" href="#constraint-modes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MODE_AUTO</code></td>
+<td>0</td>
+<td>Automatic sizing (based on content)</td>
+</tr>
+<tr>
+<td><code>MODE_FIXED</code></td>
+<td>1</td>
+<td>Fixed size in columns/rows</td>
+</tr>
+<tr>
+<td><code>MODE_PERCENT</code></td>
+<td>2</td>
+<td>Percentage of available space</td>
+</tr>
+<tr>
+<td><code>MODE_MINMAX</code></td>
+<td>3</td>
+<td>Range constraint (min and max bounds)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Mode()</code></td>
+<td>Integer</td>
+<td>Get constraint mode (MODE_*)</td>
+</tr>
+<tr>
+<td><code>Value()</code></td>
+<td>Integer</td>
+<td>Get primary value (size or percent)</td>
+</tr>
+<tr>
+<td><code>MinValue()</code></td>
+<td>Integer</td>
+<td>Get minimum value</td>
+</tr>
+<tr>
+<td><code>MaxValue()</code></td>
+<td>Integer</td>
+<td>Get maximum value</td>
+</tr>
+</tbody>
+</table>
+<h2 id="factory-methods">Factory Methods<a class="headerlink" href="#factory-methods" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Auto()</code></td>
+<td>—</td>
+<td>XjConstraint</td>
+<td>Create auto-sizing constraint</td>
+</tr>
+<tr>
+<td><code>Fixed(size)</code></td>
+<td>Integer</td>
+<td>XjConstraint</td>
+<td>Create fixed-size constraint</td>
+</tr>
+<tr>
+<td><code>Percent(percent)</code></td>
+<td>Integer</td>
+<td>XjConstraint</td>
+<td>Create percentage constraint</td>
+</tr>
+<tr>
+<td><code>MinMax(min, max)</code></td>
+<td>Integer min, max</td>
+<td>XjConstraint</td>
+<td>Create range constraint</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modification">Modification<a class="headerlink" href="#modification" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetMin(min)</code></td>
+<td>Integer</td>
+<td>XjConstraint</td>
+<td>Set minimum value</td>
+</tr>
+<tr>
+<td><code>SetMax(max)</code></td>
+<td>Integer</td>
+<td>XjConstraint</td>
+<td>Set maximum value</td>
+</tr>
+<tr>
+<td><code>Clone()</code></td>
+<td>—</td>
+<td>XjConstraint</td>
+<td>Create independent copy</td>
+</tr>
+</tbody>
+</table>
+<h2 id="solving">Solving<a class="headerlink" href="#solving" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Resolve(available)</code></td>
+<td>Integer</td>
+<td>Integer</td>
+<td>Resolve constraint to concrete size given available space</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="fixed-size-constraint">Fixed size constraint<a class="headerlink" href="#fixed-size-constraint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var fixed As XjConstraint = XjConstraint.Fixed(20)
+Var resolved As Integer = fixed.Resolve(100)  // Always 20
+
+XjTerminal.Write(&quot;Fixed size: &quot; + resolved.ToString())
+</code></pre></div>
+
+<h3 id="percentage-constraint">Percentage constraint<a class="headerlink" href="#percentage-constraint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var percent As XjConstraint = XjConstraint.Percent(50)
+Var resolved As Integer = percent.Resolve(100)  // 50% of 100 = 50
+
+XjTerminal.Write(&quot;50% of 100: &quot; + resolved.ToString())
+</code></pre></div>
+
+<h3 id="auto-constraint">Auto constraint<a class="headerlink" href="#auto-constraint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var auto As XjConstraint = XjConstraint.Auto()
+// Resolve returns 0; layout engine uses content size
+
+Var widget As New XjText()
+Call widget.SetWidth(auto)  // Width determined by text content
+</code></pre></div>
+
+<h3 id="minmax-range">Min/max range<a class="headerlink" href="#minmax-range" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var range As XjConstraint = XjConstraint.MinMax(10, 50)
+Var resolved1 As Integer = range.Resolve(5)   // Clamped to min: 10
+Var resolved2 As Integer = range.Resolve(30)  // Within range: 30
+Var resolved3 As Integer = range.Resolve(100) // Clamped to max: 50
+</code></pre></div>
+
+<h3 id="building-widgets-with-constraints">Building widgets with constraints<a class="headerlink" href="#building-widgets-with-constraints" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var box As New XjBox()
+Call box.SetWidth(XjConstraint.Percent(80))   // 80% of container width
+Call box.SetHeight(XjConstraint.Fixed(10))    // Fixed 10 rows
+</code></pre></div>
+
+<h3 id="responsive-layout-with-minmax">Responsive layout with min/max<a class="headerlink" href="#responsive-layout-with-minmax" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var sidebar As New XjBox()
+Call sidebar.SetWidth(XjConstraint.MinMax(20, 40))  // Between 20-40 columns
+
+Var mainContent As New XjBox()
+Call mainContent.SetWidth(XjConstraint.Percent(100))  // Fill remaining space
+</code></pre></div>
+
+<h3 id="constraint-chaining">Constraint chaining<a class="headerlink" href="#constraint-chaining" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var constraint As XjConstraint = XjConstraint.Percent(50)
+Call constraint.SetMin(10)  // But at least 10
+Call constraint.SetMax(100) // And at most 100
+
+Var resolved1 As Integer = constraint.Resolve(5)    // 50% of 5=2.5→max(10)=10
+Var resolved2 As Integer = constraint.Resolve(50)   // 50% of 50=25 (within range)
+Var resolved3 As Integer = constraint.Resolve(300)  // 50% of 300=150→min(100)=100
+</code></pre></div>
+
+<h3 id="query-constraint-properties">Query constraint properties<a class="headerlink" href="#query-constraint-properties" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var fixed As XjConstraint = XjConstraint.Fixed(25)
+
+If fixed.Mode() = XjConstraint.MODE_FIXED Then
+  XjTerminal.Write(&quot;Fixed to: &quot; + fixed.Value().ToString())
+End If
+
+Var range As XjConstraint = XjConstraint.MinMax(10, 50)
+XjTerminal.Write(&quot;Range: &quot; + range.MinValue().ToString() + &quot;-&quot; + range.MaxValue().ToString())
+</code></pre></div>
+
+<h3 id="copy-and-modify-constraint">Copy and modify constraint<a class="headerlink" href="#copy-and-modify-constraint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var original As XjConstraint = XjConstraint.Percent(50)
+Var modified As XjConstraint = original.Clone()
+Call modified.SetMin(20)  // Don&#39;t shrink below 20 columns
+
+// original unchanged; modified has new min
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Resolution algorithm</strong>: Constraint.Resolve() applies constraints in order:
+1. If MODE_FIXED: return Value
+2. If MODE_PERCENT: return (Value * available) / 100
+3. If MODE_MINMAX: clamp resolved value to [Min, Max]
+4. If MODE_AUTO: return 0 (layout engine uses content size)</p>
+<p><strong>Flexibility</strong>: Percent and MinMax constraints enable responsive layouts. Use Percent for flexible sizing and MinMax for boundaries.</p>
+<p><strong>Layout integration</strong>: Layout nodes use constraints to determine their final size. XjLayoutSolver calls Resolve() with available space.</p>
+<p><strong>Immutability</strong>: Constraint methods return new instances (except Resolve which is query-only). You can safely share constraints:</p>
+<div class="highlight"><pre><span></span><code>Var columnWidth As XjConstraint = XjConstraint.Fixed(20)
+Call col1.SetWidth(columnWidth)
+Call col2.SetWidth(columnWidth)  // Safe to reuse
+</code></pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most applications don&rsquo;t interact with XjConstraint directly. They use string syntax in YAML UI definitions (&ldquo;auto&rdquo;, &ldquo;50%&rdquo;, &ldquo;20-100&rdquo;) which are parsed into constraints automatically.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../events/reader.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Input Reader</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../layout/layout-node.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Layout Nodes</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constraint-modes">Constraint Modes</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#properties">Properties</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#factory-methods">Factory Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#modification">Modification</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#solving">Solving</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#fixed-size-constraint">Fixed size constraint</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#percentage-constraint">Percentage constraint</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#auto-constraint">Auto constraint</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#minmax-range">Min/max range</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#building-widgets-with-constraints">Building widgets with constraints</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#responsive-layout-with-minmax">Responsive layout with min/max</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constraint-chaining">Constraint chaining</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#query-constraint-properties">Query constraint properties</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#copy-and-modify-constraint">Copy and modify constraint</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

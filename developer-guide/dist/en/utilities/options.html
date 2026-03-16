@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLI Options — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjOption provides argument parsing with auto-generated help, flags, options, and positional arguments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">CLI Options</h1>
+          <p class="page-description">XjOption provides argument parsing with auto-generated help, flags, options, and positional arguments.</p>
+        </div>
+
+        <h1 id="cli-options">CLI Options<a class="headerlink" href="#cli-options" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjOption</strong> class parses command-line arguments with support for short flags (-h), long options (&ndash;help), and positional arguments. It auto-generates help text.</p>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AddOption(name, short, desc)</code></td>
+<td>String name, short, desc</td>
+<td>—</td>
+<td>Add option (&ndash;name value)</td>
+</tr>
+<tr>
+<td><code>AddFlag(name, short, desc)</code></td>
+<td>String name, short, desc</td>
+<td>—</td>
+<td>Add boolean flag (&ndash;flag)</td>
+</tr>
+<tr>
+<td><code>AddArgument(name, desc)</code></td>
+<td>String name, desc</td>
+<td>—</td>
+<td>Add positional argument</td>
+</tr>
+<tr>
+<td><code>Parse(args)</code></td>
+<td>String()</td>
+<td>Boolean</td>
+<td>Parse arguments (returns success)</td>
+</tr>
+<tr>
+<td><code>GetString(name)</code></td>
+<td>String</td>
+<td>String</td>
+<td>Get option value</td>
+</tr>
+<tr>
+<td><code>GetFlag(name)</code></td>
+<td>String</td>
+<td>Boolean</td>
+<td>Get flag state</td>
+</tr>
+<tr>
+<td><code>GetInteger(name)</code></td>
+<td>String</td>
+<td>Integer</td>
+<td>Get integer option</td>
+</tr>
+<tr>
+<td><code>Has(name)</code></td>
+<td>String</td>
+<td>Boolean</td>
+<td>Check if option was provided</td>
+</tr>
+<tr>
+<td><code>Help()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Generate help text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-argument-parser">Basic argument parser<a class="headerlink" href="#basic-argument-parser" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption()
+Call opts.AddOption(&quot;input&quot;, &quot;i&quot;, &quot;Input file path&quot;)
+Call opts.AddOption(&quot;output&quot;, &quot;o&quot;, &quot;Output file path&quot;)
+Call opts.AddFlag(&quot;verbose&quot;, &quot;v&quot;, &quot;Enable verbose output&quot;)
+Call opts.AddArgument(&quot;command&quot;, &quot;Command to execute&quot;)
+
+Var args As String() = CommandLine.Arguments
+If Not opts.Parse(args) Then
+  XjPrompt.Error_(opts.Help())
+  Return
+End If
+
+Var input As String = opts.GetString(&quot;input&quot;)
+Var output As String = opts.GetString(&quot;output&quot;)
+Var verbose As Boolean = opts.GetFlag(&quot;verbose&quot;)
+Var command As String = opts.GetString(&quot;command&quot;)
+</code></pre></div>
+
+<h3 id="usage-with-defaults">Usage with defaults<a class="headerlink" href="#usage-with-defaults" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption()
+Call opts.AddOption(&quot;level&quot;, &quot;l&quot;, &quot;Log level (0-4)&quot;)
+Call opts.AddFlag(&quot;color&quot;, &quot;c&quot;, &quot;Enable colors&quot;)
+Call opts.AddFlag(&quot;json&quot;, &quot;j&quot;, &quot;JSON output&quot;)
+
+Call opts.Parse(CommandLine.Arguments)
+
+Var level As Integer = 1  // Default
+If opts.Has(&quot;level&quot;) Then
+  level = opts.GetInteger(&quot;level&quot;)
+End If
+
+Var useColor As Boolean = Not opts.GetFlag(&quot;color&quot;)  // Default: true unless disabled
+Var useJSON As Boolean = opts.GetFlag(&quot;json&quot;)  // Default: false
+</code></pre></div>
+
+<h3 id="print-help">Print help<a class="headerlink" href="#print-help" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption()
+Call opts.AddOption(&quot;config&quot;, &quot;c&quot;, &quot;Config file path&quot;)
+Call opts.AddFlag(&quot;help&quot;, &quot;h&quot;, &quot;Show this help message&quot;)
+Call opts.AddArgument(&quot;action&quot;, &quot;Action to perform&quot;)
+
+If opts.GetFlag(&quot;help&quot;) Then
+  XjPrompt.Say(opts.Help())
+  Return
+End If
+</code></pre></div>
+
+<h3 id="validate-required-options">Validate required options<a class="headerlink" href="#validate-required-options" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var opts As New XjOption()
+Call opts.AddOption(&quot;name&quot;, &quot;n&quot;, &quot;User name (required)&quot;)
+Call opts.AddOption(&quot;email&quot;, &quot;e&quot;, &quot;Email address (required)&quot;)
+
+Call opts.Parse(CommandLine.Arguments)
+
+If Not opts.Has(&quot;name&quot;) Or Not opts.Has(&quot;email&quot;) Then
+  XjPrompt.Error_(&quot;Missing required options: --name, --email&quot;)
+  XjPrompt.Say(opts.Help())
+  Return
+End If
+</code></pre></div>
+
+<h3 id="advanced-example">Advanced example<a class="headerlink" href="#advanced-example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class CLI
+  Sub Run()
+    Var opts As New XjOption()
+
+    // Define options
+    Call opts.AddOption(&quot;host&quot;, &quot;h&quot;, &quot;Server host (default: localhost)&quot;)
+    Call opts.AddOption(&quot;port&quot;, &quot;p&quot;, &quot;Server port (default: 8080)&quot;)
+    Call opts.AddFlag(&quot;verbose&quot;, &quot;v&quot;, &quot;Verbose logging&quot;)
+    Call opts.AddFlag(&quot;ssl&quot;, &quot;s&quot;, &quot;Use HTTPS&quot;)
+    Call opts.AddArgument(&quot;command&quot;, &quot;Command (start|stop|restart)&quot;)
+
+    // Parse
+    If Not opts.Parse(CommandLine.Arguments) Then
+      ShowError(opts.Help())
+      Return
+    End If
+
+    // Get values with defaults
+    Var host As String = opts.GetString(&quot;host&quot;)
+    If host.IsEmpty Then host = &quot;localhost&quot;
+
+    Var port As Integer = opts.GetInteger(&quot;port&quot;)
+    If port = 0 Then port = 8080
+
+    Var verbose As Boolean = opts.GetFlag(&quot;verbose&quot;)
+    Var useSSL As Boolean = opts.GetFlag(&quot;ssl&quot;)
+    Var command As String = opts.GetString(&quot;command&quot;)
+
+    // Process command
+    Select Case command
+      Case &quot;start&quot;
+        StartServer(host, port, useSSL, verbose)
+      Case &quot;stop&quot;
+        StopServer(host, port)
+      Case &quot;restart&quot;
+        StopServer(host, port)
+        StartServer(host, port, useSSL, verbose)
+      Case Else
+        ShowError(&quot;Unknown command: &quot; + command)
+    End Select
+  End Sub
+End Class
+</code></pre></div>
+
+<h2 id="help-output-example">Help Output Example<a class="headerlink" href="#help-output-example" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Usage: myapp [OPTIONS] COMMAND
+
+Arguments:
+  COMMAND              Command to execute
+
+Options:
+  -h, --host STRING    Server host
+  -p, --port INTEGER   Server port
+  -v, --verbose        Verbose logging
+  -s, --ssl            Use HTTPS
+  --help               Show this help message
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Naming</strong>: Option names can be accessed by full name (e.g., &ldquo;input&rdquo;) or shortcut (e.g., &ldquo;i&rdquo;).</p>
+<p><strong>Syntax</strong>:
+- Options take values: <code>--name value</code> or <code>-n value</code>
+- Flags are boolean: <code>--verbose</code> or <code>-v</code> (presence means True)
+- Arguments are positional: <code>command arg1 arg2</code></p>
+<p><strong>Defaults</strong>: Options/flags default to empty string or False. Check Has() or provide explicit defaults.</p>
+<p><strong>Help generation</strong>: Help() auto-generates text from option descriptions. Keep descriptions concise.</p>
+<p><strong>Type conversion</strong>: GetInteger() parses string to integer. GetString() returns raw value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For complex CLI applications, XjOption provides basic parsing. For advanced features (subcommands, environment variables, config files), integrate XjConfig and XjCommand modules.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/logger.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Logger</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../utilities/config.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Configuration</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#basic-argument-parser">Basic argument parser</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#usage-with-defaults">Usage with defaults</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#print-help">Print help</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#validate-required-options">Validate required options</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#advanced-example">Advanced example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#help-output-example">Help Output Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

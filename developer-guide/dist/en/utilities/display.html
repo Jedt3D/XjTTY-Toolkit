@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Display Utilities — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjFont renders ASCII art text; XjPie draws horizontal bar charts; XjMarkdown renders formatted text." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Display Utilities</h1>
+          <p class="page-description">XjFont renders ASCII art text; XjPie draws horizontal bar charts; XjMarkdown renders formatted text.</p>
+        </div>
+
+        <h1 id="display-utilities">Display Utilities<a class="headerlink" href="#display-utilities" title="Permanent link">&para;</a></h1>
+<p>Display-focused utilities for ASCII art rendering, bar charts, and markdown formatting.</p>
+<h2 id="xjfont">XjFont<a class="headerlink" href="#xjfont" title="Permanent link">&para;</a></h2>
+<p>Render text as ASCII art using a 5×5 block font.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Render(text)</code></td>
+<td>String</td>
+<td>String()</td>
+<td>Render text as ASCII art (5 lines)</td>
+</tr>
+</tbody>
+</table>
+<p>Supported characters: A-Z, 0-9, space, and basic punctuation.</p>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var font As New XjFont()
+Var lines As String() = font.Render(&quot;HELLO&quot;)
+
+For Each line As String In lines
+  XjPrompt.Say(line)
+Next
+
+// Output:
+// ██╗  ██╗███████╗██╗     ██╗     ███████╗
+// ██║  ██║██╔════╝██║     ██║     ██╔════╝
+// ███████║█████╗  ██║     ██║     █████╗
+// ██╔══██║██╔══╝  ██║     ██║     ██╔══╝
+// ██║  ██║███████╗███████╗███████╗███████╗
+</code></pre></div>
+
+<h3 id="ascii-art-title">ASCII art title<a class="headerlink" href="#ascii-art-title" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var font As New XjFont()
+Var title As String() = font.Render(&quot;APP&quot;)
+
+For Each line As String In title
+  XjTerminal.Write(XjColor.BoldText(line))
+Next
+</code></pre></div>
+
+<h2 id="xjpie">XjPie<a class="headerlink" href="#xjpie" title="Permanent link">&para;</a></h2>
+<p>Horizontal bar chart with colored segments and legend.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AddSlice(label, value, color)</code></td>
+<td>String, Integer, String</td>
+<td>—</td>
+<td>Add data segment</td>
+</tr>
+<tr>
+<td><code>SetWidth(width)</code></td>
+<td>Integer</td>
+<td>—</td>
+<td>Set chart width</td>
+</tr>
+<tr>
+<td><code>Draw()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Render chart</td>
+</tr>
+<tr>
+<td><code>Render()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Alias for Draw()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var chart As New XjPie()
+Call chart.SetWidth(50)
+Call chart.AddSlice(&quot;Python&quot;, 40, XjColor.Blue(&quot;&quot;))
+Call chart.AddSlice(&quot;JavaScript&quot;, 30, XjColor.Yellow(&quot;&quot;))
+Call chart.AddSlice(&quot;Go&quot;, 20, XjColor.Cyan(&quot;&quot;))
+Call chart.AddSlice(&quot;Rust&quot;, 10, XjColor.Red(&quot;&quot;))
+
+XjTerminal.Write(chart.Draw())
+</code></pre></div>
+
+<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Python      ████████████████████ 40%
+JavaScript  ██████████████ 30%
+Go          ██████████ 20%
+Rust        █████ 10%
+</code></pre></div>
+
+<h2 id="xjmarkdown">XjMarkdown<a class="headerlink" href="#xjmarkdown" title="Permanent link">&para;</a></h2>
+<p>Render markdown-like syntax to formatted terminal output.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Render(text)</code></td>
+<td>String</td>
+<td>String</td>
+<td>Render markdown to ANSI text</td>
+</tr>
+</tbody>
+</table>
+<p>Supported syntax:
+- Headers: <code># Header</code>, <code>## Subheader</code>, etc.
+- Bold: <code>**text**</code>
+- Italic: <code>*text*</code>
+- Code: <code>`code`</code>
+- Lists: <code>- item</code>, <code>* item</code>
+- Horizontal rules: <code>---</code>, <code>***</code>
+- Block quotes: <code>&gt; quote</code></p>
+<h3 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var markdown As String = &quot;# Installation&quot; + EndOfLine + _
+  &quot;Run `npm install` to set up.&quot; + EndOfLine + _
+  &quot;## Options&quot; + EndOfLine + _
+  &quot;- Fast mode: `npm install --fast`&quot; + EndOfLine + _
+  &quot;- Dev only: `npm install --save-dev`&quot;
+
+Var rendered As String = XjMarkdown.Render(markdown)
+XjTerminal.Write(rendered)
+</code></pre></div>
+
+<h3 id="readme-formatting">README formatting<a class="headerlink" href="#readme-formatting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var readme As String = &quot;# MyProject&quot; + EndOfLine + _
+  &quot;&quot; + EndOfLine + _
+  &quot;A **fast** and *efficient* CLI tool.&quot; + EndOfLine + _
+  &quot;&quot; + EndOfLine + _
+  &quot;## Getting Started&quot; + EndOfLine + _
+  &quot;&quot; + EndOfLine + _
+  &quot;1. Clone the repo&quot; + EndOfLine + _
+  &quot;2. Run `build.sh`&quot; + EndOfLine + _
+  &quot;3. Start using it&quot; + EndOfLine + _
+  &quot;&quot; + EndOfLine + _
+  &quot;&gt; Note: Requires Python 3.8+&quot;
+
+XjTerminal.Write(XjMarkdown.Render(readme))
+</code></pre></div>
+
+<h2 id="combined-example">Combined Example<a class="headerlink" href="#combined-example" title="Permanent link">&para;</a></h2>
+<h3 id="rich-dashboard-display">Rich dashboard display<a class="headerlink" href="#rich-dashboard-display" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>// Title
+Var font As New XjFont()
+Var title As String() = font.Render(&quot;STATS&quot;)
+For Each line As String In title
+  XjTerminal.Write(XjColor.BoldText(line))
+Next
+
+// Divider
+XjTerminal.Write(XjColor.Muted(&quot;─────────────────────────────&quot;))
+
+// Chart
+Var pie As New XjPie()
+Call pie.AddSlice(&quot;Completed&quot;, 75, XjColor.Green(&quot;&quot;))
+Call pie.AddSlice(&quot;In Progress&quot;, 20, XjColor.Yellow(&quot;&quot;))
+Call pie.AddSlice(&quot;Pending&quot;, 5, XjColor.Red(&quot;&quot;))
+XjTerminal.Write(pie.Draw())
+
+// Details (markdown)
+Var details As String = &quot;## Summary&quot; + EndOfLine + _
+  &quot;- Total tasks: 100&quot; + EndOfLine + _
+  &quot;- Success rate: **92%**&quot; + EndOfLine + _
+  &quot;- Last updated: &quot; + DateTime.Now.ToString()
+
+XjTerminal.Write(XjMarkdown.Render(details))
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>XjFont</strong>: ASCII art rendering uses block characters. Results are 5 lines tall. Useful for titles and headers.</p>
+<p><strong>XjPie</strong>: Renders proportional bar chart. Width controls overall size. Totals don&rsquo;t need to equal 100.</p>
+<p><strong>XjMarkdown</strong>: Basic markdown support for documentation and help text. Not a full markdown parser.</p>
+<p><strong>Performance</strong>: All three utilities render quickly. Results are strings; no I/O overhead.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These utilities are for display/output. For structured data, use XjTable instead.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/commands.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Commands & Pager</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../yaml/parser.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">YAML Parser</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjfont">XjFont</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ascii-art-title">ASCII art title</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjpie">XjPie</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#output">Output</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjmarkdown">XjMarkdown</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#readme-formatting">README formatting</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#combined-example">Combined Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rich-dashboard-display">Rich dashboard display</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

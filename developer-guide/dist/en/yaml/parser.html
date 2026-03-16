@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YAML Parser — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjYAML parses indentation-based YAML; XjYAMLNode provides typed access to parse tree." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">YAML Parser</h1>
+          <p class="page-description">XjYAML parses indentation-based YAML; XjYAMLNode provides typed access to parse tree.</p>
+        </div>
+
+        <h1 id="yaml-parser">YAML Parser<a class="headerlink" href="#yaml-parser" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjYAML</strong> module parses simple indentation-based YAML. The <strong>XjYAMLNode</strong> class represents the parse tree.</p>
+<h2 id="supported-yaml-syntax">Supported YAML Syntax<a class="headerlink" href="#supported-yaml-syntax" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Mappings</strong>: <code>key: value</code></li>
+<li><strong>Sequences</strong>: <code>- item</code></li>
+<li><strong>Nesting</strong>: Via indentation</li>
+<li><strong>Comments</strong>: Lines starting with <code>#</code></li>
+<li><strong>Strings</strong>: Quoted (<code>"..."</code>, <code>'...'</code>) or unquoted</li>
+<li><strong>Numbers</strong>: Integers and decimals</li>
+<li><strong>Booleans</strong>: <code>true</code>, <code>false</code>, <code>yes</code>, <code>no</code></li>
+</ul>
+<h2 id="xjyaml">XjYAML<a class="headerlink" href="#xjyaml" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Parse(yaml)</code></td>
+<td>String</td>
+<td>XjYAMLNode</td>
+<td>Parse YAML string to tree</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var yaml As String = &quot;name: Alice&quot; + EndOfLine + _
+  &quot;age: 30&quot; + EndOfLine + _
+  &quot;hobbies:&quot; + EndOfLine + _
+  &quot;  - reading&quot; + EndOfLine + _
+  &quot;  - hiking&quot;
+
+Var root As XjYAMLNode = XjYAML.Parse(yaml)
+</code></pre></div>
+
+<h2 id="xjyamlnode">XjYAMLNode<a class="headerlink" href="#xjyamlnode" title="Permanent link">&para;</a></h2>
+<p>Tree node with key/value/children access.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Key()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get node key</td>
+</tr>
+<tr>
+<td><code>Value()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get node value</td>
+</tr>
+<tr>
+<td><code>AddChild(child)</code></td>
+<td>XjYAMLNode</td>
+<td>—</td>
+<td>Add child node</td>
+</tr>
+<tr>
+<td><code>ChildCount()</code></td>
+<td>—</td>
+<td>Integer</td>
+<td>Get number of children</td>
+</tr>
+<tr>
+<td><code>ChildAt(index)</code></td>
+<td>Integer</td>
+<td>XjYAMLNode</td>
+<td>Get child by index (0-based)</td>
+</tr>
+<tr>
+<td><code>HasKey(key)</code></td>
+<td>String</td>
+<td>Boolean</td>
+<td>Check if child with key exists</td>
+</tr>
+<tr>
+<td><code>Child(key)</code></td>
+<td>String</td>
+<td>XjYAMLNode</td>
+<td>Get first child matching key</td>
+</tr>
+<tr>
+<td><code>StringValue()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get value as string</td>
+</tr>
+<tr>
+<td><code>IntValue()</code></td>
+<td>—</td>
+<td>Integer</td>
+<td>Get value as integer</td>
+</tr>
+<tr>
+<td><code>BoolValue()</code></td>
+<td>—</td>
+<td>Boolean</td>
+<td>Get value as boolean</td>
+</tr>
+<tr>
+<td><code>ChildrenWithKey(key)</code></td>
+<td>String</td>
+<td>XjYAMLNode()</td>
+<td>Get all children with key</td>
+</tr>
+<tr>
+<td><code>Dump()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Return YAML representation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var root As XjYAMLNode = XjYAML.Parse(configYAML)
+
+Var name As String = root.Child(&quot;name&quot;).StringValue()
+Var age As Integer = root.Child(&quot;age&quot;).IntValue()
+
+Var hobbies As XjYAMLNode = root.Child(&quot;hobbies&quot;)
+For i As Integer = 0 To hobbies.ChildCount() - 1
+  Var hobby As String = hobbies.ChildAt(i).StringValue()
+  XjPrompt.Say(hobby)
+Next
+</code></pre></div>
+
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="parse-configuration">Parse configuration<a class="headerlink" href="#parse-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var configYAML As String = _
+  &quot;database:&quot; + EndOfLine + _
+  &quot;  host: localhost&quot; + EndOfLine + _
+  &quot;  port: 5432&quot; + EndOfLine + _
+  &quot;  name: myapp&quot; + EndOfLine + _
+  &quot;server:&quot; + EndOfLine + _
+  &quot;  host: 0.0.0.0&quot; + EndOfLine + _
+  &quot;  port: 8080&quot; + EndOfLine + _
+  &quot;  ssl: true&quot;
+
+Var root As XjYAMLNode = XjYAML.Parse(configYAML)
+
+Var dbHost As String = root.Child(&quot;database&quot;).Child(&quot;host&quot;).StringValue()
+Var dbPort As Integer = root.Child(&quot;database&quot;).Child(&quot;port&quot;).IntValue()
+Var serverPort As Integer = root.Child(&quot;server&quot;).Child(&quot;port&quot;).IntValue()
+</code></pre></div>
+
+<h3 id="parse-list-of-objects">Parse list of objects<a class="headerlink" href="#parse-list-of-objects" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var yaml As String = _
+  &quot;users:&quot; + EndOfLine + _
+  &quot;  - name: Alice&quot; + EndOfLine + _
+  &quot;    role: admin&quot; + EndOfLine + _
+  &quot;  - name: Bob&quot; + EndOfLine + _
+  &quot;    role: user&quot;
+
+Var root As XjYAMLNode = XjYAML.Parse(yaml)
+Var users As XjYAMLNode = root.Child(&quot;users&quot;)
+
+For i As Integer = 0 To users.ChildCount() - 1
+  Var user As XjYAMLNode = users.ChildAt(i)
+  Var name As String = user.Child(&quot;name&quot;).StringValue()
+  Var role As String = user.Child(&quot;role&quot;).StringValue()
+  XjPrompt.Say(name + &quot; (&quot; + role + &quot;)&quot;)
+Next
+</code></pre></div>
+
+<h3 id="query-nested-values">Query nested values<a class="headerlink" href="#query-nested-values" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var root As XjYAMLNode = XjYAML.Parse(yaml)
+
+// Check if key exists before accessing
+If root.HasKey(&quot;database&quot;) Then
+  Var db As XjYAMLNode = root.Child(&quot;database&quot;)
+  Var host As String = db.Child(&quot;host&quot;).StringValue()
+Else
+  XjPrompt.Warn(&quot;Database config not found&quot;)
+End If
+</code></pre></div>
+
+<h3 id="dump-node-back-to-yaml">Dump node back to YAML<a class="headerlink" href="#dump-node-back-to-yaml" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var root As XjYAMLNode = XjYAML.Parse(originalYAML)
+Var yamlOutput As String = root.Dump()
+XjPrompt.Say(yamlOutput)
+</code></pre></div>
+
+<h2 id="yaml-format-examples">YAML Format Examples<a class="headerlink" href="#yaml-format-examples" title="Permanent link">&para;</a></h2>
+<h3 id="simple-mapping">Simple mapping<a class="headerlink" href="#simple-mapping" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Alice</span><span class="w"></span>
+<span class="nt">age</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span><span class="w"></span>
+<span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</code></pre></div>
+
+<h3 id="nested-mapping">Nested mapping<a class="headerlink" href="#nested-mapping" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">database</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span><span class="w"></span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span><span class="w"></span>
+<span class="w">  </span><span class="nt">credentials</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span><span class="w"></span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secret</span><span class="w"></span>
+</code></pre></div>
+
+<h3 id="sequence">Sequence<a class="headerlink" href="#sequence" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">items</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apple</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">banana</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cherry</span><span class="w"></span>
+</code></pre></div>
+
+<h3 id="complex-structure">Complex structure<a class="headerlink" href="#complex-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">application</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MyApp</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0</span><span class="w"></span>
+<span class="w">  </span><span class="nt">servers</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web1</span><span class="w"></span>
+<span class="w">      </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.1.1</span><span class="w"></span>
+<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web2</span><span class="w"></span>
+<span class="w">      </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.1.2</span><span class="w"></span>
+<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span><span class="w"></span>
+<span class="w">  </span><span class="nt">features</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auth</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caching</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logging</span><span class="w"></span>
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Indentation-based</strong>: YAML uses spaces (not tabs) for indentation. Consistency is required.</p>
+<p><strong>Comments</strong>: Lines starting with <code>#</code> are ignored.</p>
+<p><strong>Type inference</strong>: Values are strings by default. Use IntValue()/BoolValue() for type conversion.</p>
+<p><strong>Key access</strong>: Child(key) returns the first matching child. ChildrenWithKey() returns all matches.</p>
+<p><strong>Sequences</strong>: Sequences are nodes with multiple children (no key). Access via ChildAt() indexing.</p>
+<p><strong>Dump</strong>: Dump() reconstructs YAML from the parse tree. Format may differ from input but content is equivalent.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>XjYAML is a simple parser for basic YAML. It doesn&rsquo;t support all YAML features (anchors, aliases, flow syntax). For complex YAML, consider external parsers.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../utilities/display.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Font, Pie & Markdown</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../yaml/ui-builder.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">UI Builder</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#supported-yaml-syntax">Supported YAML Syntax</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjyaml">XjYAML</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjyamlnode">XjYAMLNode</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#example">Example</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#parse-configuration">Parse configuration</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#parse-list-of-objects">Parse list of objects</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#query-nested-values">Query nested values</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#dump-node-back-to-yaml">Dump node back to YAML</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#yaml-format-examples">YAML Format Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#simple-mapping">Simple mapping</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#nested-mapping">Nested mapping</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#sequence">Sequence</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#complex-structure">Complex structure</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

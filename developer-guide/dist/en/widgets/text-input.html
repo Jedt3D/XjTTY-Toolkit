@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextInput Widget — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjTextInput is a single-line text input widget with cursor, placeholder, masking, and keyboard shortcuts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">TextInput Widget</h1>
+          <p class="page-description">XjTextInput is a single-line text input widget with cursor, placeholder, masking, and keyboard shortcuts.</p>
+        </div>
+
+        <h1 id="textinput-widget">TextInput Widget<a class="headerlink" href="#textinput-widget" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjTextInput</strong> widget provides single-line text input with built-in cursor management, placeholder text, character masking, and keyboard shortcuts (Ctrl+A, Ctrl+E, Ctrl+K, Ctrl+U).</p>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SetValue(text)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set input text</td>
+</tr>
+<tr>
+<td><code>GetValue()</code></td>
+<td>—</td>
+<td>String</td>
+<td>Get current input text</td>
+</tr>
+<tr>
+<td><code>SetPlaceholder(text)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set hint text (shown when empty)</td>
+</tr>
+<tr>
+<td><code>SetMask(char)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set mask character (e.g., &ldquo;*&rdquo; for passwords)</td>
+</tr>
+<tr>
+<td><code>SetMaxLength(length)</code></td>
+<td>Integer</td>
+<td>—</td>
+<td>Set maximum input length</td>
+</tr>
+<tr>
+<td><code>SetLabel(label)</code></td>
+<td>String</td>
+<td>—</td>
+<td>Set label text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="keyboard-shortcuts">Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+A</td>
+<td>Move cursor to start</td>
+</tr>
+<tr>
+<td>Ctrl+E</td>
+<td>Move cursor to end</td>
+</tr>
+<tr>
+<td>Ctrl+K</td>
+<td>Delete from cursor to end</td>
+</tr>
+<tr>
+<td>Ctrl+U</td>
+<td>Delete from start to cursor</td>
+</tr>
+<tr>
+<td>Backspace</td>
+<td>Delete character before cursor</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>Delete character at cursor</td>
+</tr>
+<tr>
+<td>Arrows</td>
+<td>Move cursor left/right</td>
+</tr>
+<tr>
+<td>Home</td>
+<td>Move to start</td>
+</tr>
+<tr>
+<td>End</td>
+<td>Move to end</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-text-input">Basic text input<a class="headerlink" href="#basic-text-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var input As New XjTextInput()
+Call input.SetValue(&quot;Default text&quot;)
+Call input.SetPlaceholder(&quot;Enter text...&quot;)
+Call input.SetWidth(XjConstraint.Fixed(30))
+</code></pre></div>
+
+<h3 id="password-input">Password input<a class="headerlink" href="#password-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var password As New XjTextInput()
+Call password.SetPlaceholder(&quot;Enter password&quot;)
+Call password.SetMask(&quot;*&quot;)
+Call password.SetMaxLength(20)
+</code></pre></div>
+
+<h3 id="input-with-label">Input with label<a class="headerlink" href="#input-with-label" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var nameInput As New XjTextInput()
+Call nameInput.SetLabel(&quot;Name: &quot;)
+Call nameInput.SetPlaceholder(&quot;John Doe&quot;)
+Call nameInput.SetMaxLength(50)
+</code></pre></div>
+
+<h3 id="bounded-input">Bounded input<a class="headerlink" href="#bounded-input" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var zip As New XjTextInput()
+Call zip.SetMaxLength(5)
+Call zip.SetPlaceholder(&quot;12345&quot;)
+
+Var username As New XjTextInput()
+Call username.SetMaxLength(20)
+Call username.SetPlaceholder(&quot;username&quot;)
+</code></pre></div>
+
+<h3 id="retrieve-input-value">Retrieve input value<a class="headerlink" href="#retrieve-input-value" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var input As New XjTextInput()
+Call input.SetValue(&quot;initial&quot;)
+
+// Later, after user edits:
+Var finalValue As String = input.GetValue()
+XjTerminal.Write(&quot;You entered: &quot; + finalValue)
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Single-line only</strong>: XjTextInput handles one line. For multi-line input, use XjMultiLinePrompt.</p>
+<p><strong>Horizontal scrolling</strong>: If text is longer than widget width, the input automatically scrolls left/right to keep cursor visible.</p>
+<p><strong>Masking</strong>: SetMask() replaces all characters with the mask character (visual only; GetValue() returns actual text).</p>
+<p><strong>MaxLength</strong>: SetMaxLength() prevents input beyond the limit. User can&rsquo;t type additional characters.</p>
+<p><strong>Placeholder</strong>: Placeholder text appears gray (muted style) when input is empty. It disappears on focus.</p>
+<p><strong>Keyboard control</strong>: All standard line-editing shortcuts work automatically. Override HandleKey() in a subclass to add custom shortcuts.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>XjTextInput is typically used within prompts (XjAskPrompt) or full-screen applications. For simple prompts, use XjPrompt.Ask() instead.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/box-text.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Box & Text</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../widgets/table.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Table</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#methods">Methods</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#keyboard-shortcuts">Keyboard Shortcuts</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#basic-text-input">Basic text input</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#password-input">Password input</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#input-with-label">Input with label</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#bounded-input">Bounded input</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#retrieve-input-value">Retrieve input value</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

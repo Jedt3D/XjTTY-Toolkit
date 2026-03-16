@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Loop — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjEventLoop is the main application loop that drives interactive terminal applications with keyboard, mouse, resize, and tick events." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn active" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">Event Loop</h1>
+          <p class="page-description">XjEventLoop is the main application loop that drives interactive terminal applications with keyboard, mouse, resize, and tick events.</p>
+        </div>
+
+        <h1 id="event-loop">Event Loop<a class="headerlink" href="#event-loop" title="Permanent link">&para;</a></h1>
+<p>The <strong>XjEventLoop</strong> class is the central event dispatcher for interactive terminal applications. It handles keyboard input, mouse tracking, terminal resize events, and periodic tick events, delegating to your callback methods.</p>
+<h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop(refreshMs)
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>refreshMs</code></td>
+<td>Integer</td>
+<td>Tick interval in milliseconds (e.g., 50 for 20 FPS)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="running">Running<a class="headerlink" href="#running" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Run(delegate)</code></td>
+<td>—</td>
+<td>Start event loop (blocks until Stop_() called)</td>
+</tr>
+<tr>
+<td><code>Stop_()</code></td>
+<td>—</td>
+<td>Stop the event loop and return from Run()</td>
+</tr>
+<tr>
+<td><code>IsRunning()</code></td>
+<td>Boolean</td>
+<td>Return True if loop is currently running</td>
+</tr>
+</tbody>
+</table>
+<h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TickCount()</code></td>
+<td>Integer</td>
+<td>Total ticks since loop started</td>
+</tr>
+<tr>
+<td><code>ElapsedSeconds()</code></td>
+<td>Double</td>
+<td>Seconds elapsed since loop started</td>
+</tr>
+</tbody>
+</table>
+<h2 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h2>
+<p>Assign callback objects to handle events:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KeyPressHandler</code></td>
+<td>XjEventLoop.KeyPressHandler delegate</td>
+<td>Called on keyboard input</td>
+</tr>
+<tr>
+<td><code>ResizeHandler</code></td>
+<td>XjEventLoop.ResizeHandler delegate</td>
+<td>Called on terminal resize</td>
+</tr>
+<tr>
+<td><code>TickHandler</code></td>
+<td>XjEventLoop.TickHandler delegate</td>
+<td>Called periodically (main loop callback)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="auto-modes">Auto Modes<a class="headerlink" href="#auto-modes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoRawMode</code></td>
+<td>Boolean</td>
+<td>Enable raw mode automatically (default: True)</td>
+</tr>
+<tr>
+<td><code>AutoAlternateScreen</code></td>
+<td>Boolean</td>
+<td>Use alternate screen automatically (default: False)</td>
+</tr>
+<tr>
+<td><code>AutoHideCursor</code></td>
+<td>Boolean</td>
+<td>Hide cursor automatically (default: True)</td>
+</tr>
+<tr>
+<td><code>AutoMouseTracking</code></td>
+<td>Boolean</td>
+<td>Enable mouse tracking automatically (default: False)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="callback-interfaces">Callback Interfaces<a class="headerlink" href="#callback-interfaces" title="Permanent link">&para;</a></h2>
+<p>Implement these delegate interfaces:</p>
+<div class="highlight"><pre><span></span><code>Interface KeyPressHandler
+  Sub KeyPress(event As XjEvent)
+End Interface
+
+Interface ResizeHandler
+  Sub Resize(width As Integer, height As Integer)
+End Interface
+
+Interface TickHandler
+  Sub Tick(event As XjEvent)
+End Interface
+</code></pre></div>
+
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="simple-event-loop">Simple event loop<a class="headerlink" href="#simple-event-loop" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class MyApp Implements XjEventLoop.TickHandler
+  Private mLoop As XjEventLoop
+  Private shouldExit As Boolean = False
+
+  Sub Start()
+    mLoop = New XjEventLoop(50)  // 50ms ticks
+    mLoop.TickHandler = Me
+    mLoop.Run(Me)
+  End Sub
+
+  Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+    If event.IsKeyEvent() Then
+      Var key As XjKeyEvent = event.GetKeyEvent()
+      If key.GetChar() = &quot;q&quot; Then
+        shouldExit = True
+        mLoop.Stop_()
+      End If
+    End If
+
+    // Redraw
+    XjTerminal.Write(XjScreen.Clear())
+    XjTerminal.Write(&quot;Press &#39;q&#39; to quit&quot;)
+  End Sub
+End Class
+</code></pre></div>
+
+<h3 id="separate-handlers-for-events-and-ticks">Separate handlers for events and ticks<a class="headerlink" href="#separate-handlers-for-events-and-ticks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class MyApp Implements XjEventLoop.TickHandler, XjEventLoop.KeyPressHandler
+
+  Sub Start()
+    Var loop As New XjEventLoop(50)
+    loop.TickHandler = Me
+    loop.KeyPressHandler = Me
+    loop.Run(Me)
+  End Sub
+
+  Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+    // Main game loop / animation
+    UpdateState()
+    Redraw()
+  End Sub
+
+  Sub KeyPress(event As XjEvent) Implements XjEventLoop.KeyPressHandler
+    // Handle immediate keyboard input
+    Var key As XjKeyEvent = event.GetKeyEvent()
+    HandleKeyInput(key)
+  End Sub
+End Class
+</code></pre></div>
+
+<h3 id="full-screen-application-with-mouse">Full-screen application with mouse<a class="headerlink" href="#full-screen-application-with-mouse" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Class MyApp Implements XjEventLoop.TickHandler
+
+  Sub Start()
+    Var loop As New XjEventLoop(33)  // ~30 FPS
+    loop.AutoRawMode = True
+    loop.AutoAlternateScreen = True
+    loop.AutoHideCursor = True
+    loop.AutoMouseTracking = True
+    loop.TickHandler = Me
+
+    XjTerminal.Write(XjCursor.Hide())
+    loop.Run(Me)
+    XjTerminal.Write(XjCursor.Show())
+  End Sub
+
+  Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+    Select Case event.GetType()
+      Case XjEvent.EVENT_KEY
+        HandleKeyboard(event.GetKeyEvent())
+
+      Case XjEvent.EVENT_MOUSE
+        HandleMouse(event.GetMouseButton(), event.GetMouseRow(), event.GetMouseCol())
+
+      Case XjEvent.EVENT_RESIZE
+        HandleResize(event.GetWidth(), event.GetHeight())
+
+      Case XjEvent.EVENT_TICK
+        UpdateAnimation(event.GetTickCount())
+    End Select
+
+    Redraw()
+  End Sub
+
+  Sub HandleKeyboard(key As XjKeyEvent)
+    If key.IsEscape() Then
+      mLoop.Stop_()
+    End If
+  End Sub
+
+  Sub HandleMouse(button As Integer, row As Integer, col As Integer)
+    Select Case button
+      Case XjEvent.MOUSE_LEFT_CLICK
+        ProcessClick(row, col)
+      Case XjEvent.MOUSE_WHEEL_UP
+        ScrollUp()
+      Case XjEvent.MOUSE_WHEEL_DOWN
+        ScrollDown()
+    End Select
+  End Sub
+
+  Sub HandleResize(width As Integer, height As Integer)
+    RecalculateLayout(width, height)
+  End Sub
+
+  Sub UpdateAnimation(tick As Integer)
+    // Smooth animation using tick count
+  End Sub
+
+  Sub Redraw()
+    // Clear and redraw entire screen
+  End Sub
+
+End Class
+</code></pre></div>
+
+<h3 id="animation-with-tick-counter">Animation with tick counter<a class="headerlink" href="#animation-with-tick-counter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+  Var tick As Integer = event.GetTickCount()
+
+  // Blink effect every 500ms (with 50ms ticks = every 10 ticks)
+  Var blinkVisible As Boolean = (tick \ 10) Mod 2 = 0
+
+  XjTerminal.Write(XjScreen.Clear())
+
+  If blinkVisible Then
+    XjTerminal.Write(&quot;Hello &quot; + XjColor.Red(&quot;World&quot;))
+  Else
+    XjTerminal.Write(&quot;Hello World&quot;)
+  End If
+End Sub
+</code></pre></div>
+
+<h3 id="elapsed-time-usage">Elapsed time usage<a class="headerlink" href="#elapsed-time-usage" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+  Var elapsed As Double = event.GetTickCount() * 0.05  // 50ms per tick
+  Var seconds As Integer = Int(elapsed)
+  Var milliseconds As Integer = Int((elapsed - seconds) * 1000)
+
+  XjTerminal.Write(&quot;Elapsed: &quot; + seconds.ToString() + &quot;.&quot; + milliseconds.ToString(&quot;00&quot;))
+End Sub
+</code></pre></div>
+
+<h3 id="early-exit-handling">Early exit handling<a class="headerlink" href="#early-exit-handling" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Tick(event As XjEvent) Implements XjEventLoop.TickHandler
+  If event.IsKeyEvent() Then
+    Var key As XjKeyEvent = event.GetKeyEvent()
+
+    If key.IsCtrlPressed() And key.GetChar() = &quot;c&quot; Then
+      XjTerminal.Write(&quot;^C - Exiting&quot;)
+      mLoop.Stop_()
+      Return
+    End If
+  End If
+
+  // Normal tick handling
+  UpdateDisplay()
+End Sub
+</code></pre></div>
+
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<p><strong>Auto modes</strong>: By default, AutoRawMode and AutoHideCursor are True (terminal is put in raw mode and cursor is hidden). AutoAlternateScreen and AutoMouseTracking are False. Change before calling Run():</p>
+<div class="highlight"><pre><span></span><code>Var loop As New XjEventLoop(50)
+loop.AutoAlternateScreen = True  // Use alternate screen buffer
+loop.Run(Me)
+</code></pre></div>
+
+<p><strong>Tick interval</strong>: The refreshMs parameter determines how often TickHandler is called. Smaller values (e.g., 33ms) create smoother animation but use more CPU. Typical values: 16-50ms.</p>
+<p><strong>Blocking call</strong>: Run() blocks until Stop_() is called. Your callback methods run on the main thread.</p>
+<p><strong>Cleanup</strong>: Auto modes automatically clean up on exit (raw mode disabled, cursor shown, etc.). No manual cleanup needed.</p>
+<p><strong>Tick counting</strong>: TickCount increments on every tick. Use it for periodic actions or frame-based animation.</p>
+<p><strong>Key press timing</strong>: KeyPressHandler (if set) is called immediately on keyboard input, in addition to TickHandler receiving the event.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most applications only implement TickHandler. KeyPressHandler is optional for applications that need immediate response to keypresses without waiting for the next tick.</p>
+</div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../events/event.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Event System</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../events/reader.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Input Reader</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#running">Running</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#state">State</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#callbacks">Callbacks</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#auto-modes">Auto Modes</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#callback-interfaces">Callback Interfaces</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#examples">Examples</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#simple-event-loop">Simple event loop</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#separate-handlers-for-events-and-ticks">Separate handlers for events and ticks</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#full-screen-application-with-mouse">Full-screen application with mouse</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#animation-with-tick-counter">Animation with tick counter</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#elapsed-time-usage">Elapsed time usage</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#early-exit-handling">Early exit handling</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#design-notes">Design notes</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

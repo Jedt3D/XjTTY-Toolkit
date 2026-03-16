@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>หน้าจอ — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjScreen module สำหรับการล้างหน้าจอ, การเลื่อน, และการวาดพื้นฐาน" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">หน้าจอ</h1>
+          <p class="page-description">XjScreen module สำหรับการล้างหน้าจอ, การเลื่อน, และการวาดพื้นฐาน</p>
+        </div>
+
+        <h1 id="xjscreen">หน้าจอ (XjScreen)<a class="headerlink" href="#xjscreen" title="Permanent link">&para;</a></h1>
+<p><strong>XjScreen</strong> เป็น module ที่จัดให้มี operations สำหรับการจัดการหน้าจอ terminal เช่น clearing, scrolling, และการวาดรูปทรงพื้นฐาน สิ่งสำคัญคือเราต้องล้างหน้าจอในตำแหน่งที่ถูกต้องเพื่อให้ UI ไม่มีสิ่งปนเปื้อน</p>
+<h2 id="_1">การล้างหน้าจอ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Clear()
+</code></pre></div>
+
+<p>ล้างหน้าจอทั้งหมด และเลื่อนเคอร์เซอร์ไปที่ (1, 1)</p>
+<div class="highlight"><pre><span></span><code>Sub ClearLine()
+</code></pre></div>
+
+<p>ล้างบรรทัดปัจจุบันทั้งหมด (เคอร์เซอร์ยังคงอยู่ในบรรทัดเดิม)</p>
+<div class="highlight"><pre><span></span><code>Sub ClearToEnd()
+</code></pre></div>
+
+<p>ล้างจากเคอร์เซอร์ถึงส่วนท้ายของบรรทัด</p>
+<div class="highlight"><pre><span></span><code>Sub ClearToStart()
+</code></pre></div>
+
+<p>ล้างจากจุดเริ่มต้นของบรรทัดถึงเคอร์เซอร์</p>
+<div class="highlight"><pre><span></span><code>Sub ClearBelow()
+</code></pre></div>
+
+<p>ล้างจากเคอร์เซอร์ถึงส่วนท้ายของหน้าจอ</p>
+<div class="highlight"><pre><span></span><code>Sub ClearAbove()
+</code></pre></div>
+
+<p>ล้างจากจุดเริ่มต้นของหน้าจอถึงเคอร์เซอร์</p>
+<div class="highlight"><pre><span></span><code>Sub ClearLines(count As Integer)
+</code></pre></div>
+
+<p>ล้างจำนวน count บรรทัด (จากตำแหน่งเคอร์เซอร์ไปยังด้านล่าง)</p>
+<h2 id="_2">การเลื่อนหน้าจอ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub ScrollUp(n As Integer)
+Sub ScrollDown(n As Integer)
+</code></pre></div>
+
+<p>เลื่อนหน้าจอขึ้น/ลง n บรรทัด</p>
+<h2 id="_3">ข้อมูลขนาด<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Width() As Integer
+Function Height() As Integer
+</code></pre></div>
+
+<p>ดึงความกว้างและความสูงของ terminal (คำสั่ง wrapper บน XjTerminal)</p>
+<h2 id="window">ตั้งชื่อ Window<a class="headerlink" href="#window" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetTitle(title As String)
+</code></pre></div>
+
+<p>ตั้งชื่อของ terminal window/tab (ทำงานบน terminal ส่วนใหญ่)</p>
+<h2 id="fullscreen-mode">Fullscreen Mode<a class="headerlink" href="#fullscreen-mode" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub EnterFullscreen()
+</code></pre></div>
+
+<p>เข้าไปยัง fullscreen mode (alternate screen buffer) ซ่อนบรรทัดเดิม</p>
+<div class="highlight"><pre><span></span><code>Sub ExitFullscreen()
+</code></pre></div>
+
+<p>ออกจาก fullscreen mode และคืนไปยังบรรทัดเดิม</p>
+<h2 id="text">การวาด Text<a class="headerlink" href="#text" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub WriteAt(row As Integer, col As Integer, text As String)
+</code></pre></div>
+
+<p>เขียน text ที่ตำแหน่ง (row, col) โดยอัตโนมัติเลื่อนเคอร์เซอร์ไปยังจุดนั้น</p>
+<h2 id="_4">การวาดรูปทรง<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">เส้น<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub DrawHorizontalLine(row As Integer, col As Integer, length As Integer, char As String)
+</code></pre></div>
+
+<p>วาดเส้นแนวนอน ความยาว length ตั้งแต่ (row, col) โดยใช้ตัวอักษร char</p>
+<div class="highlight"><pre><span></span><code>Sub DrawVerticalLine(row As Integer, col As Integer, length As Integer, char As String)
+</code></pre></div>
+
+<p>วาดเส้นแนวตั้ง ความยาว length ตั้งแต่ (row, col)</p>
+<h3 id="_6">สี่เหลี่ยม<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub FillRect(row As Integer, col As Integer, width As Integer, height As Integer, char As String)
+</code></pre></div>
+
+<p>เติมสี่เหลี่ยม ขนาด width × height ตั้งแต่ (row, col) โดยใช้ตัวอักษร char</p>
+<h2 id="_7">ตัวอย่างการใช้งาน<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">ล้างหน้าจอและเลื่อนไปเริ่มต้น<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjScreen.Clear()
+XjTerminal.Write(&quot;Welcome to XjTTY-Toolkit&quot;)
+</code></pre></div>
+
+<h3 id="window_1">ตั้งชื่อ Window<a class="headerlink" href="#window_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjScreen.SetTitle(&quot;My Terminal App&quot;)
+</code></pre></div>
+
+<h3 id="_9">วาดเส้นแบ่ง<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var w As Integer = XjScreen.Width()
+XjScreen.DrawHorizontalLine(5, 1, w, &quot;-&quot;)
+</code></pre></div>
+
+<h3 id="fullscreen-mode_1">Fullscreen Mode<a class="headerlink" href="#fullscreen-mode_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjScreen.EnterFullscreen()
+&#39; Draw fullscreen content
+XjScreen.ExitFullscreen()
+</code></pre></div>
+
+<h3 id="_10">เขียนที่หลายตำแหน่ง<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>XjScreen.WriteAt(1, 1, &quot;Title&quot;)
+XjScreen.WriteAt(3, 1, &quot;Content&quot;)
+XjScreen.WriteAt(10, 1, &quot;Footer&quot;)
+</code></pre></div>
+
+<h3 id="_11">เติมพื้นที่<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>&#39; Clear and fill background
+XjScreen.ClearBelow()
+XjScreen.FillRect(10, 1, 20, 5, &quot; &quot;)
+</code></pre></div>
+
+<h2 id="_12">หมายเหตุการออกแบบ<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p>XjScreen ใช้ XjCursor และ XjANSI ภายใน สำหรับแอป TUI ที่ซับซ้อน ลอง XjCanvas module แทน ซึ่งจัดการการอัปเดตและ diff rendering โดยอัตโนมัติ</p>
+<p>Fullscreen mode ควรใช้งาน XjEventLoop <code>AutoAlternateScreen</code> property แทนการเรียก EnterFullscreen/ExitFullscreen โดยตรง เพื่อให้ cleanup ถูกต้องแม้เมื่อ app ขัดข้อง</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/cursor.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Cursor</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../styling/style.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">XjStyle</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การลางหนาจอ">การล้างหน้าจอ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การเลอนหนาจอ">การเลื่อนหน้าจอ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ขอมลขนาด">ข้อมูลขนาด</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตงชอ-window">ตั้งชื่อ Window</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#fullscreen-mode">Fullscreen Mode</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การวาด-text">การวาด Text</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#การวาดรปทรง">การวาดรูปทรง</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#เสน">เส้น</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#สเหลยม">สี่เหลี่ยม</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ลางหนาจอและเลอนไปเรมตน">ล้างหน้าจอและเลื่อนไปเริ่มต้น</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ตงชอ-window">ตั้งชื่อ Window</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#วาดเสนแบง">วาดเส้นแบ่ง</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#fullscreen-mode">Fullscreen Mode</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#เขยนทหลายตำแหนง">เขียนที่หลายตำแหน่ง</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#เตมพนท">เติมพื้นที่</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

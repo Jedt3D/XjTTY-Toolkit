@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANSIエスケープコード — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjANSIモジュールはターミナルカラー、スタイル、カーソル、スクリーン制御のANSIエスケープコードを生成します。36個の色定数とすべての制御メソッドを含みます。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">ANSIエスケープコード</h1>
+          <p class="page-description">XjANSIモジュールはターミナルカラー、スタイル、カーソル、スクリーン制御のANSIエスケープコードを生成します。36個の色定数とすべての制御メソッドを含みます。</p>
+        </div>
+
+        <h1 id="ansixjansi">ANSIエスケープコード（XjANSI）<a class="headerlink" href="#ansixjansi" title="Permanent link">&para;</a></h1>
+<p>XjANSIモジュールはターミナル制御に必要なすべてのANSIエスケープコード生成関数を提供します。テキストのスタイリング、カラー指定、カーソル移動、スクリーンクリア、マウス追跡、ハイパーリンク挿入など、幅広い機能をサポートしています。</p>
+<h2 id="_1">基本制御<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function ESC() As String               // ESC文字（\x1B）
+Function CSI() As String               // Control Sequence Introducer（ESC[）
+Function OSC() As String               // Operating System Command（ESC]）
+Function ST() As String                // String Terminator（ESC\）
+Function SGR(code As Integer) As String    // Select Graphic Rendition
+Function SGRMulti(codes() As Integer) As String  // 複数のSGRコード
+Function Reset() As String             // すべてのスタイルをリセット
+</code></pre></div>
+
+<h2 id="_2">テキストスタイル<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Bold() As String
+Function Dim_() As String              // Dim（より暗い）
+Function Italic() As String
+Function Underline() As String
+Function Blink() As String
+Function Inverse() As String           // 前景色と背景色を反転
+Function Hidden() As String            // 非表示テキスト
+Function Strikethrough() As String
+Function BoldOff() As String
+Function ItalicOff() As String
+Function UnderlineOff() As String
+Function InverseOff() As String
+</code></pre></div>
+
+<h2 id="_3">前景色（テキスト色）<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function FG(colorCode As Integer) As String       // 標準色（30-37）
+Function BG(colorCode As Integer) As String       // 背景色（40-47）
+Function FG256(index As Integer) As String        // 256色パレット（0-255）
+Function BG256(index As Integer) As String
+Function FGRGB(r As Integer, g As Integer, b As Integer) As String  // True Color（24ビット）
+Function BGRGB(r As Integer, g As Integer, b As Integer) As String
+Function DefaultFG() As String         // デフォルト前景色に戻す
+Function DefaultBG() As String         // デフォルト背景色に戻す
+</code></pre></div>
+
+<h2 id="_4">カーソル制御<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function CursorUp(n As Integer) As String
+Function CursorDown(n As Integer) As String
+Function CursorForward(n As Integer) As String
+Function CursorBackward(n As Integer) As String
+Function CursorNextLine(n As Integer) As String   // n行下の行頭へ
+Function CursorPrevLine(n As Integer) As String   // n行上の行頭へ
+Function CursorColumn(col As Integer) As String   // 指定列へ移動
+Function CursorPosition(row As Integer, col As Integer) As String  // (行,列)へ移動
+Function CursorSave() As String        // カーソル位置を保存
+Function CursorRestore() As String     // カーソル位置を復元
+Function CursorShow() As String
+Function CursorHide() As String
+Function CursorRequestPosition() As String  // カーソル位置をリクエスト
+</code></pre></div>
+
+<h2 id="_5">スクリーン消去<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function EraseToEndOfLine() As String
+Function EraseToStartOfLine() As String
+Function EraseLine() As String
+Function EraseDown() As String         // カーソル下の全行を消去
+Function EraseUp() As String           // カーソル上の全行を消去
+Function EraseScreen() As String       // スクリーン全体を消去
+</code></pre></div>
+
+<h2 id="_6">スクロール<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function ScrollUp(n As Integer) As String
+Function ScrollDown(n As Integer) As String
+</code></pre></div>
+
+<h2 id="_7">スクリーン制御<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function AlternateScreenEnter() As String  // 別スクリーンに切り替え
+Function AlternateScreenExit() As String
+Function MouseTrackingEnable() As String
+Function MouseTrackingDisable() As String
+Function AutoWrapDisable() As String
+Function AutoWrapEnable() As String
+Function BracketedPasteEnable() As String
+Function BracketedPasteDisable() As String
+Function SetTitle(title As String) As String  // ターミナルウィンドウタイトル
+Function Hyperlink(url As String, text As String) As String  // クリック可能リンク
+</code></pre></div>
+
+<h2 id="_8">ユーティリティ<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function StripCodes(text As String) As String  // ANSIコード除去
+Function VisibleLength(text As String) As Integer  // 見かけ上の文字数
+</code></pre></div>
+
+<h2 id="36">色定数（36個）<a class="headerlink" href="#36" title="Permanent link">&para;</a></h2>
+<h3 id="_9">標準色（前景色）<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const FG_BLACK = 30
+Const FG_RED = 31
+Const FG_GREEN = 32
+Const FG_YELLOW = 33
+Const FG_BLUE = 34
+Const FG_MAGENTA = 35
+Const FG_CYAN = 36
+Const FG_WHITE = 37
+</code></pre></div>
+
+<h3 id="_10">明るい色（前景色）<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const FG_BRIGHT_BLACK = 90
+Const FG_BRIGHT_RED = 91
+Const FG_BRIGHT_GREEN = 92
+Const FG_BRIGHT_YELLOW = 93
+Const FG_BRIGHT_BLUE = 94
+Const FG_BRIGHT_MAGENTA = 95
+Const FG_BRIGHT_CYAN = 96
+Const FG_BRIGHT_WHITE = 97
+</code></pre></div>
+
+<h3 id="_11">標準色（背景色）<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const BG_BLACK = 40
+Const BG_RED = 41
+Const BG_GREEN = 42
+Const BG_YELLOW = 43
+Const BG_BLUE = 44
+Const BG_MAGENTA = 45
+Const BG_CYAN = 46
+Const BG_WHITE = 47
+</code></pre></div>
+
+<h3 id="_12">明るい色（背景色）<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Const BG_BRIGHT_BLACK = 100
+Const BG_BRIGHT_RED = 101
+Const BG_BRIGHT_GREEN = 102
+Const BG_BRIGHT_YELLOW = 103
+Const BG_BRIGHT_BLUE = 104
+Const BG_BRIGHT_MAGENTA = 105
+Const BG_BRIGHT_CYAN = 106
+Const BG_BRIGHT_WHITE = 107
+</code></pre></div>
+
+<h2 id="_13">使用例<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>// テキストスタイル
+Var redBold As String = XjANSI.FG(XjANSI.FG_RED) + XjANSI.Bold() + &quot;Error!&quot; + XjANSI.Reset()
+
+// カーソル移動
+XjTerminal.Write(XjANSI.CursorPosition(10, 5) + &quot;Text at row 10, col 5&quot;)
+
+// スクリーンクリア
+XjTerminal.Write(XjANSI.EraseScreen() + XjANSI.CursorPosition(1, 1))
+
+// 256色とTrue Color
+Var color256 As String = XjANSI.FG256(208) + &quot;Orange text&quot;
+Var trueColor As String = XjANSI.FGRGB(255, 100, 50) + &quot;Custom RGB&quot;
+
+// ハイパーリンク
+Var link As String = XjANSI.Hyperlink(&quot;https://example.com&quot;, &quot;Click here&quot;)
+</code></pre></div>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../core/platform.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Platform Detection</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../core/terminal.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Terminal Control</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#基本制御">基本制御</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#テキストスタイル">テキストスタイル</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#前景色テキスト色">前景色（テキスト色）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#カーソル制御">カーソル制御</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スクリーン消去">スクリーン消去</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スクロール">スクロール</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スクリーン制御">スクリーン制御</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ユーティリティ">ユーティリティ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#色定数36個">色定数（36個）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#標準色前景色">標準色（前景色）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#明るい色前景色">明るい色（前景色）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#標準色背景色">標準色（背景色）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#明るい色背景色">明るい色（背景色）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#使用例">使用例</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

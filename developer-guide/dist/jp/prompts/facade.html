@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="jp" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>プロンプトファサード — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjPromptモジュールはテキスト、選択、確認などの対話的プロンプトを統一的に提供します。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn active" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">プロンプトファサード</h1>
+          <p class="page-description">XjPromptモジュールはテキスト、選択、確認などの対話的プロンプトを統一的に提供します。</p>
+        </div>
+
+        <h1 id="xjprompt">プロンプトファサード（XjPrompt）<a class="headerlink" href="#xjprompt" title="Permanent link">&para;</a></h1>
+<p>XjPromptモジュールは高レベルな対話的UI部品への統一アクセスを提供するファサードパターンの実装です。テキスト入力、選択、確認、スライダー、複数選択など、一般的なユーザー対話を簡潔に実装できます。</p>
+<h2 id="_1">テキストプロンプト<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Ask(question As String) As String
+Function AskWithHistory(question As String) As String
+Function AskValidated(question As String, validator As XjValidation) As String
+Function Password(question As String) As String
+Function MultiLine(question As String) As String
+Function Suggest(question As String, suggestions() As String) As String
+</code></pre></div>
+
+<h3 id="ask">Ask（テキスト質問）<a class="headerlink" href="#ask" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var name As String = XjPrompt.Ask(&quot;What is your name?&quot;)
+</code></pre></div>
+
+<h3 id="password">Password（パスワード入力）<a class="headerlink" href="#password" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var pwd As String = XjPrompt.Password(&quot;Enter password: &quot;)
+</code></pre></div>
+
+<h3 id="suggest">Suggest（オートコンプリート）<a class="headerlink" href="#suggest" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var commands() As String = Array(&quot;list&quot;, &quot;load&quot;, &quot;list-files&quot;, &quot;listen&quot;)
+Var result As String = XjPrompt.Suggest(&quot;Enter command: &quot;, commands)
+</code></pre></div>
+
+<h2 id="_2">選択プロンプト<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Select_(question As String, options() As String) As String
+Function MultiSelect(question As String, options() As String) As String
+Function EnumSelect(question As String, options() As String) As String
+Function Expand(question As String, choices As Dictionary) As String
+</code></pre></div>
+
+<h3 id="select_">Select_（単一選択）<a class="headerlink" href="#select_" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var options() As String = Array(&quot;Red&quot;, &quot;Green&quot;, &quot;Blue&quot;)
+Var color As String = XjPrompt.Select_(&quot;Choose color: &quot;, options)
+</code></pre></div>
+
+<h3 id="multiselect">MultiSelect（複数選択）<a class="headerlink" href="#multiselect" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var features() As String = Array(&quot;Feature A&quot;, &quot;Feature B&quot;, &quot;Feature C&quot;)
+Var selected() As String = XjPrompt.MultiSelect(&quot;Select features: &quot;, features)
+</code></pre></div>
+
+<h3 id="enumselect">EnumSelect（番号付き選択）<a class="headerlink" href="#enumselect" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var choices() As String = Array(&quot;Option 1&quot;, &quot;Option 2&quot;, &quot;Option 3&quot;)
+Var answer As String = XjPrompt.EnumSelect(&quot;Choose: &quot;, choices)
+// 出力: 1) Option 1, 2) Option 2, 3) Option 3
+</code></pre></div>
+
+<h3 id="expand">Expand（キーマッピング選択）<a class="headerlink" href="#expand" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var choices As New Dictionary()
+choices.Value(&quot;y&quot;) = &quot;Yes&quot;
+choices.Value(&quot;n&quot;) = &quot;No&quot;
+choices.Value(&quot;a&quot;) = &quot;All&quot;
+Var result As String = XjPrompt.Expand(&quot;Continue?&quot;, choices)
+</code></pre></div>
+
+<h2 id="_3">確認プロンプト<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Confirm(question As String) As Boolean
+Function Deny(question As String) As Boolean
+</code></pre></div>
+
+<h3 id="confirmyesno">Confirm（Yes/No質問）<a class="headerlink" href="#confirmyesno" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>If XjPrompt.Confirm(&quot;Do you want to continue?&quot;) Then
+  // はい
+Else
+  // いいえ
+End If
+</code></pre></div>
+
+<h2 id="_4">スペシャルプロンプト<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Function Slider(question As String, min As Integer, max As Integer) As Integer
+Function KeyPress(question As String) As XjKeyEvent
+Function Collect(questions As Dictionary) As Dictionary
+</code></pre></div>
+
+<h3 id="slider">Slider（数値スライダー）<a class="headerlink" href="#slider" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var value As Integer = XjPrompt.Slider(&quot;Select level (1-10): &quot;, 1, 10)
+</code></pre></div>
+
+<h3 id="keypress">KeyPress（キー入力）<a class="headerlink" href="#keypress" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var key As XjKeyEvent = XjPrompt.KeyPress(&quot;Press any key...&quot;)
+</code></pre></div>
+
+<h3 id="collect">Collect（複数質問チェーン）<a class="headerlink" href="#collect" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var questions As New Dictionary()
+questions.Value(&quot;name&quot;) = &quot;What is your name?&quot;
+questions.Value(&quot;email&quot;) = &quot;What is your email?&quot;
+questions.Value(&quot;age&quot;) = &quot;What is your age?&quot;
+
+Var answers As Dictionary = XjPrompt.Collect(questions)
+Var name As String = answers.Lookup(&quot;name&quot;, &quot;&quot;)
+</code></pre></div>
+
+<h2 id="_5">メッセージ出力<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub Say(message As String)
+Sub Ok(message As String)
+Sub Warn(message As String)
+Sub Error_(message As String)
+</code></pre></div>
+
+<ul>
+<li><code>Say()</code> — 通常メッセージ</li>
+<li><code>Ok()</code> — 成功メッセージ（緑）</li>
+<li><code>Warn()</code> — 警告メッセージ（黄）</li>
+<li><code>Error_()</code> — エラーメッセージ（赤）</li>
+</ul>
+<div class="highlight"><pre><span></span><code>XjPrompt.Say(&quot;Processing...&quot;)
+XjPrompt.Ok(&quot;Operation succeeded!&quot;)
+XjPrompt.Warn(&quot;Check your input carefully&quot;)
+XjPrompt.Error_(&quot;An error occurred&quot;)
+</code></pre></div>
+
+<h2 id="_6">スタイル設定<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Sub SetStyle(style As XjPromptStyle)
+</code></pre></div>
+
+<p>プロンプト全体のスタイル（色、シンボル）をカスタマイズ。</p>
+<div class="highlight"><pre><span></span><code>Var style As New XjPromptStyle()
+Call style.SetPrefixStyle(XjStyle.Success())
+XjPrompt.SetStyle(style)
+</code></pre></div>
+
+<h2 id="_7">実装例<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">インタラクティブセットアップウィザード<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetupWizard()
+  XjPrompt.Say(&quot;Welcome to Setup!&quot;)
+
+  Var name As String = XjPrompt.Ask(&quot;Project name: &quot;)
+  Var type As String = XjPrompt.Select_(&quot;Project type: &quot;, Array(&quot;Console&quot;, &quot;Web&quot;, &quot;Library&quot;))
+  Var hasTests As Boolean = XjPrompt.Confirm(&quot;Include tests?&quot;)
+  Var features() As String = XjPrompt.MultiSelect(&quot;Features: &quot;, Array(&quot;Logging&quot;, &quot;Config&quot;, &quot;CLI&quot;))
+
+  XjPrompt.Ok(&quot;Setup complete!&quot;)
+  XjPrompt.Say(&quot;Project created: &quot; + name)
+End Sub
+</code></pre></div>
+
+<h3 id="_9">設定値入力フロー<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub ConfigureApp()
+  Var config As New Dictionary()
+
+  config.Value(&quot;host&quot;) = XjPrompt.Ask(&quot;Server host: &quot;)
+  config.Value(&quot;port&quot;) = XjPrompt.Slider(&quot;Port (1-65535): &quot;, 1, 65535)
+  config.Value(&quot;debug&quot;) = XjPrompt.Confirm(&quot;Enable debug mode?&quot;)
+  config.Value(&quot;logLevel&quot;) = XjPrompt.Select_(&quot;Log level: &quot;, Array(&quot;DEBUG&quot;, &quot;INFO&quot;, &quot;WARN&quot;, &quot;ERROR&quot;))
+
+  XjPrompt.Ok(&quot;Configuration saved!&quot;)
+End Sub
+</code></pre></div>
+
+<h3 id="_10">ユーザー認証フロー<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub AuthenticateUser()
+  While True
+    Var username As String = XjPrompt.Ask(&quot;Username: &quot;)
+    Var password As String = XjPrompt.Password(&quot;Password: &quot;)
+
+    If ValidateCredentials(username, password) Then
+      XjPrompt.Ok(&quot;Login successful!&quot;)
+      Exit
+    Else
+      XjPrompt.Error_(&quot;Invalid credentials&quot;)
+    End If
+  Wend
+End Sub
+</code></pre></div>
+
+<h3 id="_11">メニューシステム<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub MainMenu()
+  While True
+    Var action As String = XjPrompt.Select_(&quot;Select action: &quot;, Array(
+      &quot;View Profile&quot;, &quot;Edit Settings&quot;, &quot;View Messages&quot;, &quot;Logout&quot;
+    ))
+
+    Select Case action
+      Case &quot;View Profile&quot;
+        ShowProfile()
+      Case &quot;Edit Settings&quot;
+        EditSettings()
+      Case &quot;View Messages&quot;
+        ShowMessages()
+      Case &quot;Logout&quot;
+        XjPrompt.Ok(&quot;Goodbye!&quot;)
+        Exit
+    End Select
+  Wend
+End Sub
+</code></pre></div>
+
+<h2 id="_12">フロー例<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>// 1. 情報収集
+Var email As String = XjPrompt.Ask(&quot;Email: &quot;)
+Var subscribe As Boolean = XjPrompt.Confirm(&quot;Subscribe to newsletter?&quot;)
+
+// 2. 選択
+Var plan As String = XjPrompt.Select_(&quot;Choose plan: &quot;, Array(&quot;Free&quot;, &quot;Pro&quot;, &quot;Enterprise&quot;))
+
+// 3. 確認
+If XjPrompt.Confirm(&quot;Confirm selection?&quot;) Then
+  // 処理実行
+  XjPrompt.Ok(&quot;Success!&quot;)
+Else
+  XjPrompt.Say(&quot;Cancelled&quot;)
+End If
+</code></pre></div>
+
+<h2 id="_13">デフォルトスタイル<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<p>XjPromptはデフォルトで以下のスタイルを使用：</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>スタイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プリフィックス（❯）</td>
+<td>青</td>
+</tr>
+<tr>
+<td>質問文</td>
+<td>デフォルト</td>
+</tr>
+<tr>
+<td>答え</td>
+<td>緑</td>
+</tr>
+<tr>
+<td>カーソル</td>
+<td>黄</td>
+</tr>
+<tr>
+<td>エラー</td>
+<td>赤</td>
+</tr>
+</tbody>
+</table>
+<p>これらはXjPromptStyle経由でカスタマイズ可能です。</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../widgets/focus-manager.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Focus Manager</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../prompts/text-prompts.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">Text Prompts</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#テキストプロンプト">テキストプロンプト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#askテキスト質問">Ask（テキスト質問）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#passwordパスワード入力">Password（パスワード入力）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#suggestオートコンプリート">Suggest（オートコンプリート）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#選択プロンプト">選択プロンプト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#select_単一選択">Select_（単一選択）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#multiselect複数選択">MultiSelect（複数選択）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#enumselect番号付き選択">EnumSelect（番号付き選択）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#expandキーマッピング選択">Expand（キーマッピング選択）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#確認プロンプト">確認プロンプト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#confirmyesno質問">Confirm（Yes/No質問）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スペシャルプロンプト">スペシャルプロンプト</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#slider数値スライダー">Slider（数値スライダー）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#keypressキー入力">KeyPress（キー入力）</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#collect複数質問チェーン">Collect（複数質問チェーン）</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#メッセージ出力">メッセージ出力</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#スタイル設定">スタイル設定</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#実装例">実装例</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#インタラクティブセットアップウィザード">インタラクティブセットアップウィザード</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#設定値入力フロー">設定値入力フロー</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#ユーザー認証フロー">ユーザー認証フロー</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#メニューシステム">メニューシステム</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#フロー例">フロー例</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#デフォルトスタイル">デフォルトスタイル</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

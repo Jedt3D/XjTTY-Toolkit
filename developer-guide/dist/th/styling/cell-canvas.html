@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XjCell และ XjCanvas — XjTTY-Toolkit API</title>
+  <meta name="description" content="XjCell สำหรับแต่ละอักขระที่มีสไตล์, XjCanvas สำหรับตารางอักขระ 2 มิติที่มี diff rendering" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <!-- Inline theme init — must run before first paint to prevent FOUC -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Top bar ───────────────────────────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="/dist/en/index.html">
+        <span class="logo-mark">X</span>
+        <span class="logo-text">XjTTY-Toolkit API</span>
+        <span class="logo-version">v1.0</span>
+      </a>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher">
+        
+        <a class="lang-btn" href="/en/index.html"
+           title="English">EN</a>
+        
+        <a class="lang-btn active" href="/th/index.html"
+           title="ภาษาไทย">TH</a>
+        
+        <a class="lang-btn" href="/jp/index.html"
+           title="日本語">JP</a>
+        
+      </div>
+
+      <nav class="topbar-links">
+        <a href="/dist/en/index.html">Docs</a>
+        <a href="https://github.com/worajedt/mvvm" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+
+      <!-- Theme toggle (moon = go dark, sun = go light) -->
+      <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <!-- Moon — shown on Day theme -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun — shown on Night theme -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Sidebar ───────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Getting Started</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../index.html">
+                Introduction
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Core</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/platform.html">
+                Platform Detection
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/ansi.html">
+                ANSI Escape Codes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/terminal.html">
+                Terminal Control
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/color.html">
+                Colors
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/cursor.html">
+                Cursor
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../core/screen.html">
+                Screen
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Styling</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/style.html">
+                XjStyle
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link active"
+                 href="../styling/cell-canvas.html">
+                XjCell & XjCanvas
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../styling/symbols.html">
+                XjSymbols
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Events</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/key-event.html">
+                Key Events
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event.html">
+                Event System
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/event-loop.html">
+                Event Loop
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../events/reader.html">
+                Input Reader
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Layout</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/constraint.html">
+                Constraints
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/layout-node.html">
+                Layout Nodes
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../layout/solver.html">
+                Layout Solver
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Widgets</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/widget.html">
+                Widget Base Class
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/box-text.html">
+                Box & Text
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/text-input.html">
+                TextInput
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/table.html">
+                Table
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/progress-spinner.html">
+                ProgressBar & Spinner
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/tree.html">
+                Tree
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../widgets/focus-manager.html">
+                Focus Manager
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Prompts</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/facade.html">
+                Prompt Facade
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/text-prompts.html">
+                Text Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/selection-prompts.html">
+                Selection Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/special-prompts.html">
+                Special Prompts
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../prompts/styling-validation.html">
+                Styling & Validation
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">Utilities</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/logger.html">
+                Logger
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/options.html">
+                CLI Options
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/config.html">
+                Configuration
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/commands.html">
+                Commands & Pager
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../utilities/display.html">
+                Font, Pie & Markdown
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+        <div class="nav-section">
+          <div class="nav-section-title">YAML & UI</div>
+          <ul class="nav-list">
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/parser.html">
+                YAML Parser
+              </a>
+            </li>
+            
+            
+            <li>
+              <a class="nav-link"
+                 href="../yaml/ui-builder.html">
+                UI Builder
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        
+      </div>
+    </aside>
+
+    <!-- ── Main content ──────────────────────────────────────────── -->
+    <main class="content" id="content">
+      <article class="prose">
+        <div class="page-header">
+          <h1 class="page-title">XjCell และ XjCanvas</h1>
+          <p class="page-description">XjCell สำหรับแต่ละอักขระที่มีสไตล์, XjCanvas สำหรับตารางอักขระ 2 มิติที่มี diff rendering</p>
+        </div>
+
+        <h1 id="xjcell-xjcanvas">XjCell และ XjCanvas<a class="headerlink" href="#xjcell-xjcanvas" title="Permanent link">&para;</a></h1>
+<p><strong>XjCell</strong> แทนอักขระเดียวพร้อมกับสไตล์ (FG/BG color, bold, italic, เป็นต้น) <strong>XjCanvas</strong> เป็นตารางอักขระ 2 มิติ (grid) ที่จัดเก็บ XjCell ทุกตัว สิ่งสำคัญคือการใช้ Canvas คุณสามารถเขียนไปยัง buffer ก่อน แล้วค่อย render กับ screen ทีหลัง แทนที่จะเขียนไปยัง terminal โดยตรง ซึ่งช่วยลดจำนวน I/O</p>
+<h2 id="xjcell">XjCell<a class="headerlink" href="#xjcell" title="Permanent link">&para;</a></h2>
+<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New()
+</code></pre></div>
+
+<p>สร้าง cell ว่างเปล่า (space character, no style)</p>
+<div class="highlight"><pre><span></span><code>Sub New(char As String, style As XjStyle)
+</code></pre></div>
+
+<p>สร้าง cell ที่มีอักขระและสไตล์</p>
+<h3 id="accessors">Accessors<a class="headerlink" href="#accessors" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Char() As String
+Sub SetChar(c As String)
+</code></pre></div>
+
+<p>ดึง/ตั้งค่าอักขระ</p>
+<div class="highlight"><pre><span></span><code>Function Style() As XjStyle
+Sub SetStyle(s As XjStyle)
+</code></pre></div>
+
+<p>ดึง/ตั้งค่าสไตล์</p>
+<h3 id="batch-updates">Batch Updates<a class="headerlink" href="#batch-updates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Set(char As String, style As XjStyle)
+</code></pre></div>
+
+<p>ตั้งค่าอักขระและสไตล์พร้อมกัน</p>
+<div class="highlight"><pre><span></span><code>Sub Reset()
+</code></pre></div>
+
+<p>รีเซ็ต cell กลับไปเป็นว่างเปล่า</p>
+<h3 id="comparison">Comparison<a class="headerlink" href="#comparison" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Equals(other As XjCell) As Boolean
+</code></pre></div>
+
+<p>เปรียบเทียบ cell ว่าเหมือนกันหรือไม่</p>
+<div class="highlight"><pre><span></span><code>Function Clone() As XjCell
+</code></pre></div>
+
+<p>สร้าง copy ของ cell นี้</p>
+<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Render() As String
+</code></pre></div>
+
+<p>ส่งกลับ ANSI sequence พร้อม text สำหรับ cell นี้</p>
+<h2 id="xjcanvas">XjCanvas<a class="headerlink" href="#xjcanvas" title="Permanent link">&para;</a></h2>
+<h3 id="constructor-sizing">Constructor &amp; Sizing<a class="headerlink" href="#constructor-sizing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub New(width As Integer, height As Integer)
+</code></pre></div>
+
+<p>สร้าง canvas ขนาด width × height</p>
+<div class="highlight"><pre><span></span><code>Function GetWidth() As Integer
+Function GetHeight() As Integer
+</code></pre></div>
+
+<p>ดึงขนาด canvas</p>
+<div class="highlight"><pre><span></span><code>Sub Resize(w As Integer, h As Integer)
+</code></pre></div>
+
+<p>เปลี่ยนขนาด canvas (clear content)</p>
+<h3 id="setting-cells">Setting Cells<a class="headerlink" href="#setting-cells" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub SetCell(x As Integer, y As Integer, char As String, style As XjStyle)
+</code></pre></div>
+
+<p>ตั้งค่าเซลล์ที่ (x, y) — ใช้ 1-based indexing</p>
+<div class="highlight"><pre><span></span><code>Function GetCell(x As Integer, y As Integer) As XjCell
+</code></pre></div>
+
+<p>ดึงเซลล์ที่ (x, y)</p>
+<div class="highlight"><pre><span></span><code>Sub SetChar(x As Integer, y As Integer, char As String)
+</code></pre></div>
+
+<p>ตั้งค่าเพียงอักขระที่ (x, y) โดยคงสไตล์เดิม</p>
+<h3 id="writing-text">Writing Text<a class="headerlink" href="#writing-text" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub WriteText(x As Integer, y As Integer, text As String, style As XjStyle)
+</code></pre></div>
+
+<p>เขียน text ตั้งแต่ (x, y) โดยใช้สไตล์เดียวกัน (ไม่ wrap)</p>
+<div class="highlight"><pre><span></span><code>Sub WriteTextWrapped(x As Integer, y As Integer, maxWidth As Integer, text As String, style As XjStyle)
+</code></pre></div>
+
+<p>เขียน text โดยทำ word wrapping ที่ maxWidth</p>
+<h3 id="region-operations">Region Operations<a class="headerlink" href="#region-operations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Clear()
+</code></pre></div>
+
+<p>ล้าง canvas ทั้งหมด</p>
+<div class="highlight"><pre><span></span><code>Sub ClearRegion(x As Integer, y As Integer, w As Integer, h As Integer)
+</code></pre></div>
+
+<p>ล้างพื้นที่สี่เหลี่ยม ขนาด w × h ตั้งแต่ (x, y)</p>
+<div class="highlight"><pre><span></span><code>Sub FillRegion(x As Integer, y As Integer, w As Integer, h As Integer, char As String, style As XjStyle)
+</code></pre></div>
+
+<p>เติมพื้นที่สี่เหลี่ยมด้วยอักขระและสไตล์</p>
+<h3 id="drawing-boxes">Drawing Boxes<a class="headerlink" href="#drawing-boxes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub DrawBox(x As Integer, y As Integer, w As Integer, h As Integer, style As XjStyle, borderStyle As Integer)
+</code></pre></div>
+
+<p>วาดกรอบสี่เหลี่ยม ขนาด w × h ตั้งแต่ (x, y)</p>
+<p>borderStyle: 0 (single), 1 (double), 2 (round), 3 (bold), 4 (ascii)</p>
+<h3 id="lines">Lines<a class="headerlink" href="#lines" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub DrawHLine(x As Integer, y As Integer, length As Integer, style As XjStyle)
+Sub DrawVLine(x As Integer, y As Integer, length As Integer, style As XjStyle)
+</code></pre></div>
+
+<p>วาดเส้นแนวนอน/ตั้ง</p>
+<h3 id="advanced-operations">Advanced Operations<a class="headerlink" href="#advanced-operations" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Sub Blit(source As XjCanvas, srcX As Integer, srcY As Integer, srcW As Integer, srcH As Integer, dstX As Integer, dstY As Integer)
+</code></pre></div>
+
+<p>คัดลอกพื้นที่สี่เหลี่ยมจาก canvas อื่น</p>
+<div class="highlight"><pre><span></span><code>Function Snapshot() As XjCanvas
+</code></pre></div>
+
+<p>สร้าง deep copy ของ canvas นี้</p>
+<h3 id="rendering">Rendering<a class="headerlink" href="#rendering" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Function Render() As String
+</code></pre></div>
+
+<p>ส่งกลับ full ANSI render (clear screen + home + all cells)</p>
+<div class="highlight"><pre><span></span><code>Function DiffRender(previous As XjCanvas) As String
+</code></pre></div>
+
+<p>ส่งกลับ diff render เทียบกับ canvas ก่อนหน้า (ประสิทธิภาพ)</p>
+<div class="highlight"><pre><span></span><code>Function ToString() As String
+</code></pre></div>
+
+<p>ส่งกลับ plain text (ไม่มี ANSI code) สำหรับ logging/debug</p>
+<h2 id="_1">ตัวอย่างการใช้งาน<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="cell">สร้าง Cell<a class="headerlink" href="#cell" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var errorStyle As XjStyle = XjStyle.Danger()
+Var cell As New XjCell(&quot;E&quot;, errorStyle)
+XjTerminal.Write(cell.Render())
+</code></pre></div>
+
+<h3 id="canvas">สร้าง Canvas และวาด<a class="headerlink" href="#canvas" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(80, 24)
+Var headerStyle As XjStyle = XjStyle.MakeBold()
+canvas.WriteText(1, 1, &quot;Welcome&quot;, headerStyle)
+canvas.DrawBox(2, 3, 30, 10, XjStyle.Default_(), 0)
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="diff-rendering-performance">Diff Rendering (Performance)<a class="headerlink" href="#diff-rendering-performance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var prev As XjCanvas = canvas.Snapshot()
+&#39; Modify canvas
+canvas.SetChar(10, 5, &quot;X&quot;)
+&#39; Only write changed cells
+XjTerminal.Write(canvas.DiffRender(prev))
+</code></pre></div>
+
+<h3 id="word-wrapping-text">Word Wrapping Text<a class="headerlink" href="#word-wrapping-text" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(40, 10)
+Var longText As String = &quot;This is a very long line that should wrap at the specified width&quot;
+canvas.WriteTextWrapped(1, 1, 35, longText, XjStyle.Default_())
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h3 id="_2">หลายกรอบ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Var canvas As New XjCanvas(50, 20)
+Var boxStyle As XjStyle = XjStyle.MakeFGRGB(0, 255, 0)
+canvas.DrawBox(1, 1, 20, 8, boxStyle, 0)
+canvas.DrawBox(22, 1, 20, 8, boxStyle, 1)
+canvas.DrawBox(43, 1, 7, 8, boxStyle, 2)
+XjTerminal.Write(canvas.Render())
+</code></pre></div>
+
+<h2 id="_3">หมายเหตุการออกแบบ<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Canvas ใช้ 1-based indexing (row 1, col 1) เพื่อให้สอดคล้องกับ Terminal และ Cursor modules</p>
+<p>DiffRender เป็น optimization — ถ้าแต่ละ frame ต้อง render frame ทั้งหมด ลอง Render() เพียง แต่ถ้า update frame ทีละส่วนเล็กน้อย DiffRender จะเร็วมาก</p>
+<p>XjEventLoop ใช้ Canvas ภายในสำหรับการจัดการการ render อย่างมีประสิทธิภาพ</p>
+
+        <!-- Prev / Next navigation -->
+        
+        <nav class="page-nav">
+          <div class="page-nav-prev">
+            
+            <a href="../styling/style.html">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">XjStyle</span>
+            </a>
+            
+          </div>
+          <div class="page-nav-next">
+            
+            <a href="../styling/symbols.html">
+              <span class="page-nav-label">Next →</span>
+              <span class="page-nav-title">XjSymbols</span>
+            </a>
+            
+          </div>
+        </nav>
+        
+      </article>
+    </main>
+
+    <!-- ── Right TOC ──────────────────────────────────────────────── -->
+    
+    <aside class="toc-sidebar">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcell">XjCell</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor">Constructor</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#accessors">Accessors</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#batch-updates">Batch Updates</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#comparison">Comparison</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#output">Output</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#xjcanvas">XjCanvas</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#constructor-sizing">Constructor & Sizing</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#setting-cells">Setting Cells</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#writing-text">Writing Text</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#region-operations">Region Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#drawing-boxes">Drawing Boxes</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#lines">Lines</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#advanced-operations">Advanced Operations</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#rendering">Rendering</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#ตวอยางการใชงาน">ตัวอย่างการใช้งาน</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#สราง-cell">สร้าง Cell</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#สราง-canvas-และวาด">สร้าง Canvas และวาด</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#diff-rendering-performance">Diff Rendering (Performance)</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#word-wrapping-text">Word Wrapping Text</a>
+          </li>
+          
+          <li class="toc-item toc-level-3">
+            <a class="toc-link" href="#หลายกรอบ">หลายกรอบ</a>
+          </li>
+          
+          <li class="toc-item toc-level-2">
+            <a class="toc-link" href="#หมายเหตการออกแบบ">หมายเหตุการออกแบบ</a>
+          </li>
+          
+        </ul>
+      </div>
+    </aside>
+    
+
+  </div><!-- /.layout -->
+
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>
