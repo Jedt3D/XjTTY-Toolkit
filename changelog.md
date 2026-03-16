@@ -15,6 +15,10 @@ All notable changes to XjTTY-Toolkit will be documented in this file.
 
 ### Added
 - **KITCHEN_SINK_PROPOSAL.md** — Comprehensive Phase 8 demo application proposal: 31 interactive/static components across 6 categories, live previews with keyboard interaction, search filtering, properties panel, help overlay
+- **xojo skill updates** (contributed to ~/.claude/skills/xojo/SKILL.md):
+  - **Section 8.3: Render Loop Optimization Patterns** — 4 critical patterns for 30fps TUI at 57,600+ alloc/sec: parallel arrays, static shared instances, never-dereference-before-replacement, per-row string building
+  - **Section 9: Enhanced Unicode Construction** — improved red flag pattern with why/how/examples for UTF-8 vs code point confusion (fixes bug from commit 02552ff)
+  - **Section 10: Overlay Mockup Pattern** — new pattern for blocking prompts in event-loop TUI using state-machine overlays instead of Run()
 
 ## [0.7.0] - 2026-03-13
 
