@@ -1,0 +1,1623 @@
+{
+  "App.xojo_code": {
+    "type": "Class",
+    "entity": "App",
+    "inherits": "ConsoleApplication",
+    "methods": {},
+    "properties": {},
+    "events": {
+      "Run": 4
+    },
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjANSI.xojo_code": {
+    "type": "Module",
+    "entity": "XjANSI",
+    "methods": {
+      "AlternateScreenEnter": 3,
+      "AlternateScreenExit": 10,
+      "AutoWrapDisable": 17,
+      "AutoWrapEnable": 24,
+      "BG": 31,
+      "BG256": 38,
+      "BGRGB": 45,
+      "Blink": 52,
+      "Bold": 58,
+      "BoldOff": 64,
+      "BracketedPasteDisable": 70,
+      "BracketedPasteEnable": 76,
+      "CSI": 82,
+      "CursorBackward": 89,
+      "CursorColumn": 96,
+      "CursorDown": 103,
+      "CursorForward": 110,
+      "CursorHide": 117,
+      "CursorNextLine": 124,
+      "CursorPosition": 132,
+      "CursorPrevLine": 139,
+      "CursorRequestPosition": 146,
+      "CursorRestore": 154,
+      "CursorSave": 161,
+      "CursorShow": 168,
+      "CursorUp": 175,
+      "DefaultBG": 183,
+      "DefaultFG": 190,
+      "Dim_": 197,
+      "ESC": 242,
+      "EraseDown": 203,
+      "EraseLine": 210,
+      "EraseScreen": 216,
+      "EraseToEndOfLine": 223,
+      "EraseToStartOfLine": 229,
+      "EraseUp": 235,
+      "FG": 249,
+      "FG256": 256,
+      "FGRGB": 263,
+      "Hidden": 270,
+      "Hyperlink": 276,
+      "Inverse": 283,
+      "InverseOff": 289,
+      "Italic": 295,
+      "ItalicOff": 301,
+      "MouseTrackingDisable": 307,
+      "MouseTrackingEnable": 313,
+      "OSC": 320,
+      "Reset": 327,
+      "SGR": 355,
+      "SGRMulti": 362,
+      "ST": 373,
+      "ScrollDown": 334,
+      "ScrollUp": 341,
+      "SetTitle": 348,
+      "Strikethrough": 380,
+      "StripCodes": 386,
+      "Underline": 422,
+      "UnderlineOff": 428,
+      "VisibleLength": 434
+    },
+    "properties": {},
+    "events": {},
+    "constants": {
+      "BG_BLACK": 463,
+      "BG_BLUE": 466,
+      "BG_BRIGHT_BLACK": 469,
+      "BG_BRIGHT_BLUE": 472,
+      "BG_BRIGHT_CYAN": 475,
+      "BG_BRIGHT_GREEN": 478,
+      "BG_BRIGHT_MAGENTA": 481,
+      "BG_BRIGHT_RED": 484,
+      "BG_BRIGHT_WHITE": 487,
+      "BG_BRIGHT_YELLOW": 490,
+      "BG_CYAN": 493,
+      "BG_DEFAULT": 496,
+      "BG_GREEN": 499,
+      "BG_MAGENTA": 502,
+      "BG_RED": 505,
+      "BG_WHITE": 508,
+      "BG_YELLOW": 511,
+      "FG_BLACK": 514,
+      "FG_BLUE": 517,
+      "FG_BRIGHT_BLACK": 520,
+      "FG_BRIGHT_BLUE": 523,
+      "FG_BRIGHT_CYAN": 526,
+      "FG_BRIGHT_GREEN": 529,
+      "FG_BRIGHT_MAGENTA": 532,
+      "FG_BRIGHT_RED": 535,
+      "FG_BRIGHT_WHITE": 538,
+      "FG_BRIGHT_YELLOW": 541,
+      "FG_CYAN": 544,
+      "FG_DEFAULT": 547,
+      "FG_GREEN": 550,
+      "FG_MAGENTA": 553,
+      "FG_RED": 556,
+      "FG_WHITE": 559,
+      "FG_YELLOW": 562
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjAskPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjAskPrompt",
+    "methods": {
+      "AddValidation": 3,
+      "BuildLines": 10,
+      "BuildSettledLines": 55,
+      "Constructor": 69,
+      "HandleKey": 85,
+      "Run": 181,
+      "SetDefault": 224,
+      "SetHistory": 231,
+      "SetModifier": 238,
+      "SetPromptStyle": 245
+    },
+    "properties": {
+      "Private": 323
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjBox.xojo_code": {
+    "type": "Class",
+    "entity": "XjBox",
+    "inherits": "XjWidget",
+    "methods": {
+      "Constructor": 4,
+      "ContentAlign": 14,
+      "ContentVAlign": 20,
+      "Error_": 26,
+      "Info": 36,
+      "PaintContent": 46,
+      "SetContentAlign": 55,
+      "SetContentVAlign": 62,
+      "SetFill": 69,
+      "Success": 77,
+      "Warning": 87
+    },
+    "properties": {
+      "Private": 126
+    },
+    "events": {},
+    "constants": {
+      "ALIGN_CENTER": 131,
+      "ALIGN_LEFT": 134,
+      "ALIGN_RIGHT": 137,
+      "VALIGN_BOTTOM": 140,
+      "VALIGN_MIDDLE": 143,
+      "VALIGN_TOP": 146
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCanvas.xojo_code": {
+    "type": "Class",
+    "entity": "XjCanvas",
+    "methods": {
+      "Blit": 3,
+      "Clear": 27,
+      "ClearRegion": 38,
+      "Constructor": 53,
+      "DiffRender": 62,
+      "DrawBox": 134,
+      "DrawHLine": 206,
+      "DrawVLine": 216,
+      "FillRegion": 226,
+      "GetCell": 237,
+      "GetHeight": 247,
+      "GetWidth": 253,
+      "InitCells": 259,
+      "Render": 274,
+      "Resize": 325,
+      "SetCell": 360,
+      "SetChar": 379,
+      "Snapshot": 392,
+      "ToString": 405,
+      "WriteText": 420,
+      "WriteTextWrapped": 431
+    },
+    "properties": {
+      "Private": 509
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCell.xojo_code": {
+    "type": "Class",
+    "entity": "XjCell",
+    "methods": {
+      "Char": 3,
+      "Clone": 9,
+      "Constructor": 26,
+      "Equals": 44,
+      "Render": 51,
+      "Reset": 59,
+      "Set": 73,
+      "SetChar": 80,
+      "SetStyle": 90,
+      "Style": 108
+    },
+    "properties": {
+      "Private": 128
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCollectPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjCollectPrompt",
+    "methods": {
+      "AddAsk": 3,
+      "AddConfirm": 14,
+      "AddPassword": 25,
+      "AddSelect": 36,
+      "Constructor": 51,
+      "Run": 57
+    },
+    "properties": {
+      "Private": 140
+    },
+    "events": {},
+    "constants": {
+      "TYPE_ASK": 145,
+      "TYPE_CONFIRM": 148,
+      "TYPE_PASSWORD": 151,
+      "TYPE_SELECT": 154
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjColor.xojo_code": {
+    "type": "Module",
+    "entity": "XjColor",
+    "methods": {
+      "Black": 3,
+      "Blue": 9,
+      "BoldText": 15,
+      "BrightBlue": 21,
+      "BrightCyan": 27,
+      "BrightGreen": 33,
+      "BrightMagenta": 39,
+      "BrightRed": 45,
+      "BrightYellow": 51,
+      "Color256": 57,
+      "Colorize": 64,
+      "Cyan": 82,
+      "DimText": 88,
+      "Error_": 94,
+      "Gradient": 100,
+      "Green": 121,
+      "Info": 127,
+      "InverseText": 133,
+      "ItalicText": 139,
+      "Magenta": 145,
+      "Muted": 151,
+      "OnBlack": 157,
+      "OnBlue": 163,
+      "OnGreen": 169,
+      "OnRed": 175,
+      "OnWhite": 181,
+      "OnYellow": 187,
+      "RGB": 199,
+      "RGBBG": 206,
+      "Red": 193,
+      "StrikethroughText": 213,
+      "Success": 219,
+      "UnderlineText": 225,
+      "Warning": 231,
+      "White": 237,
+      "Yellow": 243
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCommand.xojo_code": {
+    "type": "Module",
+    "entity": "XjCommand",
+    "methods": {
+      "Capture": 3,
+      "DryRun": 13,
+      "Run": 20,
+      "RunSilent": 37,
+      "RunWithPrinter": 47,
+      "Success": 60
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCommandResult.xojo_code": {
+    "type": "Class",
+    "entity": "XjCommandResult",
+    "methods": {
+      "Constructor": 3,
+      "IsSuccess": 11,
+      "Lines": 17
+    },
+    "properties": {
+      "ExitCode": 32,
+      "Output": 36,
+      "TimedOut": 40
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCompleter.xojo_code": {
+    "type": "Class",
+    "entity": "XjCompleter",
+    "methods": {
+      "Complete": 3,
+      "Constructor": 21,
+      "FromWords": 30,
+      "FuzzyComplete": 37,
+      "FuzzyMatch": 55,
+      "Words": 72
+    },
+    "properties": {
+      "Private": 104
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjConfig.xojo_code": {
+    "type": "Class",
+    "entity": "XjConfig",
+    "methods": {
+      "Constructor": 3,
+      "Count": 10,
+      "Get": 16,
+      "GetBoolean": 32,
+      "GetInteger": 39,
+      "Has": 46,
+      "Keys": 52,
+      "LoadFromFile": 62,
+      "Merge": 83,
+      "Remove": 94,
+      "SaveToFile": 100,
+      "Set": 117,
+      "SetEnvPrefix": 123
+    },
+    "properties": {
+      "Private": 157
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjConfirmPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjConfirmPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 25,
+      "Constructor": 46,
+      "HandleKey": 57,
+      "Run": 90,
+      "SetPromptStyle": 118
+    },
+    "properties": {
+      "Private": 168
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjConstraint.xojo_code": {
+    "type": "Class",
+    "entity": "XjConstraint",
+    "methods": {
+      "Auto": 3,
+      "Clone": 9,
+      "Constructor": 20,
+      "Fixed": 29,
+      "IsAuto": 38,
+      "IsFixed": 44,
+      "IsPercent": 50,
+      "MaxValue": 56,
+      "MinMax": 62,
+      "MinValue": 72,
+      "Mode": 78,
+      "Percent": 84,
+      "Resolve": 93,
+      "SetMax": 121,
+      "SetMin": 129,
+      "Value": 137
+    },
+    "properties": {
+      "Private": 175
+    },
+    "events": {},
+    "constants": {
+      "MODE_AUTO": 180,
+      "MODE_FIXED": 183,
+      "MODE_PERCENT": 186
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjConversion.xojo_code": {
+    "type": "Module",
+    "entity": "XjConversion",
+    "methods": {
+      "ApplyModifier": 3,
+      "ToBool": 21,
+      "ToDouble": 28,
+      "ToInteger": 36
+    },
+    "properties": {},
+    "events": {},
+    "constants": {
+      "MOD_CAPITALIZE": 54,
+      "MOD_DOWN": 57,
+      "MOD_NONE": 60,
+      "MOD_STRIP": 63,
+      "MOD_UP": 66
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjCursor.xojo_code": {
+    "type": "Module",
+    "entity": "XjCursor",
+    "methods": {
+      "GetPosition": 3,
+      "Hide": 50,
+      "Home": 57,
+      "MoveDown": 64,
+      "MoveLeft": 70,
+      "MoveRelative": 76,
+      "MoveRight": 86,
+      "MoveTo": 92,
+      "MoveToColumn": 99,
+      "MoveUp": 105,
+      "NextLine": 111,
+      "PrevLine": 117,
+      "Restore": 123,
+      "Save": 130,
+      "Show": 137
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjEnumSelectPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjEnumSelectPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettled": 31,
+      "Constructor": 54,
+      "HandleKey": 72,
+      "Run": 117
+    },
+    "properties": {
+      "Private": 194
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjEvent.xojo_code": {
+    "type": "Class",
+    "entity": "XjEvent",
+    "methods": {
+      "Constructor": 3,
+      "CreateCustomEvent": 10,
+      "CreateKeyEvent": 19,
+      "CreateMouseEvent": 27,
+      "CreateResizeEvent": 38,
+      "CreateTickEvent": 47,
+      "CustomData": 53,
+      "CustomName": 59,
+      "EventType": 65,
+      "IsKeyEvent": 71,
+      "IsMouseEvent": 77,
+      "IsResizeEvent": 83,
+      "IsTickEvent": 89,
+      "Key": 95,
+      "MouseAction": 101,
+      "MouseButton": 107,
+      "MouseX": 113,
+      "MouseY": 119,
+      "ResizeHeight": 125,
+      "ResizeWidth": 131,
+      "Timestamp": 137,
+      "ToString": 143
+    },
+    "properties": {
+      "Private": 224
+    },
+    "events": {},
+    "constants": {
+      "EVENT_CUSTOM": 229,
+      "EVENT_KEY": 232,
+      "EVENT_MOUSE": 235,
+      "EVENT_RESIZE": 238,
+      "EVENT_TICK": 241,
+      "MOUSE_MOVE": 244,
+      "MOUSE_PRESS": 247,
+      "MOUSE_RELEASE": 250,
+      "MOUSE_SCROLL_DOWN": 253,
+      "MOUSE_SCROLL_UP": 256
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjEventLoop.xojo_code": {
+    "type": "Class",
+    "entity": "XjEventLoop",
+    "methods": {
+      "Constructor": 3,
+      "ElapsedSeconds": 17,
+      "IsRunning": 24,
+      "LastHeight": 34,
+      "LastWidth": 40,
+      "Run": 50,
+      "SetOnKeyPress": 114,
+      "SetOnResize": 120,
+      "SetOnTick": 126,
+      "Stop_": 132,
+      "TickCount": 139
+    },
+    "properties": {
+      "AutoAlternateScreen": 175,
+      "AutoHideCursor": 179,
+      "AutoRawMode": 183,
+      "Private": 223
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjExpandPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjExpandPrompt",
+    "methods": {
+      "BuildKeyList": 3,
+      "BuildLines": 15,
+      "BuildSettled": 54,
+      "Constructor": 72,
+      "HandleKey": 95,
+      "Run": 145
+    },
+    "properties": {
+      "Private": 227
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjFocusManager.xojo_code": {
+    "type": "Class",
+    "entity": "XjFocusManager",
+    "methods": {
+      "BuildChain": 3,
+      "Constructor": 20,
+      "FocusCount": 26,
+      "FocusNext": 41,
+      "FocusPrev": 60,
+      "FocusedWidget": 32,
+      "HandleKey": 79
+    },
+    "properties": {
+      "Private": 127
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjFont.xojo_code": {
+    "type": "Module",
+    "entity": "XjFont",
+    "methods": {
+      "DG": 3,
+      "EnsureInit": 10,
+      "Render": 62
+    },
+    "properties": {
+      "Private": 144
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjHistory.xojo_code": {
+    "type": "Class",
+    "entity": "XjHistory",
+    "methods": {
+      "Add": 3,
+      "Clear": 21,
+      "Constructor": 28,
+      "Count": 36,
+      "IsNavigating": 42,
+      "Next_": 48,
+      "Previous": 65,
+      "Reset": 82
+    },
+    "properties": {
+      "Private": 116
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjInlineRenderer.xojo_code": {
+    "type": "Class",
+    "entity": "XjInlineRenderer",
+    "methods": {
+      "Begin": 3,
+      "Constructor": 21,
+      "End_": 29,
+      "ReadKey": 41,
+      "RefreshTermWidth": 52,
+      "Render": 58,
+      "RenderSettled": 93,
+      "TermWidth": 122
+    },
+    "properties": {
+      "Private": 157
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjKeyEvent.xojo_code": {
+    "type": "Class",
+    "entity": "XjKeyEvent",
+    "methods": {
+      "Char": 3,
+      "Constructor": 9,
+      "IsAlt": 19,
+      "IsArrow": 25,
+      "IsBackspace": 31,
+      "IsCharKey": 37,
+      "IsCtrl": 44,
+      "IsEnter": 50,
+      "IsEscape": 56,
+      "IsShift": 62,
+      "IsTab": 68,
+      "KeyCode": 74,
+      "KeyName": 80,
+      "ToString": 158
+    },
+    "properties": {
+      "Private": 193
+    },
+    "events": {},
+    "constants": {
+      "KEY_BACKSPACE": 198,
+      "KEY_BACKTAB": 201,
+      "KEY_CHAR": 204,
+      "KEY_DELETE": 207,
+      "KEY_DOWN": 210,
+      "KEY_END_": 213,
+      "KEY_ENTER": 216,
+      "KEY_ESCAPE": 219,
+      "KEY_F1": 222,
+      "KEY_F10": 225,
+      "KEY_F11": 228,
+      "KEY_F12": 231,
+      "KEY_F2": 234,
+      "KEY_F3": 237,
+      "KEY_F4": 240,
+      "KEY_F5": 243,
+      "KEY_F6": 246,
+      "KEY_F7": 249,
+      "KEY_F8": 252,
+      "KEY_F9": 255,
+      "KEY_HOME": 258,
+      "KEY_INSERT": 261,
+      "KEY_LEFT": 264,
+      "KEY_PAGEDOWN": 267,
+      "KEY_PAGEUP": 270,
+      "KEY_RIGHT": 273,
+      "KEY_TAB": 276,
+      "KEY_UP": 279
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjKeyPressPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjKeyPressPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 22,
+      "Constructor": 43,
+      "Run": 53
+    },
+    "properties": {
+      "Private": 132
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjLayoutNode.xojo_code": {
+    "type": "Class",
+    "entity": "XjLayoutNode",
+    "methods": {
+      "AddChild": 3,
+      "BorderColor": 10,
+      "BorderStyleValue": 16,
+      "Child": 22,
+      "ChildCount": 29,
+      "ComputedHeight": 35,
+      "ComputedWidth": 41,
+      "ComputedX": 47,
+      "ComputedY": 53,
+      "Constructor": 59,
+      "ContentHeight": 83,
+      "ContentWidth": 93,
+      "ContentX": 103,
+      "ContentY": 112,
+      "Direction": 120,
+      "FindByName": 126,
+      "HeightConstraint": 139,
+      "MarginBottom": 145,
+      "MarginLeft": 151,
+      "MarginRight": 157,
+      "MarginTop": 163,
+      "Name": 169,
+      "PaddingBottom": 175,
+      "PaddingLeft": 181,
+      "PaddingRight": 187,
+      "PaddingTop": 193,
+      "PaintSelf": 199,
+      "PaintTo": 240,
+      "Parent": 251,
+      "SetBorder": 257,
+      "SetComputed": 265,
+      "SetDirection": 274,
+      "SetHeight": 281,
+      "SetMargin": 288,
+      "SetName": 298,
+      "SetPadding": 305,
+      "SetTitle": 315,
+      "SetWidth": 322,
+      "Title": 329,
+      "WidthConstraint": 335
+    },
+    "properties": {
+      "Private": 457
+    },
+    "events": {},
+    "constants": {
+      "DIR_COLUMN": 462,
+      "DIR_ROW": 465
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjLayoutSolver.xojo_code": {
+    "type": "Module",
+    "entity": "XjLayoutSolver",
+    "methods": {
+      "Solve": 3,
+      "SolveChildren": 11
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjLogger.xojo_code": {
+    "type": "Class",
+    "entity": "XjLogger",
+    "methods": {
+      "Constructor": 3,
+      "Debug": 13,
+      "Error_": 19,
+      "EscapeJSON": 25,
+      "Fatal": 36,
+      "FormatJSON": 42,
+      "FormatText": 61,
+      "Info": 126,
+      "LevelName": 132,
+      "Log": 150,
+      "SetColor": 166,
+      "SetJSON": 173,
+      "SetLevel": 180,
+      "SetTimestamp": 187,
+      "Warn": 194
+    },
+    "properties": {
+      "Private": 231
+    },
+    "events": {},
+    "constants": {
+      "LEVEL_DEBUG": 236,
+      "LEVEL_ERROR": 239,
+      "LEVEL_FATAL": 242,
+      "LEVEL_INFO": 245,
+      "LEVEL_WARN": 248
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjMarkdown.xojo_code": {
+    "type": "Module",
+    "entity": "XjMarkdown",
+    "methods": {
+      "FormatInline": 3,
+      "Render": 70
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjMultiLinePrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjMultiLinePrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 42,
+      "Constructor": 58,
+      "HandleKey": 73,
+      "Run": 204
+    },
+    "properties": {
+      "Private": 290
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjMultiSelectPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjMultiSelectPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettled": 60,
+      "Constructor": 87,
+      "CountChecked": 120,
+      "DisableChoice": 130,
+      "EnsureVisible": 139,
+      "HandleKey": 149,
+      "RebuildFilter": 278,
+      "Run": 310,
+      "SetFilter": 348,
+      "SetMinMax": 355,
+      "SetPerPage": 363
+    },
+    "properties": {
+      "Private": 453
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjOption.xojo_code": {
+    "type": "Class",
+    "entity": "XjOption",
+    "methods": {
+      "AddArgument": 3,
+      "AddFlag": 12,
+      "AddOption": 28,
+      "Constructor": 44,
+      "FindByLong": 55,
+      "FindByShort": 62,
+      "GetFlag": 69,
+      "GetInteger": 78,
+      "GetString": 87,
+      "Has": 96,
+      "Help": 102,
+      "Parse": 170
+    },
+    "properties": {
+      "Private": 347
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPager.xojo_code": {
+    "type": "Class",
+    "entity": "XjPager",
+    "methods": {
+      "Constructor": 3,
+      "Page": 9,
+      "SetPageSize": 81
+    },
+    "properties": {
+      "Private": 111
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPasswordPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjPasswordPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 38,
+      "Constructor": 60,
+      "HandleKey": 80,
+      "MaskString": 138,
+      "Run": 149,
+      "SetMask": 185,
+      "SetPromptStyle": 192
+    },
+    "properties": {
+      "Private": 252
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPie.xojo_code": {
+    "type": "Class",
+    "entity": "XjPie",
+    "methods": {
+      "AddSlice": 3,
+      "Constructor": 11,
+      "Draw": 18,
+      "Render": 89,
+      "SetColor": 154,
+      "SetWidth": 161
+    },
+    "properties": {
+      "Private": 196
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPlatform.xojo_code": {
+    "type": "Module",
+    "entity": "XjPlatform",
+    "methods": {
+      "Architecture": 3,
+      "Is64Bit": 21,
+      "IsARM": 31,
+      "IsLinux": 41,
+      "IsMacOS": 51,
+      "IsUnix": 61,
+      "IsWindows": 71,
+      "OSName": 81,
+      "PlatformInfo": 95
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjProgressBar.xojo_code": {
+    "type": "Class",
+    "entity": "XjProgressBar",
+    "inherits": "XjWidget",
+    "methods": {
+      "Advance": 4,
+      "CalcETA": 10,
+      "Constructor": 27,
+      "HandleTick": 48,
+      "IsComplete": 66,
+      "PaintContent": 72,
+      "PaintIndeterminate": 158,
+      "Percent": 172,
+      "Reset": 179,
+      "SetBarWidth": 189,
+      "SetEmptyChar": 196,
+      "SetEmptyStyle": 203,
+      "SetFilledChar": 210,
+      "SetFilledStyle": 217,
+      "SetFormat": 224,
+      "SetHeadChar": 231,
+      "SetIndeterminate": 238,
+      "SetTotal": 245,
+      "SetValue": 254,
+      "Value": 267
+    },
+    "properties": {
+      "Private": 337
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPrompt.xojo_code": {
+    "type": "Module",
+    "entity": "XjPrompt",
+    "methods": {
+      "Ask": 3,
+      "AskValidated": 11,
+      "AskWithHistory": 22,
+      "Collect": 31,
+      "Confirm": 37,
+      "Deny": 44,
+      "EnumSelect": 51,
+      "Error_": 58,
+      "Expand": 66,
+      "GetStyle": 73,
+      "KeyPress": 82,
+      "MultiLine": 89,
+      "MultiSelect": 96,
+      "Ok": 104,
+      "Password": 112,
+      "Say": 119,
+      "Select_": 127,
+      "SetStyle": 135,
+      "Slider": 141,
+      "Suggest": 148,
+      "Warn": 156
+    },
+    "properties": {
+      "Private": 183
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjPromptStyle.xojo_code": {
+    "type": "Class",
+    "entity": "XjPromptStyle",
+    "methods": {
+      "Constructor": 3,
+      "Default_": 20
+    },
+    "properties": {
+      "ActiveStyle": 38,
+      "AnswerStyle": 42,
+      "CursorStyle": 46,
+      "DisabledStyle": 50,
+      "ErrorStyle": 54,
+      "FilterStyle": 58,
+      "HelpStyle": 62,
+      "InactiveStyle": 66,
+      "PlaceholderStyle": 74,
+      "PrefixStyle": 78,
+      "Private": 70,
+      "QuestionStyle": 82
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjReader.xojo_code": {
+    "type": "Class",
+    "entity": "XjReader",
+    "methods": {
+      "Constructor": 3,
+      "ParseCSISequence": 9,
+      "ParseEscapeSequence": 102,
+      "ParseSS3Sequence": 132,
+      "ReadKey": 160,
+      "ReadLine": 203,
+      "ReadUTF8Char": 286,
+      "TailString": 325
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjScreen.xojo_code": {
+    "type": "Module",
+    "entity": "XjScreen",
+    "methods": {
+      "Clear": 3,
+      "ClearAbove": 10,
+      "ClearBelow": 17,
+      "ClearLine": 24,
+      "ClearLines": 31,
+      "ClearToEnd": 45,
+      "ClearToStart": 52,
+      "DrawHorizontalLine": 59,
+      "DrawVerticalLine": 76,
+      "EnterFullscreen": 91,
+      "ExitFullscreen": 100,
+      "FillRect": 108,
+      "Height": 128,
+      "ScrollDown": 134,
+      "ScrollUp": 141,
+      "SetTitle": 148,
+      "Width": 155,
+      "WriteAt": 161
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjSelectPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjSelectPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettled": 48,
+      "Constructor": 66,
+      "DisableChoice": 96,
+      "EnsureVisible": 105,
+      "HandleKey": 116,
+      "RebuildFilter": 202,
+      "Run": 235,
+      "SetFilter": 265,
+      "SetPerPage": 272
+    },
+    "properties": {
+      "Private": 345
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjSliderPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjSliderPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 53,
+      "Constructor": 67,
+      "HandleKey": 84,
+      "Run": 126
+    },
+    "properties": {
+      "Private": 204
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjSpinner.xojo_code": {
+    "type": "Class",
+    "entity": "XjSpinner",
+    "inherits": "XjWidget",
+    "methods": {
+      "Constructor": 4,
+      "Error_": 28,
+      "HandleTick": 38,
+      "IsRunning": 56,
+      "PaintContent": 62,
+      "SetErrorMark": 106,
+      "SetFormat": 113,
+      "SetFrames": 249,
+      "SetInterval": 262,
+      "SetMessage": 270,
+      "SetMessageStyle": 278,
+      "SetSpinnerStyle": 285,
+      "SetSuccessMark": 292,
+      "Success": 299
+    },
+    "properties": {
+      "Private": 367
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjStyle.xojo_code": {
+    "type": "Class",
+    "entity": "XjStyle",
+    "methods": {
+      "Apply": 3,
+      "BGColor": 12,
+      "Clone": 19,
+      "Constructor": 27,
+      "CopyFrom": 47,
+      "Danger": 90,
+      "Default": 97,
+      "Equals": 104,
+      "FGColor": 117,
+      "Highlight": 124,
+      "Info": 132,
+      "IsEmpty": 139,
+      "MakeBold": 148,
+      "MakeFGRGB": 155,
+      "Muted": 162,
+      "ResetToDefault": 67,
+      "SetBG": 169,
+      "SetBGRGB": 180,
+      "SetBlink": 193,
+      "SetBold": 202,
+      "SetDim": 211,
+      "SetFG": 220,
+      "SetFGRGB": 231,
+      "SetInverse": 244,
+      "SetItalic": 253,
+      "SetStrikethrough": 262,
+      "SetUnderline": 271,
+      "Success": 280,
+      "ToANSI": 287,
+      "Warning": 322
+    },
+    "properties": {
+      "Private": 405
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjSuggestPrompt.xojo_code": {
+    "type": "Class",
+    "entity": "XjSuggestPrompt",
+    "methods": {
+      "BuildLines": 3,
+      "BuildSettledLines": 57,
+      "Constructor": 71,
+      "HandleKey": 85,
+      "Run": 186,
+      "UpdateSuggestions": 225
+    },
+    "properties": {
+      "Private": 298
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjSymbols.xojo_code": {
+    "type": "Module",
+    "entity": "XjSymbols",
+    "methods": {
+      "EnsureInit": 3,
+      "UseASCII": 12,
+      "UseUnicode": 29
+    },
+    "properties": {
+      "ArrowRight": 57,
+      "Bullet": 61,
+      "Check": 65,
+      "Circle": 69,
+      "CircleEmpty": 73,
+      "Cross": 77,
+      "Ellipsis": 81,
+      "Marker": 85,
+      "Private": 89,
+      "QuestionMark": 93,
+      "Square": 97,
+      "SquareEmpty": 101
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjTable.xojo_code": {
+    "type": "Class",
+    "entity": "XjTable",
+    "inherits": "XjWidget",
+    "methods": {
+      "AddRow": 4,
+      "ClearRows": 18,
+      "Constructor": 25,
+      "DrawAlignedCell": 41,
+      "PaintContent": 83,
+      "RowCount": 189,
+      "SetAltRowStyle": 196,
+      "SetBorderChars": 203,
+      "SetCellStyle": 210,
+      "SetColumnAlign": 217,
+      "SetColumnWidth": 226,
+      "SetHeaderStyle": 256,
+      "SetHeaders": 235,
+      "SetShowBorder": 263,
+      "SetShowHeader": 270
+    },
+    "properties": {
+      "Private": 338
+    },
+    "events": {},
+    "constants": {
+      "ALIGN_CENTER": 343,
+      "ALIGN_LEFT": 346,
+      "ALIGN_RIGHT": 349
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjTerminal.xojo_code": {
+    "type": "Module",
+    "entity": "XjTerminal",
+    "methods": {
+      "ColorDepth": 3,
+      "DisableMouseTracking": 28,
+      "DisableRawMode": 34,
+      "EnableMouseTracking": 67,
+      "EnableNonBlockingInput": 73,
+      "EnableRawMode": 110,
+      "EnableVTProcessingWindows": 236,
+      "EnterAlternateScreen": 253,
+      "ExitAlternateScreen": 260,
+      "GetSize": 267,
+      "Height": 400,
+      "IsRawMode": 410,
+      "ReadByte": 416,
+      "SupportsColor": 459,
+      "Width": 485,
+      "Write": 495
+    },
+    "properties": {
+      "Private": 556
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjText.xojo_code": {
+    "type": "Class",
+    "entity": "XjText",
+    "inherits": "XjWidget",
+    "methods": {
+      "Constructor": 4,
+      "LineCount": 15,
+      "PaintContent": 22,
+      "RebuildLines": 56,
+      "SetAlign": 83,
+      "SetScrollOffset": 91,
+      "SetText": 99,
+      "SetWrap": 108,
+      "Text": 117,
+      "WrapParagraph": 123
+    },
+    "properties": {
+      "Private": 193
+    },
+    "events": {},
+    "constants": {
+      "ALIGN_CENTER": 198,
+      "ALIGN_LEFT": 201,
+      "ALIGN_RIGHT": 204
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjTextInput.xojo_code": {
+    "type": "Class",
+    "entity": "XjTextInput",
+    "inherits": "XjWidget",
+    "methods": {
+      "Constructor": 4,
+      "HandleKey": 23,
+      "PaintContent": 113,
+      "SetCursorStyle": 175,
+      "SetLabel": 182,
+      "SetMask": 190,
+      "SetMaxLength": 197,
+      "SetPlaceholder": 204,
+      "SetPlaceholderStyle": 211,
+      "SetValue": 218,
+      "Value": 227
+    },
+    "properties": {
+      "Private": 285
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjTree.xojo_code": {
+    "type": "Class",
+    "entity": "XjTree",
+    "inherits": "XjWidget",
+    "methods": {
+      "AddRoot": 4,
+      "Constructor": 12,
+      "LineCount": 24,
+      "PaintContent": 30,
+      "Rebuild": 68,
+      "RenderNode": 83,
+      "SetBranchStyle": 113,
+      "SetData": 120,
+      "SetNodeStyle": 131,
+      "SetScrollOffset": 138
+    },
+    "properties": {
+      "Private": 191
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjTreeNode.xojo_code": {
+    "type": "Class",
+    "entity": "XjTreeNode",
+    "methods": {
+      "AddChild": 3,
+      "Child": 10,
+      "ChildCount": 17,
+      "Constructor": 23,
+      "IsExpanded": 31,
+      "IsLeaf": 37,
+      "Label": 43,
+      "NodeStyle": 49,
+      "SetExpanded": 55,
+      "SetLabel": 62,
+      "SetNodeStyle": 69
+    },
+    "properties": {
+      "Private": 104
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjUIParser.xojo_code": {
+    "type": "Module",
+    "entity": "XjUIParser",
+    "methods": {
+      "Build": 3,
+      "BuildFromNode": 13,
+      "BuildWidget": 21,
+      "ConfigBox": 47,
+      "ConfigProgressBar": 102,
+      "ConfigSpinner": 134,
+      "ConfigTable": 164,
+      "ConfigText": 206,
+      "ConfigTextInput": 241,
+      "DumpWidgetTree": 278,
+      "ParseAlign": 321,
+      "ParseBorderStyle": 335,
+      "ParseColor": 355,
+      "ParseConstraint": 380,
+      "ParseVAlign": 407
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjValidation.xojo_code": {
+    "type": "Class",
+    "entity": "XjValidation",
+    "methods": {
+      "Constructor": 3,
+      "InList": 15,
+      "MaxLength": 27,
+      "MinLength": 37,
+      "RangeInt": 47,
+      "Required": 58,
+      "Validate": 67
+    },
+    "properties": {
+      "Private": 159
+    },
+    "events": {},
+    "constants": {
+      "RULE_IN_LIST": 164,
+      "RULE_MAX_LENGTH": 167,
+      "RULE_MIN_LENGTH": 170,
+      "RULE_RANGE_INT": 173,
+      "RULE_REQUIRED": 176
+    },
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjWhich.xojo_code": {
+    "type": "Module",
+    "entity": "XjWhich",
+    "methods": {
+      "Exists": 3,
+      "GetPathDirs": 9,
+      "Which": 24,
+      "WhichAll": 41
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjWidget.xojo_code": {
+    "type": "Class",
+    "entity": "XjWidget",
+    "methods": {
+      "AddChild": 3,
+      "Child": 11,
+      "ChildCount": 18,
+      "CollectFocusable": 24,
+      "Constructor": 35,
+      "ContentHeight": 46,
+      "ContentWidth": 52,
+      "ContentX": 58,
+      "ContentY": 64,
+      "FindByName": 70,
+      "HandleKey": 83,
+      "HandleTick": 92,
+      "IsDirty": 104,
+      "IsFocusable": 110,
+      "IsFocused": 116,
+      "IsVisible": 122,
+      "LayoutNode": 128,
+      "MarkDirty": 134,
+      "Name": 140,
+      "Paint": 146,
+      "PaintContent": 166,
+      "Parent": 178,
+      "SetBorder": 184,
+      "SetDirection": 191,
+      "SetFocusable": 198,
+      "SetFocused": 204,
+      "SetHeight": 211,
+      "SetMargin": 218,
+      "SetName": 225,
+      "SetPadding": 233,
+      "SetStyle": 240,
+      "SetTitle": 247,
+      "SetVisible": 254,
+      "SetWidth": 261,
+      "Style": 268
+    },
+    "properties": {
+      "Protected": 333
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjYAML.xojo_code": {
+    "type": "Module",
+    "entity": "XjYAML",
+    "methods": {
+      "CountIndent": 3,
+      "Parse": 17,
+      "ParseBlock": 33,
+      "StripQuotes": 115
+    },
+    "properties": {},
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  },
+  "XjTTYLib/XjYAMLNode.xojo_code": {
+    "type": "Class",
+    "entity": "XjYAMLNode",
+    "methods": {
+      "AddChild": 3,
+      "BoolValue": 9,
+      "Child": 20,
+      "ChildAt": 29,
+      "ChildCount": 38,
+      "ChildrenWithKey": 44,
+      "Constructor": 55,
+      "Dump": 62,
+      "HasKey": 88,
+      "IntValue": 97,
+      "Key": 105,
+      "StringValue": 111,
+      "Value": 119
+    },
+    "properties": {
+      "Private": 143
+    },
+    "events": {},
+    "constants": {},
+    "enums": {},
+    "hooks": {}
+  }
+}

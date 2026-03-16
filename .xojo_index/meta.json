@@ -1,0 +1,247 @@
+{
+  "version": "1.3.0",
+  "indexedAt": "2026-03-16T22:16:28Z",
+  "projectHash": "c129957b21445f3814444fdfb14744169fcb593f7a95bfb5fd19497be49388db",
+  "files": {
+    "App.xojo_code": {
+      "mtime": "2026-03-12T17:18:32Z",
+      "size": 2256
+    },
+    "XjTTYLib/XjANSI.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 15967
+    },
+    "XjTTYLib/XjAskPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8954
+    },
+    "XjTTYLib/XjBox.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4635
+    },
+    "XjTTYLib/XjCanvas.xojo_code": {
+      "mtime": "2026-03-16T18:40:02Z",
+      "size": 16211
+    },
+    "XjTTYLib/XjCell.xojo_code": {
+      "mtime": "2026-03-16T18:29:47Z",
+      "size": 4366
+    },
+    "XjTTYLib/XjCollectPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5245
+    },
+    "XjTTYLib/XjColor.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8703
+    },
+    "XjTTYLib/XjCommand.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3084
+    },
+    "XjTTYLib/XjCommandResult.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 2059
+    },
+    "XjTTYLib/XjCompleter.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3524
+    },
+    "XjTTYLib/XjConfig.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4878
+    },
+    "XjTTYLib/XjConfirmPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4801
+    },
+    "XjTTYLib/XjConstraint.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5148
+    },
+    "XjTTYLib/XjConversion.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 2827
+    },
+    "XjTTYLib/XjCursor.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4919
+    },
+    "XjTTYLib/XjEnumSelectPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5644
+    },
+    "XjTTYLib/XjEvent.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 7066
+    },
+    "XjTTYLib/XjEventLoop.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 6569
+    },
+    "XjTTYLib/XjExpandPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 6541
+    },
+    "XjTTYLib/XjFocusManager.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3848
+    },
+    "XjTTYLib/XjFont.xojo_code": {
+      "mtime": "2026-03-16T19:53:55Z",
+      "size": 5209
+    },
+    "XjTTYLib/XjHistory.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3358
+    },
+    "XjTTYLib/XjInlineRenderer.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4913
+    },
+    "XjTTYLib/XjKeyEvent.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8439
+    },
+    "XjTTYLib/XjKeyPressPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4225
+    },
+    "XjTTYLib/XjLayoutNode.xojo_code": {
+      "mtime": "2026-03-16T18:18:34Z",
+      "size": 12252
+    },
+    "XjTTYLib/XjLayoutSolver.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5815
+    },
+    "XjTTYLib/XjLogger.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 7129
+    },
+    "XjTTYLib/XjMarkdown.xojo_code": {
+      "mtime": "2026-03-16T19:53:57Z",
+      "size": 6763
+    },
+    "XjTTYLib/XjMultiLinePrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8762
+    },
+    "XjTTYLib/XjMultiSelectPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 13360
+    },
+    "XjTTYLib/XjOption.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 10158
+    },
+    "XjTTYLib/XjPager.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3802
+    },
+    "XjTTYLib/XjPasswordPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 7109
+    },
+    "XjTTYLib/XjPie.xojo_code": {
+      "mtime": "2026-03-16T19:53:54Z",
+      "size": 5901
+    },
+    "XjTTYLib/XjPlatform.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 2687
+    },
+    "XjTTYLib/XjProgressBar.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 9134
+    },
+    "XjTTYLib/XjPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 6148
+    },
+    "XjTTYLib/XjPromptStyle.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 2766
+    },
+    "XjTTYLib/XjReader.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 12534
+    },
+    "XjTTYLib/XjScreen.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5776
+    },
+    "XjTTYLib/XjSelectPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 10286
+    },
+    "XjTTYLib/XjSliderPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 6106
+    },
+    "XjTTYLib/XjSpinner.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 9619
+    },
+    "XjTTYLib/XjStyle.xojo_code": {
+      "mtime": "2026-03-16T17:30:24Z",
+      "size": 10158
+    },
+    "XjTTYLib/XjSuggestPrompt.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8721
+    },
+    "XjTTYLib/XjSymbols.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4707
+    },
+    "XjTTYLib/XjTable.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 9996
+    },
+    "XjTTYLib/XjTerminal.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 19086
+    },
+    "XjTTYLib/XjText.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5533
+    },
+    "XjTTYLib/XjTextInput.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 7904
+    },
+    "XjTTYLib/XjTree.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5521
+    },
+    "XjTTYLib/XjTreeNode.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 3039
+    },
+    "XjTTYLib/XjUIParser.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 13169
+    },
+    "XjTTYLib/XjValidation.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 5420
+    },
+    "XjTTYLib/XjWhich.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 2703
+    },
+    "XjTTYLib/XjWidget.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 8494
+    },
+    "XjTTYLib/XjYAML.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4922
+    },
+    "XjTTYLib/XjYAMLNode.xojo_code": {
+      "mtime": "2026-03-16T14:52:46Z",
+      "size": 4426
+    }
+  }
+}

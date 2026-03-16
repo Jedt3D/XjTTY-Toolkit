@@ -1,0 +1,482 @@
+[
+  {
+    "path": "App.xojo_code",
+    "type": "Class",
+    "entity": "App",
+    "size": 2256,
+    "modTime": "2026-03-12T17:18:32Z",
+    "sizeBytes": 2256
+  },
+  {
+    "path": "XjTTYLib/XjPlatform.xojo_code",
+    "type": "Module",
+    "entity": "XjPlatform",
+    "size": 2687,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 2687
+  },
+  {
+    "path": "XjTTYLib/XjANSI.xojo_code",
+    "type": "Module",
+    "entity": "XjANSI",
+    "size": 15967,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 15967
+  },
+  {
+    "path": "XjTTYLib/XjTerminal.xojo_code",
+    "type": "Module",
+    "entity": "XjTerminal",
+    "size": 19086,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 19086
+  },
+  {
+    "path": "XjTTYLib/XjColor.xojo_code",
+    "type": "Module",
+    "entity": "XjColor",
+    "size": 8703,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8703
+  },
+  {
+    "path": "XjTTYLib/XjCursor.xojo_code",
+    "type": "Module",
+    "entity": "XjCursor",
+    "size": 4919,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4919
+  },
+  {
+    "path": "XjTTYLib/XjScreen.xojo_code",
+    "type": "Module",
+    "entity": "XjScreen",
+    "size": 5776,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5776
+  },
+  {
+    "path": "XjTTYLib/XjKeyEvent.xojo_code",
+    "type": "Class",
+    "entity": "XjKeyEvent",
+    "size": 8439,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8439
+  },
+  {
+    "path": "XjTTYLib/XjReader.xojo_code",
+    "type": "Class",
+    "entity": "XjReader",
+    "size": 12534,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 12534
+  },
+  {
+    "path": "XjTTYLib/XjStyle.xojo_code",
+    "type": "Class",
+    "entity": "XjStyle",
+    "size": 10158,
+    "modTime": "2026-03-16T17:30:24Z",
+    "sizeBytes": 10158
+  },
+  {
+    "path": "XjTTYLib/XjCell.xojo_code",
+    "type": "Class",
+    "entity": "XjCell",
+    "size": 4366,
+    "modTime": "2026-03-16T18:29:47Z",
+    "sizeBytes": 4366
+  },
+  {
+    "path": "XjTTYLib/XjCanvas.xojo_code",
+    "type": "Class",
+    "entity": "XjCanvas",
+    "size": 16211,
+    "modTime": "2026-03-16T18:40:02Z",
+    "sizeBytes": 16211
+  },
+  {
+    "path": "XjTTYLib/XjEvent.xojo_code",
+    "type": "Class",
+    "entity": "XjEvent",
+    "size": 7066,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 7066
+  },
+  {
+    "path": "XjTTYLib/XjEventLoop.xojo_code",
+    "type": "Class",
+    "entity": "XjEventLoop",
+    "size": 6569,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 6569
+  },
+  {
+    "path": "XjTTYLib/XjConstraint.xojo_code",
+    "type": "Class",
+    "entity": "XjConstraint",
+    "size": 5148,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5148
+  },
+  {
+    "path": "XjTTYLib/XjLayoutNode.xojo_code",
+    "type": "Class",
+    "entity": "XjLayoutNode",
+    "size": 12252,
+    "modTime": "2026-03-16T18:18:34Z",
+    "sizeBytes": 12252
+  },
+  {
+    "path": "XjTTYLib/XjLayoutSolver.xojo_code",
+    "type": "Module",
+    "entity": "XjLayoutSolver",
+    "size": 5815,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5815
+  },
+  {
+    "path": "XjTTYLib/XjWidget.xojo_code",
+    "type": "Class",
+    "entity": "XjWidget",
+    "size": 8494,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8494
+  },
+  {
+    "path": "XjTTYLib/XjBox.xojo_code",
+    "type": "Class",
+    "entity": "XjBox",
+    "size": 4635,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4635
+  },
+  {
+    "path": "XjTTYLib/XjText.xojo_code",
+    "type": "Class",
+    "entity": "XjText",
+    "size": 5533,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5533
+  },
+  {
+    "path": "XjTTYLib/XjTextInput.xojo_code",
+    "type": "Class",
+    "entity": "XjTextInput",
+    "size": 7904,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 7904
+  },
+  {
+    "path": "XjTTYLib/XjTable.xojo_code",
+    "type": "Class",
+    "entity": "XjTable",
+    "size": 9996,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 9996
+  },
+  {
+    "path": "XjTTYLib/XjProgressBar.xojo_code",
+    "type": "Class",
+    "entity": "XjProgressBar",
+    "size": 9134,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 9134
+  },
+  {
+    "path": "XjTTYLib/XjSpinner.xojo_code",
+    "type": "Class",
+    "entity": "XjSpinner",
+    "size": 9619,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 9619
+  },
+  {
+    "path": "XjTTYLib/XjTree.xojo_code",
+    "type": "Class",
+    "entity": "XjTree",
+    "size": 5521,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5521
+  },
+  {
+    "path": "XjTTYLib/XjTreeNode.xojo_code",
+    "type": "Class",
+    "entity": "XjTreeNode",
+    "size": 3039,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3039
+  },
+  {
+    "path": "XjTTYLib/XjFocusManager.xojo_code",
+    "type": "Class",
+    "entity": "XjFocusManager",
+    "size": 3848,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3848
+  },
+  {
+    "path": "XjTTYLib/XjSymbols.xojo_code",
+    "type": "Module",
+    "entity": "XjSymbols",
+    "size": 4707,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4707
+  },
+  {
+    "path": "XjTTYLib/XjPromptStyle.xojo_code",
+    "type": "Class",
+    "entity": "XjPromptStyle",
+    "size": 2766,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 2766
+  },
+  {
+    "path": "XjTTYLib/XjValidation.xojo_code",
+    "type": "Class",
+    "entity": "XjValidation",
+    "size": 5420,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5420
+  },
+  {
+    "path": "XjTTYLib/XjConversion.xojo_code",
+    "type": "Module",
+    "entity": "XjConversion",
+    "size": 2827,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 2827
+  },
+  {
+    "path": "XjTTYLib/XjInlineRenderer.xojo_code",
+    "type": "Class",
+    "entity": "XjInlineRenderer",
+    "size": 4913,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4913
+  },
+  {
+    "path": "XjTTYLib/XjSelectPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjSelectPrompt",
+    "size": 10286,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 10286
+  },
+  {
+    "path": "XjTTYLib/XjMultiSelectPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjMultiSelectPrompt",
+    "size": 13360,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 13360
+  },
+  {
+    "path": "XjTTYLib/XjEnumSelectPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjEnumSelectPrompt",
+    "size": 5644,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5644
+  },
+  {
+    "path": "XjTTYLib/XjExpandPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjExpandPrompt",
+    "size": 6541,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 6541
+  },
+  {
+    "path": "XjTTYLib/XjAskPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjAskPrompt",
+    "size": 8954,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8954
+  },
+  {
+    "path": "XjTTYLib/XjConfirmPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjConfirmPrompt",
+    "size": 4801,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4801
+  },
+  {
+    "path": "XjTTYLib/XjPasswordPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjPasswordPrompt",
+    "size": 7109,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 7109
+  },
+  {
+    "path": "XjTTYLib/XjCompleter.xojo_code",
+    "type": "Class",
+    "entity": "XjCompleter",
+    "size": 3524,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3524
+  },
+  {
+    "path": "XjTTYLib/XjMultiLinePrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjMultiLinePrompt",
+    "size": 8762,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8762
+  },
+  {
+    "path": "XjTTYLib/XjSliderPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjSliderPrompt",
+    "size": 6106,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 6106
+  },
+  {
+    "path": "XjTTYLib/XjKeyPressPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjKeyPressPrompt",
+    "size": 4225,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4225
+  },
+  {
+    "path": "XjTTYLib/XjSuggestPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjSuggestPrompt",
+    "size": 8721,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 8721
+  },
+  {
+    "path": "XjTTYLib/XjCollectPrompt.xojo_code",
+    "type": "Class",
+    "entity": "XjCollectPrompt",
+    "size": 5245,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 5245
+  },
+  {
+    "path": "XjTTYLib/XjPrompt.xojo_code",
+    "type": "Module",
+    "entity": "XjPrompt",
+    "size": 6148,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 6148
+  },
+  {
+    "path": "XjTTYLib/XjWhich.xojo_code",
+    "type": "Module",
+    "entity": "XjWhich",
+    "size": 2703,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 2703
+  },
+  {
+    "path": "XjTTYLib/XjLogger.xojo_code",
+    "type": "Class",
+    "entity": "XjLogger",
+    "size": 7129,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 7129
+  },
+  {
+    "path": "XjTTYLib/XjPager.xojo_code",
+    "type": "Class",
+    "entity": "XjPager",
+    "size": 3802,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3802
+  },
+  {
+    "path": "XjTTYLib/XjOption.xojo_code",
+    "type": "Class",
+    "entity": "XjOption",
+    "size": 10158,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 10158
+  },
+  {
+    "path": "XjTTYLib/XjConfig.xojo_code",
+    "type": "Class",
+    "entity": "XjConfig",
+    "size": 4878,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4878
+  },
+  {
+    "path": "XjTTYLib/XjFont.xojo_code",
+    "type": "Module",
+    "entity": "XjFont",
+    "size": 5209,
+    "modTime": "2026-03-16T19:53:55Z",
+    "sizeBytes": 5209
+  },
+  {
+    "path": "XjTTYLib/XjPie.xojo_code",
+    "type": "Class",
+    "entity": "XjPie",
+    "size": 5901,
+    "modTime": "2026-03-16T19:53:54Z",
+    "sizeBytes": 5901
+  },
+  {
+    "path": "XjTTYLib/XjMarkdown.xojo_code",
+    "type": "Module",
+    "entity": "XjMarkdown",
+    "size": 6763,
+    "modTime": "2026-03-16T19:53:57Z",
+    "sizeBytes": 6763
+  },
+  {
+    "path": "XjTTYLib/XjYAMLNode.xojo_code",
+    "type": "Class",
+    "entity": "XjYAMLNode",
+    "size": 4426,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4426
+  },
+  {
+    "path": "XjTTYLib/XjYAML.xojo_code",
+    "type": "Module",
+    "entity": "XjYAML",
+    "size": 4922,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 4922
+  },
+  {
+    "path": "XjTTYLib/XjUIParser.xojo_code",
+    "type": "Module",
+    "entity": "XjUIParser",
+    "size": 13169,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 13169
+  },
+  {
+    "path": "XjTTYLib/XjCommand.xojo_code",
+    "type": "Module",
+    "entity": "XjCommand",
+    "size": 3084,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3084
+  },
+  {
+    "path": "XjTTYLib/XjCommandResult.xojo_code",
+    "type": "Class",
+    "entity": "XjCommandResult",
+    "size": 2059,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 2059
+  },
+  {
+    "path": "XjTTYLib/XjHistory.xojo_code",
+    "type": "Class",
+    "entity": "XjHistory",
+    "size": 3358,
+    "modTime": "2026-03-16T14:52:46Z",
+    "sizeBytes": 3358
+  }
+]

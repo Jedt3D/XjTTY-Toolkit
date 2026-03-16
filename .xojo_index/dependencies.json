@@ -1,0 +1,94 @@
+{
+  "classes": {
+    "App": {
+      "inherits": "ConsoleApplication"
+    },
+    "XjANSI": {},
+    "XjAskPrompt": {},
+    "XjBox": {
+      "inherits": "XjWidget"
+    },
+    "XjCanvas": {},
+    "XjCell": {},
+    "XjCollectPrompt": {},
+    "XjColor": {},
+    "XjCommand": {},
+    "XjCommandResult": {},
+    "XjCompleter": {},
+    "XjConfig": {},
+    "XjConfirmPrompt": {},
+    "XjConstraint": {},
+    "XjConversion": {},
+    "XjCursor": {},
+    "XjEnumSelectPrompt": {},
+    "XjEvent": {},
+    "XjEventLoop": {},
+    "XjExpandPrompt": {},
+    "XjFocusManager": {},
+    "XjFont": {},
+    "XjHistory": {},
+    "XjInlineRenderer": {},
+    "XjKeyEvent": {},
+    "XjKeyPressPrompt": {},
+    "XjLayoutNode": {},
+    "XjLayoutSolver": {},
+    "XjLogger": {},
+    "XjMarkdown": {},
+    "XjMultiLinePrompt": {},
+    "XjMultiSelectPrompt": {},
+    "XjOption": {},
+    "XjPager": {},
+    "XjPasswordPrompt": {},
+    "XjPie": {},
+    "XjPlatform": {},
+    "XjProgressBar": {
+      "inherits": "XjWidget"
+    },
+    "XjPrompt": {},
+    "XjPromptStyle": {},
+    "XjReader": {},
+    "XjScreen": {},
+    "XjSelectPrompt": {},
+    "XjSliderPrompt": {},
+    "XjSpinner": {
+      "inherits": "XjWidget"
+    },
+    "XjStyle": {},
+    "XjSuggestPrompt": {},
+    "XjSymbols": {},
+    "XjTable": {
+      "inherits": "XjWidget"
+    },
+    "XjTerminal": {},
+    "XjText": {
+      "inherits": "XjWidget"
+    },
+    "XjTextInput": {
+      "inherits": "XjWidget"
+    },
+    "XjTree": {
+      "inherits": "XjWidget"
+    },
+    "XjTreeNode": {},
+    "XjUIParser": {},
+    "XjValidation": {},
+    "XjWhich": {},
+    "XjWidget": {},
+    "XjYAML": {},
+    "XjYAMLNode": {}
+  },
+  "reverse": {
+    "ConsoleApplication": [
+      "App"
+    ],
+    "XjWidget": [
+      "XjTable",
+      "XjBox",
+      "XjTree",
+      "XjText",
+      "XjTextInput",
+      "XjProgressBar",
+      "XjSpinner"
+    ]
+  }
+}
