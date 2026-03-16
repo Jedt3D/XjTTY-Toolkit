@@ -46,23 +46,24 @@ Protected Module XjSymbols
 
 	#tag Note, Name = "About"
 		XjSymbols — Prompt Symbols Configuration
-
+		
 		Part of XjTTY-Toolkit Phase 4 (Prompt System).
 		Configurable Unicode/ASCII symbols used by all prompts.
 		Call UseASCII() for ASCII-only terminals.
 		EnsureInit() is called automatically before first use.
 	#tag EndNote
 
+
 	#tag Property, Flags = &h0
-		Marker As String
+		ArrowRight As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		Bullet As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		Check As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		Cross As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -74,19 +75,7 @@ Protected Module XjSymbols
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Square As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		SquareEmpty As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		ArrowRight As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		Bullet As String
+		Cross As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -94,12 +83,155 @@ Protected Module XjSymbols
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		QuestionMark As String = "?"
+		Marker As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mInitialized As Boolean
 	#tag EndProperty
 
+	#tag Property, Flags = &h0
+		QuestionMark As String = "?"
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		Square As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		SquareEmpty As String
+	#tag EndProperty
+
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ArrowRight"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Bullet"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Check"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Circle"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="CircleEmpty"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Cross"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Ellipsis"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Marker"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="QuestionMark"
+			Visible=false
+			Group="Behavior"
+			InitialValue="?"
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Square"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="SquareEmpty"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+	#tag EndViewBehavior
 End Module
 #tag EndModule

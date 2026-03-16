@@ -1,30 +1,6 @@
 #tag Module
 Protected Module XjConversion
 	#tag Method, Flags = &h0
-		Function ToInteger(value As String, ByRef result As Integer) As Boolean
-		  If value.Trim = "" Then Return False
-		  result = Val(value)
-		  // Check it was actually numeric
-		  Return Str(result) = value.Trim Or value.Trim = "0"
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function ToDouble(value As String, ByRef result As Double) As Boolean
-		  If value.Trim = "" Then Return False
-		  result = CDbl(value)
-		  Return True
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function ToBool(value As String) As Boolean
-		  Var v As String = value.Trim.Lowercase
-		  Return v = "y" Or v = "yes" Or v = "true" Or v = "1" Or v = "t"
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function ApplyModifier(value As String, modifier As Integer) As String
 		  Select Case modifier
 		  Case MOD_UP
@@ -42,28 +18,96 @@ Protected Module XjConversion
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function ToBool(value As String) As Boolean
+		  Var v As String = value.Trim.Lowercase
+		  Return v = "y" Or v = "yes" Or v = "true" Or v = "1" Or v = "t"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToDouble(value As String, ByRef result As Double) As Boolean
+		  If value.Trim = "" Then Return False
+		  result = CDbl(value)
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToInteger(value As String, ByRef result As Integer) As Boolean
+		  If value.Trim = "" Then Return False
+		  result = Val(value)
+		  // Check it was actually numeric
+		  Return Str(result) = value.Trim Or value.Trim = "0"
+		End Function
+	#tag EndMethod
+
 
 	#tag Note, Name = "About"
 		XjConversion — Type Conversion and Input Modifiers
-
+		
 		Part of XjTTY-Toolkit Phase 4 (Prompt System).
 		Converts string input to typed values and applies modifiers.
 	#tag EndNote
 
-	#tag Constant, Name = MOD_NONE, Type = Double, Dynamic = False, Default = \"0", Scope = Public
-	#tag EndConstant
 
-	#tag Constant, Name = MOD_UP, Type = Double, Dynamic = False, Default = \"1", Scope = Public
+	#tag Constant, Name = MOD_CAPITALIZE, Type = Double, Dynamic = False, Default = \"3", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = MOD_DOWN, Type = Double, Dynamic = False, Default = \"2", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = MOD_CAPITALIZE, Type = Double, Dynamic = False, Default = \"3", Scope = Public
+	#tag Constant, Name = MOD_NONE, Type = Double, Dynamic = False, Default = \"0", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = MOD_STRIP, Type = Double, Dynamic = False, Default = \"4", Scope = Public
 	#tag EndConstant
 
+	#tag Constant, Name = MOD_UP, Type = Double, Dynamic = False, Default = \"1", Scope = Public
+	#tag EndConstant
+
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+	#tag EndViewBehavior
 End Module
 #tag EndModule

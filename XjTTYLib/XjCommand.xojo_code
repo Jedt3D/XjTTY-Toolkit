@@ -1,18 +1,35 @@
 #tag Module
 Protected Module XjCommand
 	#tag Method, Flags = &h0
-		Function Run(command As String, timeoutSeconds As Integer = 30) As XjCommandResult
-		  Var result As New XjCommandResult
-
+		Function Capture(command As String, timeoutSeconds As Integer = 30) As String
+		  // Run and return stdout only
 		  Var sh As New Shell
 		  sh.TimeOut = timeoutSeconds
-
 		  sh.Execute(command)
+		  Return sh.Result
+		End Function
+	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function DryRun(command As String) As String
+		  // Return what would be executed without actually running it
+		  Return "[dry-run] " + command
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Run(command As String, timeoutSeconds As Integer = 30) As XjCommandResult
+		  Var result As New XjCommandResult
+		  
+		  Var sh As New Shell
+		  sh.TimeOut = timeoutSeconds
+		  
+		  sh.Execute(command)
+		  
 		  result.Output = sh.Result
 		  result.ExitCode = sh.ExitCode
 		  result.TimedOut = (sh.ExitCode = -1 And sh.Result = "")
-
+		  
 		  Return result
 		End Function
 	#tag EndMethod
@@ -28,12 +45,15 @@ Protected Module XjCommand
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Capture(command As String, timeoutSeconds As Integer = 30) As String
-		  // Run and return stdout only
-		  Var sh As New Shell
-		  sh.TimeOut = timeoutSeconds
-		  sh.Execute(command)
-		  Return sh.Result
+		Function RunWithPrinter(command As String, timeoutSeconds As Integer = 30) As Integer
+		  // Run and print output in real-time style
+		  Var result As XjCommandResult = Run(command, timeoutSeconds)
+		  
+		  If result.Output <> "" Then
+		    Print(result.Output)
+		  End If
+		  
+		  Return result.ExitCode
 		End Function
 	#tag EndMethod
 
@@ -44,41 +64,64 @@ Protected Module XjCommand
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function DryRun(command As String) As String
-		  // Return what would be executed without actually running it
-		  Return "[dry-run] " + command
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function RunWithPrinter(command As String, timeoutSeconds As Integer = 30) As Integer
-		  // Run and print output in real-time style
-		  Var result As XjCommandResult = Run(command, timeoutSeconds)
-
-		  If result.Output <> "" Then
-		    Print(result.Output)
-		  End If
-
-		  Return result.ExitCode
-		End Function
-	#tag EndMethod
-
 
 	#tag Note, Name = "About"
 		XjCommand — Shell Command Execution
-
+		
 		Part of XjTTY-Toolkit (Polish phase).
 		Execute shell commands with output capture, timeout, and dry-run.
-
+		
 		Usage:
 		  Var result As XjCommandResult = XjCommand.Run("ls -la")
 		  Print(result.Output)
 		  If result.ExitCode = 0 Then Print("Success!")
-
+		
 		  Var output As String = XjCommand.Capture("git status")
 		  If XjCommand.Success("which git") Then Print("git found")
 	#tag EndNote
 
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+	#tag EndViewBehavior
 End Module
 #tag EndModule
